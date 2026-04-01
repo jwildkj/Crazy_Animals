@@ -1,0 +1,83 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public static class Func
+{
+    private static readonly WaitForSeconds ws = new WaitForSeconds(0.1f);
+    /// <summary>
+    /// 특정 UI를 페이드인, 페이드 아웃합니다.
+    /// 사용법: StartCoroutine(Fade(FADE.OUT, 0.5f, barimg, pointerimg, targetimg));
+    /// </summary>
+    /// <param name="_fade">페이드 인아웃 여부</param>
+    /// <param name="_time">시간</param>
+    /// <param name="_imgs">대상 이미지들</param>
+    public static IEnumerator Fade(FADE _fade, float _time, params Image[] _imgs)
+    {
+        if (_imgs.Length < 0) yield break;
+        yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
+
+        float a = 0.5f;
+
+        while (Mathf.Abs(a - (float)_fade) > 0.01f)
+        {
+            for (int i = 0; i < _imgs.Length; i++)
+            {
+                if (Mathf.Abs(a - (float)_fade) < 0.01f) break;
+                a = _imgs[i].color.a;
+                _imgs[i].color = new Color(_imgs[i].color.r, _imgs[i].color.g, _imgs[i].color.b, Mathf.Lerp(a, (float)_fade, _time));
+            }
+            yield return ws;
+        }
+    }
+
+    /// <summary>
+    /// 카메라를 흔듭니다.
+    /// 사용법: StartCoroutine(CamShake(0.5f, 0.2f));
+    /// </summary>
+    /// <param name="_duration">흔들리는 시간</param>
+    /// <param name="_magnitude">흔들리는 강도</param>
+    public static IEnumerator CamShake(float _duration, float _magnitude)
+    {
+        Transform target = Camera.main.transform;
+        Vector3 originalPos = target.localPosition;
+        float elapsed = 0.0f;
+
+        while (elapsed < _duration)
+        {
+            // -1.0 ~ 1.0 사이의 랜덤값을 강도와 곱함
+            float x = UnityEngine.Random.Range(-1f, 1f) * _magnitude;
+            float y = UnityEngine.Random.Range(-1f, 1f) * _magnitude;
+
+            target.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 흔들림이 끝나면 원래 위치로 복구
+        target.localPosition = originalPos;
+    }
+
+    /// <summary>
+    /// 부모 아래 자식들의 특정 컴포넌트를 활성화하거나 비활성화합니다.
+    /// 사용법: EnDisableChildComponent<Button>(Teas.transform, true);
+    /// </summary>
+    /// <param name="_parent">부모</param>
+    /// <param name="_enabled">활성화 여부</param>
+
+    public static void EnDisableChildComponent<T>(Transform _parent, bool _enabled) where T : Behaviour
+    {
+        T[] components = _parent.GetComponentsInChildren<T>(true);
+
+        foreach (T comp in components)
+        {
+            if (comp.transform == _parent) continue;
+
+            comp.enabled = _enabled;
+        }
+    }
+}
