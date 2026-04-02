@@ -6,4 +6,20 @@ public enum FADE
     END
 }
 
+public enum BASE
+{
+    MILK,
+    TEALEAF,
+    FRUIT,
+    ROOT
+}
+
+public enum TOPPING
+{
+    CHOCOLATECHIP,
+    VANILA,
+    STRAWBERRY,
+    CREAM
+}
+
 

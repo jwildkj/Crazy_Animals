@@ -12,6 +12,7 @@ public class Gamemanager : MonoBehaviour
     [Header("Property")]
     [SerializeField] private float PointerSpeed;
     [SerializeField] private int Life;
+    private int RealLife;
     [Space(100)]
     [Header("Internal")]
     [SerializeField] private GameObject TeagameUI;
@@ -19,6 +20,8 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private GameObject Pointer;
     [SerializeField] private GameObject Target;
     [SerializeField] private GameObject Teas;
+    [SerializeField] public RecipeData[] allRecipes;
+    [SerializeField] private Dictionary<string, RecipeData> recipeLookUp = new Dictionary<string, RecipeData>();
 
 
     private void Awake()
@@ -27,19 +30,25 @@ public class Gamemanager : MonoBehaviour
     }
     private void Start()
     {
+        allRecipes = Resources.LoadAll<RecipeData>("Recipes");
+
+        foreach (var recipe in allRecipes)
+        {
+            recipeLookUp.Add(GenerateKey(recipe.requiredBases, recipe.requiredToppings), recipe);
+        }
     }
 
     public void TeagameStart()
     {
         Pointer.transform.localPosition = Target.transform.localPosition;
-        Life = 3;
+        RealLife = Life;
         EnDisableChildComponent<Button>(Teas.transform, false);
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
         Image targetimg = Target.GetComponent<Image>();
         Animationmanager.instance.PlayAnim(0);
         StopAllCoroutines();
-        StartCoroutine(Fade(FADE.IN, 0.5f, barimg, pointerimg, targetimg));
+        StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
         StartCoroutine(PointerMove());
     }
 
@@ -47,7 +56,6 @@ public class Gamemanager : MonoBehaviour
 
     IEnumerator PointerMove()
     {
-
         float length = Bar.GetComponent<RectTransform>().rect.width;
         WaitForSeconds ws = new WaitForSeconds(1 / PointerSpeed );
         float start = -(length / 2);
@@ -61,8 +69,8 @@ public class Gamemanager : MonoBehaviour
                 {
                     StartCoroutine(CamShake(0.3f, 0.2f));
                     Animationmanager.instance.PlayAnim(2, "Teashake"); 
-                    --Life;
-                    if (Life <= 0) Failed();
+                    --RealLife;
+                    if (RealLife <= 0) Failed();
                 }
             }
             if (Pointer.transform.localPosition.x < start)
@@ -78,7 +86,13 @@ public class Gamemanager : MonoBehaviour
         Success();
     }
 
-
+    string GenerateKey(List<BASE> bases, List<TOPPING> toppings)
+    {
+        bases.Sort();
+        toppings.Sort();
+        print($"B:{string.Join(",", bases)}|T:{string.Join(",", toppings)}");
+        return $"B:{string.Join(",", bases)}|T:{string.Join(",", toppings)}";
+    }
     private bool Judge()
     {
         float PointerPos = Pointer.transform.localPosition.x;
@@ -94,7 +108,9 @@ public class Gamemanager : MonoBehaviour
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
         Image targetimg = Target.GetComponent<Image>();
-        StartCoroutine(Fade(FADE.OUT, 0.5f, barimg, pointerimg, targetimg));
+        
+        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+
         Animationmanager.instance.PlayAnim(1);
         EnDisableChildComponent<Button>(Teas.transform, true);
     }
@@ -103,7 +119,9 @@ public class Gamemanager : MonoBehaviour
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
         Image targetimg = Target.GetComponent<Image>();
-        StartCoroutine(Fade(FADE.OUT, 0.5f, barimg, pointerimg, targetimg));
+
+        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+        
         Animationmanager.instance.PlayAnim(2, "Teafail");
         EnDisableChildComponent<Button>(Teas.transform, true);
     }

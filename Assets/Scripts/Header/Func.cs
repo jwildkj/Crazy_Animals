@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public static class Func
 {
+
+
     private static readonly WaitForSeconds ws = new WaitForSeconds(0.1f);
     /// <summary>
     /// 특정 UI를 페이드인, 페이드 아웃합니다.
@@ -18,18 +20,23 @@ public static class Func
     {
         if (_imgs.Length < 0) yield break;
         yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
+        bool isDone = false;
 
-        float a = 0.5f;
-
-        while (Mathf.Abs(a - (float)_fade) > 0.01f)
+        while (!isDone)
         {
+            isDone = true; // 일단 완료되었다고 가정
             for (int i = 0; i < _imgs.Length; i++)
             {
-                if (Mathf.Abs(a - (float)_fade) < 0.01f) break;
-                a = _imgs[i].color.a;
-                _imgs[i].color = new Color(_imgs[i].color.r, _imgs[i].color.g, _imgs[i].color.b, Mathf.Lerp(a, (float)_fade, _time));
+                if (_imgs[i] == null) continue;
+
+                float currentA = _imgs[i].color.a;
+                float nextA = Mathf.MoveTowards(currentA, (int)_fade, Time.deltaTime / _time);
+
+                _imgs[i].color = new Color(_imgs[i].color.r, _imgs[i].color.g, _imgs[i].color.b, nextA);
+
+                if (Mathf.Abs(nextA - (int)_fade) > 0.001f) isDone = false;
             }
-            yield return ws;
+            yield return null;
         }
     }
 
@@ -68,7 +75,6 @@ public static class Func
     /// </summary>
     /// <param name="_parent">부모</param>
     /// <param name="_enabled">활성화 여부</param>
-
     public static void EnDisableChildComponent<T>(Transform _parent, bool _enabled) where T : Behaviour
     {
         T[] components = _parent.GetComponentsInChildren<T>(true);
