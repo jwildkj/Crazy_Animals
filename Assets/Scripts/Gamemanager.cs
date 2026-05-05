@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 using static Func;
@@ -11,8 +10,6 @@ public class Gamemanager : MonoBehaviour
 
     [Header("Property")]
     [SerializeField] private float PointerSpeed;
-    [SerializeField] private int Life;
-    private int RealLife;
     [Space(100)]
     [Header("Internal")]
     [SerializeField] private GameObject TeagameUI;
@@ -20,6 +17,8 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private GameObject Pointer;
     [SerializeField] private GameObject Target;
     [SerializeField] private GameObject Teas;
+    [SerializeField] private List<BASE> CurBases;
+    [SerializeField] private List<TOPPING> CurToppings;
     [SerializeField] public RecipeData[] allRecipes;
     [SerializeField] private Dictionary<string, RecipeData> recipeLookUp = new Dictionary<string, RecipeData>();
 
@@ -37,73 +36,78 @@ public class Gamemanager : MonoBehaviour
             recipeLookUp.Add(GenerateKey(recipe.requiredBases, recipe.requiredToppings), recipe);
         }
     }
+    public void AddBase(int _base)
+    {
+        if (CurBases.Count > 2) return;
+        CurBases.Add((BASE)_base);
+        Animationmanager.instance.PlayAnim(0);
+    }
 
+    public void AddTopping(int _topping)
+    {
+        if (CurToppings.Count > 1) return;
+        CurToppings.Add((TOPPING)_topping);
+        Animationmanager.instance.PlayAnim(0);
+    }
     public void TeagameStart()
     {
-        Pointer.transform.localPosition = Target.transform.localPosition;
-        RealLife = Life;
         EnDisableChildComponent<Button>(Teas.transform, false);
-        Image barimg = Bar.GetComponent<Image>();
-        Image pointerimg = Pointer.GetComponent<Image>();
-        Image targetimg = Target.GetComponent<Image>();
-        Animationmanager.instance.PlayAnim(0);
+        Pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 72);
+        Animationmanager.instance.PlayAnim(1);
         StopAllCoroutines();
-        StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
-        StartCoroutine(PointerMove());
+        StartCoroutine(Brew());
     }
 
 
 
-    IEnumerator PointerMove()
+    IEnumerator Brew()
     {
-        float length = Bar.GetComponent<RectTransform>().rect.width;
-        WaitForSeconds ws = new WaitForSeconds(1 / PointerSpeed );
-        float start = -(length / 2);
-        float end = length / 2;
-        UnityEngine.Vector3 movevec = new UnityEngine.Vector3(0.1f, 0, 0);
+        yield return new WaitForSeconds(2f);
+
+        Image barimg = Bar.GetComponent<Image>();
+        Image pointerimg = Pointer.GetComponent<Image>();
+        Image targetimg = Target.GetComponent<Image>();
+        StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
+
         while (true)
         {
-            if(Input.GetKeyDown(KeyCode.A)){
-                if (Judge()) break;
-                else
-                {
-                    StartCoroutine(CamShake(0.3f, 0.2f));
-                    Animationmanager.instance.PlayAnim(2, "Teashake"); 
-                    --RealLife;
-                    if (RealLife <= 0) Failed();
-                }
+            if (Input.GetMouseButton(0))
+            {
+                Pointer.transform.Translate(new Vector2(PointerSpeed, 0) * Time.deltaTime);
+                if (Pointer.GetComponent<RectTransform>().anchoredPosition.x > 580)
+                    Pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(580, 72);
+
+                yield return null;
             }
-            if (Pointer.transform.localPosition.x < start)
-            movevec.x = 0.1f;
-            else if(Pointer.transform.localPosition.x > end)
-                movevec.x = -0.1f;
-
-            Pointer.transform.Translate(movevec);
-            yield return ws;
-
+            if (Input.GetMouseButtonUp(0))
+            {
+                AfterTea();
+                yield break; 
+            } 
+            yield return null;
         }
-
-        Success();
     }
 
     string GenerateKey(List<BASE> bases, List<TOPPING> toppings)
     {
         bases.Sort();
         toppings.Sort();
-        print($"B:{string.Join(",", bases)}|T:{string.Join(",", toppings)}");
         return $"B:{string.Join(",", bases)}|T:{string.Join(",", toppings)}";
     }
     private bool Judge()
     {
+        if( !recipeLookUp.ContainsKey( GenerateKey(CurBases, CurToppings)))
+            return false;
+
         float PointerPos = Pointer.transform.localPosition.x;
         float TargetPos = Target.transform.localPosition.x;
         float TargetLength = Target.GetComponent<RectTransform>().rect.width;
 
-        UnityEngine.Vector2 TargetRange = new UnityEngine.Vector2(TargetPos - TargetLength/2, TargetPos + TargetLength/2);
+        Vector2 TargetRange = new Vector2(TargetPos - TargetLength/2, TargetPos + TargetLength/2);
         return PointerPos > TargetRange.x && PointerPos < TargetRange.y;
     }
 
-    private void Success()
+    private void AfterTea()
     {
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
@@ -111,18 +115,11 @@ public class Gamemanager : MonoBehaviour
         
         StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
 
-        Animationmanager.instance.PlayAnim(1);
         EnDisableChildComponent<Button>(Teas.transform, true);
-    }
-    private void Failed()
-    {
-        Image barimg = Bar.GetComponent<Image>();
-        Image pointerimg = Pointer.GetComponent<Image>();
-        Image targetimg = Target.GetComponent<Image>();
+        if (Judge()) print("Success");
+        else print("Failed");
 
-        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
-        
-        Animationmanager.instance.PlayAnim(2, "Teafail");
-        EnDisableChildComponent<Button>(Teas.transform, true);
+        CurBases.Clear();
+        CurToppings.Clear();
     }
 }

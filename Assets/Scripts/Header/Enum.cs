@@ -8,18 +8,27 @@ public enum FADE
 
 public enum BASE
 {
-    MILK,
-    TEALEAF,
-    FRUIT,
-    ROOT
+    동백,
+    오미자,
+    복분자,
+    매실,
+    유자,
+    옥수수,
+    배,
+    팥,
+    밥,
+    생강,
+    도라지,
+    녹차,
+    계피,
+    쑥
+
 }
 
 public enum TOPPING
 {
-    CHOCOLATECHIP,
-    VANILA,
-    STRAWBERRY,
-    CREAM
+    잣,
+    꿀
 }
 
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb98840568d2d894a87cb54379d9eebf, type: 3}
-  m_Name: Tea
+  m_Name: "\uC218\uC815\uACFC"
   m_EditorClassIdentifier: 
-  drinkName: Tea
-  requiredBases: 01000000
-  requiredToppings: 
+  drinkName: "\uC218\uC815\uACFC"
+  requiredBases: 0c00000009000000
+  requiredToppings: 01000000
   resultPrefab: {fileID: 0}
