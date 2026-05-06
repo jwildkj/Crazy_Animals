@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Func;
@@ -12,7 +13,7 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private float PointerSpeed;
     [Space(100)]
     [Header("Internal")]
-    [SerializeField] private GameObject TeagameUI;
+    [SerializeField] private TextMeshProUGUI Noti;
     [SerializeField] private GameObject Bar;
     [SerializeField] private GameObject Pointer;
     [SerializeField] private GameObject Target;
@@ -38,21 +39,39 @@ public class Gamemanager : MonoBehaviour
     }
     public void AddBase(int _base)
     {
-        if (CurBases.Count > 2) return;
+        if (CurBases.Count > 2){
+            Notificate("Can't add base over 3");
+            return;
+        }
         CurBases.Add((BASE)_base);
         Animationmanager.instance.PlayAnim(0);
     }
 
     public void AddTopping(int _topping)
     {
-        if (CurToppings.Count > 1) return;
+        if (CurToppings.Count > 1){
+            Notificate("Can't add topping over 2");
+            return;
+        } 
+
         CurToppings.Add((TOPPING)_topping);
         Animationmanager.instance.PlayAnim(0);
     }
+    private void Notificate(string _txt)
+    {
+        Noti.color = Color.white;
+        Noti.text = _txt;
+        Animationmanager.instance.PlayAnim(2, "", true);
+    }
+
     public void TeagameStart()
     {
+        if (CurBases.Count < 1){
+            Notificate("At least 1 base is required"); 
+            return;
+        }
         EnDisableChildComponent<Button>(Teas.transform, false);
-        Pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 72);
+        Pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 45.9934f);
         Animationmanager.instance.PlayAnim(1);
         StopAllCoroutines();
         StartCoroutine(Brew());
@@ -69,13 +88,15 @@ public class Gamemanager : MonoBehaviour
         Image targetimg = Target.GetComponent<Image>();
         StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
 
+        RectTransform pointerrect = Pointer.GetComponent<RectTransform>();
+
         while (true)
         {
             if (Input.GetMouseButton(0))
             {
-                Pointer.transform.Translate(new Vector2(PointerSpeed, 0) * Time.deltaTime);
-                if (Pointer.GetComponent<RectTransform>().anchoredPosition.x > 580)
-                    Pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(580, 72);
+                pointerrect.sizeDelta += new Vector2(PointerSpeed, 0) * Time.deltaTime;
+                if (pointerrect.sizeDelta.x > 600)
+                    pointerrect.sizeDelta = new Vector2(600, 45.9934f);
 
                 yield return null;
             }
@@ -99,12 +120,13 @@ public class Gamemanager : MonoBehaviour
         if( !recipeLookUp.ContainsKey( GenerateKey(CurBases, CurToppings)))
             return false;
 
-        float PointerPos = Pointer.transform.localPosition.x;
-        float TargetPos = Target.transform.localPosition.x;
-        float TargetLength = Target.GetComponent<RectTransform>().rect.width;
+        float PointerPos = Pointer.GetComponent<RectTransform>().sizeDelta.x;
+        float TargetPos = Target.GetComponent<RectTransform>().anchoredPosition.x;
+        float TargetLength = Target.GetComponent<RectTransform>().sizeDelta.x;
 
         Vector2 TargetRange = new Vector2(TargetPos - TargetLength/2, TargetPos + TargetLength/2);
-        return PointerPos > TargetRange.x && PointerPos < TargetRange.y;
+
+        return PointerPos >= TargetRange.x && PointerPos <= TargetRange.y;
     }
 
     private void AfterTea()
@@ -122,4 +144,6 @@ public class Gamemanager : MonoBehaviour
         CurBases.Clear();
         CurToppings.Clear();
     }
+
+
 }

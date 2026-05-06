@@ -25,9 +25,15 @@ public class Animationmanager : MonoBehaviour
             animqueue.Dequeue().Play();
         }
     }
-    public void PlayAnim(int _Animidx, string _Clipname = "")
+    public void PlayAnim(int _Animidx, string _Clipname = "", bool _Playimmediately = false)
     {
+
         if (_Clipname != "") animations[_Animidx].clip = animations[_Animidx].GetClip(_Clipname);
+
+        if (_Playimmediately){
+            animations[_Animidx].Play();
+            return;
+        }
 
         animqueue.Enqueue( animations[_Animidx]);
     }
