@@ -3,6 +3,31 @@ public enum FADE
 {
     OUT,
     IN,
+
+    END
+}
+public enum BREWRESULT
+{
+    SUCCESS,
+    NORECIPE,
+    WRONGTIMING,
+
+    END
+}
+public enum POS
+{ 
+    LEFT,
+    MIDDLE,
+    RIGHT,
+
+    END
+}
+public enum State
+{
+    NORMAL,
+    HAPPY,
+    ANGRY,
+
     END
 }
 
@@ -21,14 +46,18 @@ public enum BASE
     µµ¶óÁö,
     ³ìÂ÷,
     °èÇÇ,
-    ¾¦
+    ¾¦,
+
+    END
 
 }
 
 public enum TOPPING
 {
     Àã,
-    ²Ü
+    ²Ü,
+
+    END
 }
 
 

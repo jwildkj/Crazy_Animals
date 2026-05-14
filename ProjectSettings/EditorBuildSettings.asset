@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Teagame.unity
+    path: Assets/Scenes/TeaGame.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Title.unity
+    guid: 1379ef5b8de1a0745be905e4dceda9de
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: cf69a1dfcd391fc46a2b282746d4c01b
+  - enabled: 1
+    path: Assets/Scenes/Prologue.unity
+    guid: 2bf320d47db29c544b43886ee80b7e9b
+  - enabled: 1
+    path: Assets/Scenes/MainGame.unity
+    guid: 13931ac4440e911469973d608089c910
   m_configObjects: {}

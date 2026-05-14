@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -85,5 +86,24 @@ public static class Func
 
             comp.enabled = _enabled;
         }
+    }
+    /// <summary>
+    /// 두 리스트를 순서상관없이 비교합니다.
+    /// 사용법: ScrambledEquals<RecipeData>(list1, list2);
+    /// </summary>
+    /// <param name="list1">리스트 1</param>
+    /// <param name="list2">리스트 2</param>
+    public static bool ScrambledEquals<T>(IEnumerable<T> list1, IEnumerable<T> list2)
+    {
+        var cnt = new Dictionary<T, int>();
+        foreach (T x in list1)
+        {
+            if (cnt.ContainsKey(x)) cnt[x]++; else cnt[x] = 1;
+        }
+        foreach (T x in list2)
+        {
+            if (cnt.ContainsKey(x)) cnt[x]--; else return false;
+        }
+        return cnt.Values.All(c => c == 0);
     }
 }

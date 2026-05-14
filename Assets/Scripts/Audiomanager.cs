@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class Audiomanager : MonoBehaviour
 {
+    public static Audiomanager instance;
     [SerializeField] private List< AudioClip> BGM;
     [SerializeField] private List< AudioClip> VFX;
     private AudioSource AudioSource;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         AudioSource = GetComponent<AudioSource>();

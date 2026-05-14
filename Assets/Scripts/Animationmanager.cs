@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Animationmanager : MonoBehaviour
 {
@@ -9,14 +10,10 @@ public class Animationmanager : MonoBehaviour
     public List<Animation> animations = new List<Animation>();
     Queue<Animation> animqueue = new Queue<Animation>();
     public bool isanimplaying()=> IsPlaying();
+
     private void Awake()
     {
         instance = this;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-
     }
     private void Update()
     {
@@ -37,6 +34,7 @@ public class Animationmanager : MonoBehaviour
 
         animqueue.Enqueue( animations[_Animidx]);
     }
+
 
     bool IsPlaying()
     {
