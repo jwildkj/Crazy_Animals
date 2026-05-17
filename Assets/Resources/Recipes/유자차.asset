@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: "\uC720\uC790\uCC28"
   m_EditorClassIdentifier: 
   drinkName: "\uC720\uC790\uCC28"
+  price: 10
   requiredBases: 04000000
   requiredToppings: 
   resultSprite: {fileID: 0}

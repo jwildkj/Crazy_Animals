@@ -60,4 +60,15 @@ public enum TOPPING
     END
 }
 
+public enum CATEGORY
+{
+    INGREIDENT,
+    TOOL,
+    SKIN,
+    DECORATION,
+    INTERIOR,
+
+    END
+}
+
 

@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class UImanager : MonoBehaviour
 {
+    public static UImanager instance;   
     public List<GameObject> UIs;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void NextDialogue()
     {

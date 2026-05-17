@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Func;
 
@@ -26,10 +28,12 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private int Curdialogue = 0;
     public int CurdrinkCount = 0;
     [Space(20)]
-    [SerializeField] private UImanager UIman;
     [SerializeField] private Image Customer;
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Dialogue;
+    public Dictionary<string, bool> CurProduct = new Dictionary<string, bool>();
+    public Dictionary<CATEGORY, ProductData> ApplyedProduct = new Dictionary<CATEGORY, ProductData>();
+    [SerializeField] private ProductData[] Starters = new ProductData[(int)CATEGORY.END];
     private void Awake()
     {
         if (instance == null)
@@ -45,36 +49,58 @@ public class Gamemanager : MonoBehaviour
             Delegate.OnNextDialogueRequeated -= Next;
             Destroy(gameObject);
         }
+
     }
     private void Init()
     {
-        UIman = GameObject.FindWithTag("UI").GetComponent<UImanager>();
-        Customer = UIman.UIs[0].GetComponent<Image>();
-        Name = UIman.UIs[1].GetComponent<TextMeshProUGUI>();
-        Dialogue = UIman.UIs[2].GetComponent<TextMeshProUGUI>();
-        StartDialogue();
+        if(0 == ApplyedProduct.Count)
+        {
+            for (int i = 0; i < (int)CATEGORY.END; i++)
+            {
+                ApplyedProduct.Add((CATEGORY)i, Starters[i]);
+            }
+        }
+
+        Customer = UImanager.instance.UIs[1].GetComponent<Image>();
+        Name = UImanager.instance.UIs[2].GetComponent<TextMeshProUGUI>();
+        Dialogue = UImanager.instance.UIs[3].GetComponent<TextMeshProUGUI>();
+        if ( State.NORMAL == Curstate) StartDay();
+        else StartDialogue();
+    }
+    private void StartDay()
+    {
+        Image fadeoutpannel = UImanager.instance.UIs[0].GetComponent<Image>();
+        BlackInOut(FADE.OUT, 0.5f, fadeoutpannel, this);
+        Invoke("StartDialogue", 2);
     }
     private void StartDialogue()
     {
         Curdialogue = 0;
-        CurdrinkCount = Days[0].Events[Curevent].OrderedDrinks.Count;
+        CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
         UpdateDialogue();
     }
 
     private void UpdateDialogue()
     {
-        Customer.sprite = Days[0].Events[Curevent].GetCustomer(POS.MIDDLE).GetSprite(Curstate);
-        Name.text = Days[0].Events[Curevent].GetName(Curstate, Curdialogue);
-        string text = Days[0].Events[Curevent].GetDialogue(Curstate, Curdialogue);
+        if (null == Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE)){
+            Customer.enabled = false;
+        }
+        else{
+            Customer.enabled = true;
+            Customer.sprite = Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE).GetSprite(Curstate);
+        }
+
+        Name.text = Days[Day].Events[Curevent].GetName(Curstate, Curdialogue);
+        string text = Days[Day].Events[Curevent].GetDialogue(Curstate, Curdialogue);
+
         if ("TeaGame" == text)Scenemanager.instance.Changescene("TeaGame");
         else Dialogue.text = text;
-        if (Curstate == State.NORMAL && 0 == Curdialogue)
-        {
+
+        if (Curstate == State.NORMAL && 0 == Curdialogue){
             Animationmanager.instance.PlayAnim(1, "CustomerUp");
             Animationmanager.instance.PlayAnim(0, "DialogueUp");
         }
-        else
-        {
+        else{
             Animationmanager.instance.PlayAnim(1, "CustomerInstUp", true);
             Animationmanager.instance.PlayAnim(0, "DialogueInstUp", true);
         }
@@ -83,7 +109,7 @@ public class Gamemanager : MonoBehaviour
     public void Next()
     {
         ++Curdialogue;
-        if (Curdialogue>= Days[0].Events[Curevent].GetDialogueLength(Curstate))
+        if (Curdialogue>= Days[Day].Events[Curevent].GetDialogueLength(Curstate))
         {
             EndDialogue();
         }
@@ -100,15 +126,27 @@ public class Gamemanager : MonoBehaviour
         ++Curevent;
         Animationmanager.instance.PlayAnim(0, "DialogueDown");
         Animationmanager.instance.PlayAnim(1, "CustomerDown");
-        Invoke("StartDialogue", 1);
+        if (Curevent >= Days[Day].Events.Length) Invoke( "DayEnd", 1);
+        else Invoke("StartDialogue", 1);
+    }
+
+    private void DayEnd()
+    {
+        ++Day;
+        Curevent = 0;
+        Scenemanager.instance.FadeOutAndChangeScene("Shop");
     }
 
     public void Judge(List< RecipeData> recipeData)
     {
 
-        if (ScrambledEquals<RecipeData>(Days[0].Events[Curevent].OrderedDrinks, recipeData))
+        if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
         {
             Curstate = State.HAPPY;
+            foreach (var item in recipeData)
+            {
+                Money += item.price;
+            }
         }
         else
         {
