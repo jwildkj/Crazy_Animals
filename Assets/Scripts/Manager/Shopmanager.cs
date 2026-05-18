@@ -4,36 +4,17 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-[System.Serializable]
-public class Category
-{
-    [SerializeField] public List<ProductData> products = new List<ProductData>();
-}
 
 public class Shopmanager : MonoBehaviour
 {
     [SerializeField] private GameObject ProductPrefab;
     [Space(80)]
     [Header("Internal")]
-    [SerializeField] private ProductData[] AllProducts;
-    [SerializeField] private Category[] Products = new Category[(int)CATEGORY.END];
-    [SerializeField] private Dictionary<string, int> PriceDic = new Dictionary<string, int>();
     [SerializeField] private TextMeshProUGUI MoneyText;
     [SerializeField] private Transform Categorypar;
     // Start is called before the first frame update
     void Start()
     {
-        AllProducts = Resources.LoadAll<ProductData>("Products");
-
-        if(null != Gamemanager.instance && 0 == Gamemanager.instance.CurProduct.Count)
-            foreach (var product in AllProducts)
-                Gamemanager.instance.CurProduct.Add(product.name, false);
-        
-        foreach (var product in AllProducts){
-            Products[(int)product.Category].products.Add(product);
-            PriceDic.Add(product.name, product.Price);
-        }
 
         MoneyRefresh();
         CategoryRefresh(CATEGORY.INGREIDENT);
@@ -52,7 +33,7 @@ public class Shopmanager : MonoBehaviour
             Destroy(Categorypar.GetChild(i).gameObject);
 
 
-        foreach (var item in Products[_categroy].products)
+        foreach (var item in Resourcemanager.instance.CategoryOrderedProducts[_categroy].products)
         {
            GameObject product = Instantiate(ProductPrefab, Categorypar);
            Image Subnail = product.transform.GetChild(0).GetComponent<Image>();
@@ -75,7 +56,7 @@ public class Shopmanager : MonoBehaviour
             Destroy(Categorypar.GetChild(i));
 
 
-        foreach (var item in Products[(int)_categroy].products)
+        foreach (var item in Resourcemanager.instance.CategoryOrderedProducts[(int)_categroy].products)
         {
             GameObject product = Instantiate(ProductPrefab, Categorypar);
             Image Subnail = product.transform.GetChild(0).GetComponent<Image>();
@@ -98,9 +79,9 @@ public class Shopmanager : MonoBehaviour
     {
         if (_name != "" && null != Gamemanager.instance) //bought
         {
-            if (Gamemanager.instance.Money < PriceDic[_name]) return;
-            Gamemanager.instance.CurProduct[_name] = true;
-            Gamemanager.instance.Money -= PriceDic[_name];
+            if (Gamemanager.instance.Money < Resourcemanager.instance.PriceDic[_name]) return;
+            Resourcemanager.instance.OwnedProduct[_name] = true;
+            Gamemanager.instance.Money -= Resourcemanager.instance.PriceDic[_name];
             MoneyRefresh();
         }
 
@@ -111,10 +92,10 @@ public class Shopmanager : MonoBehaviour
             Button Buybutton = product.transform.GetChild(3).GetComponent<Button>();
             TextMeshProUGUI price = product.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            if (null != Gamemanager.instance && Gamemanager.instance.CurProduct[product.name] == true)
+            if (Resourcemanager.instance.OwnedProduct[product.name] == true)
             {
                 Buybutton.interactable = false;
-                price.text = "Sold";
+                price.text = "Ç°Àý";
                 //product.transform.SetAsLastSibling();
             }
         }

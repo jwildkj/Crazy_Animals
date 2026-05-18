@@ -19,18 +19,10 @@ public class TeaGamemanager : MonoBehaviour
     [SerializeField] private List<BASE> CurBases;
     [SerializeField] private List<TOPPING> CurToppings;
     [SerializeField] private List<RecipeData> CurDrinks;
-    [SerializeField] public RecipeData[] allRecipes;
-    [SerializeField] private Dictionary<string, RecipeData> recipeLookUp = new Dictionary<string, RecipeData>();
-    [SerializeField] private RecipeData[] FailedDrinks = new RecipeData[2];
 
     private void Start()
     {
-        allRecipes = Resources.LoadAll<RecipeData>("Recipes");
 
-        foreach (var recipe in allRecipes)
-        {
-            recipeLookUp.Add(GenerateKey(recipe.requiredBases, recipe.requiredToppings), recipe);
-        }
 
     }
     public void AddBase(int _base)
@@ -114,8 +106,8 @@ public class TeaGamemanager : MonoBehaviour
     private RecipeData Judge()
     {
         RecipeData outrecipe;
-        if(!recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
-            return FailedDrinks[0];
+        if(!Resourcemanager.instance.recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
+            return Resourcemanager.instance.FailedDrinks[0];
         }
 
 
@@ -129,7 +121,7 @@ public class TeaGamemanager : MonoBehaviour
             return outrecipe;
         }
         else{
-            return FailedDrinks[1];
+            return Resourcemanager.instance.FailedDrinks[1];
         }
     }
 

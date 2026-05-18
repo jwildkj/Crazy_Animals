@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public static class Func
 {
-    private static readonly WaitForSeconds ws = new WaitForSeconds(0.1f);
+
     /// <summary>
     /// 화면을 페이드인 페이드 아웃합니다. 가려주는 패널 넣어야함
     /// 사용법: BlackInOut(FADE.IN, 1, fadeoutpannel, this, () => Scenemanager.instance.Changescene("Shop"));

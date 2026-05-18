@@ -1,9 +1,7 @@
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Func;
 
@@ -31,9 +29,6 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private Image Customer;
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Dialogue;
-    public Dictionary<string, bool> CurProduct = new Dictionary<string, bool>();
-    public Dictionary<CATEGORY, ProductData> ApplyedProduct = new Dictionary<CATEGORY, ProductData>();
-    [SerializeField] private ProductData[] Starters = new ProductData[(int)CATEGORY.END];
     private void Awake()
     {
         if (instance == null)
@@ -53,11 +48,11 @@ public class Gamemanager : MonoBehaviour
     }
     private void Init()
     {
-        if(0 == ApplyedProduct.Count)
+        if(0 == Resourcemanager.instance.ApplyedProduct.Count)
         {
             for (int i = 0; i < (int)CATEGORY.END; i++)
             {
-                ApplyedProduct.Add((CATEGORY)i, Starters[i]);
+                Resourcemanager.instance.ApplyedProduct.Add((CATEGORY)i, Resourcemanager.instance.Starters[i]);
             }
         }
 
