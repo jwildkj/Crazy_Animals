@@ -3,23 +3,72 @@ public enum FADE
 {
     OUT,
     IN,
+
+    END
+}
+public enum BREWRESULT
+{
+    SUCCESS,
+    NORECIPE,
+    WRONGTIMING,
+
+    END
+}
+public enum POS
+{ 
+    LEFT,
+    MIDDLE,
+    RIGHT,
+
+    END
+}
+public enum State
+{
+    NORMAL,
+    HAPPY,
+    ANGRY,
+
     END
 }
 
 public enum BASE
 {
-    MILK,
-    TEALEAF,
-    FRUIT,
-    ROOT
+    µ¿¹é,
+    ¿À¹ÌÀÚ,
+    º¹ºÐÀÚ,
+    ¸Å½Ç,
+    À¯ÀÚ,
+    ¿Á¼ö¼ö,
+    ¹è,
+    ÆÏ,
+    ¹ä,
+    »ý°­,
+    µµ¶óÁö,
+    ³ìÂ÷,
+    °èÇÇ,
+    ¾¦,
+
+    END
+
 }
 
 public enum TOPPING
 {
-    CHOCOLATECHIP,
-    VANILA,
-    STRAWBERRY,
-    CREAM
+    Àã,
+    ²Ü,
+
+    END
+}
+
+public enum CATEGORY
+{
+    INGREIDENT,
+    TOOL,
+    SKIN,
+    DECORATION,
+    INTERIOR,
+
+    END
 }
 
 
