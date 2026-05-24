@@ -15,7 +15,6 @@ public class Shopmanager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         MoneyRefresh();
         CategoryRefresh(CATEGORY.INGREIDENT);
         if(null == Delegate.OnItemBuy) Delegate.OnItemBuy += ReorderSoldedItem;

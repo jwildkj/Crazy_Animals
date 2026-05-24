@@ -10,6 +10,9 @@ public class Category
 public class Resourcemanager : MonoBehaviour
 {
     public static Resourcemanager instance;
+    [Header("Customers")]
+    [Space(20)]
+    [SerializeField] public CustomerData[] allCustomers;
 
     [Header("Recipes")]
     [Space(20)]
@@ -37,6 +40,7 @@ public class Resourcemanager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        allCustomers = Resources.LoadAll<CustomerData>("Customers");
 
         allRecipes = Resources.LoadAll<RecipeData>("Recipes");
 

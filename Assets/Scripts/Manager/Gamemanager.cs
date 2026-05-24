@@ -29,19 +29,18 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private Image Customer;
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Dialogue;
+    [SerializeField] private Animation DialogueAnimation;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
             Delegate.OnMainGameLoaded += Init;
-            Delegate.OnNextDialogueRequeated += Next;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Delegate.OnMainGameLoaded -= Init;
-            Delegate.OnNextDialogueRequeated -= Next;
             Destroy(gameObject);
         }
 
@@ -56,16 +55,13 @@ public class Gamemanager : MonoBehaviour
             }
         }
 
+        Animationmanager.instance.animations[0] = DialogueAnimation;
         Customer = UImanager.instance.UIs[1].GetComponent<Image>();
-        Name = UImanager.instance.UIs[2].GetComponent<TextMeshProUGUI>();
-        Dialogue = UImanager.instance.UIs[3].GetComponent<TextMeshProUGUI>();
         if ( State.NORMAL == Curstate) StartDay();
         else StartDialogue();
     }
     private void StartDay()
     {
-        Image fadeoutpannel = UImanager.instance.UIs[0].GetComponent<Image>();
-        BlackInOut(FADE.OUT, 0.5f, fadeoutpannel, this);
         Invoke("StartDialogue", 2);
     }
     private void StartDialogue()
@@ -77,6 +73,7 @@ public class Gamemanager : MonoBehaviour
 
     private void UpdateDialogue()
     {
+        if (null == Customer) return;
         if (null == Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE)){
             Customer.enabled = false;
         }
@@ -88,17 +85,28 @@ public class Gamemanager : MonoBehaviour
         Name.text = Days[Day].Events[Curevent].GetName(Curstate, Curdialogue);
         string text = Days[Day].Events[Curevent].GetDialogue(Curstate, Curdialogue);
 
-        if ("TeaGame" == text)Scenemanager.instance.Changescene("TeaGame");
-        else Dialogue.text = text;
-
-        if (Curstate == State.NORMAL && 0 == Curdialogue){
+        if (Curstate == State.NORMAL && 0 == Curdialogue)
+        {
             Animationmanager.instance.PlayAnim(1, "CustomerUp");
             Animationmanager.instance.PlayAnim(0, "DialogueUp");
         }
-        else{
+        else
+        {
             Animationmanager.instance.PlayAnim(1, "CustomerInstUp", true);
             Animationmanager.instance.PlayAnim(0, "DialogueInstUp", true);
         }
+
+        if ("TeaGame" == text)
+        {
+            Scenemanager.instance.Changescene("TeaGame");
+            Animationmanager.instance.PlayAnim(0, "DialogueDown", true);
+        }
+        else
+        {
+            Dialogue.text = text;
+        }
+
+
     }
     
     public void Next()
@@ -147,5 +155,11 @@ public class Gamemanager : MonoBehaviour
         {
             Curstate = State.ANGRY;
         }
+    }
+
+    public void CleanUp()
+    {
+        Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
+        Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
     }
 }

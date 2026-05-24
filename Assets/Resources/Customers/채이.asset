@@ -13,7 +13,16 @@ MonoBehaviour:
   m_Name: "\uCC44\uC774"
   m_EditorClassIdentifier: 
   CustomerID: 0
+  Subnail: {fileID: 21300000, guid: d7580e5779d89894cb4ca0c618a87d70, type: 3}
   CustomerName: "\uCC44\uC774"
+  CustomerSummary: "\uD604\uC9C1 \uC800\uC2B9\uC0AC\uC790, \uC8FC\uC778\uACF5\uC758
+    \uC81C\uC790"
+  FavoriteTea: 
+  CustomerDesc: "\uC8FC\uC778\uACF5\uC758 \uC81C\uC790\uC600\uB358 \uC800\uC2B9\uC0AC\uC790.
+    \uBAA8\uC885\uC758 \uC0AC\uC720\uB85C \uC0AC\uB9DD\uD55C \uD6C4 \uC8FC\uC778\uACF5\uC758
+    \uC81C\uC548\uC73C\uB85C \uC800\uC2B9\uC0AC\uC790\uAC00 \uB418\uC5C8\uB2E4. \uC5FC\uB77C\uB300\uC655\uC758
+    \uC11C\uC2E0\uC744 \uC804\uB2EC\uD558\uAE30 \uC704\uD574 \uCC3B\uC9D1\uC744 \uBC29\uBB38\uD55C\uB2E4."
+  CustomerHistory: 
   CustomerSprite:
   - {fileID: 21300000, guid: 21dafab55af25fc4f8e38a283de4736a, type: 3}
   - {fileID: 21300000, guid: 21dafab55af25fc4f8e38a283de4736a, type: 3}

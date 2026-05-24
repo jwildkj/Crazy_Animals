@@ -23,25 +23,22 @@ public static class Func
     {
         if(FADE.IN == _fade)
         {
+            Endfading = null;
             _fadepannel.enabled = true;
             Color pannelcol = _fadepannel.color;
             if (_fadepannel.color.a == 1) { _fadepannel.color = new Color(pannelcol.r, pannelcol.g, pannelcol.b, 0); }
             _requestedobj.StartCoroutine(Fade(_fade, _time, _fadepannel));
             Endfading += _afteraction;
-            Endfading += () => {
-                Endfading = null;
-            };
         }
         else
         {
-            _fadepannel.enabled = true;
+            Endfading = null;
             Color pannelcol = _fadepannel.color;
             if (_fadepannel.color.a == 0) { _fadepannel.color = new Color(pannelcol.r, pannelcol.g, pannelcol.b, 1); }
             _requestedobj.StartCoroutine(Fade(_fade, _time, _fadepannel));
             Endfading += _afteraction;
             Endfading += () => {
                 _fadepannel.enabled = false;
-                Endfading = null;
             };
         }
 
