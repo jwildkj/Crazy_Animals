@@ -12,10 +12,13 @@ public class TeaGamemanager : MonoBehaviour
     [Space(100)]
     [Header("Internal")]
     [SerializeField] private TextMeshProUGUI Noti;
+    [SerializeField] private GameObject Teacup;
+    [SerializeField] private Transform Tray;
     [SerializeField] private GameObject Bar;
     [SerializeField] private GameObject Pointer;
     [SerializeField] private GameObject Target;
     [SerializeField] private GameObject Teas;
+    [SerializeField] private RecipeData CurDrink;
     [SerializeField] private List<BASE> CurBases;
     [SerializeField] private List<TOPPING> CurToppings;
     [SerializeField] private List<RecipeData> CurDrinks;
@@ -28,7 +31,7 @@ public class TeaGamemanager : MonoBehaviour
     public void AddBase(int _base)
     {
         if (CurBases.Count > 2){
-            Notificate("Can't add base over 3");
+            Notificate("베이스는 최대 3개까지 넣을 수 있습니다!");
             return;
         }
         CurBases.Add((BASE)_base);
@@ -38,7 +41,7 @@ public class TeaGamemanager : MonoBehaviour
     public void AddTopping(int _topping)
     {
         if (CurToppings.Count > 1){
-            Notificate("Can't add topping over 2");
+            Notificate("토핑은 최대 2개까지 넣을 수 있습니다!");
             return;
         } 
 
@@ -55,13 +58,17 @@ public class TeaGamemanager : MonoBehaviour
     public void TeagameStart()
     {
         if (CurBases.Count < 1){
-            Notificate("At least 1 base is required"); 
+            Notificate("최소 1개의 베이스가 필요합니다!"); 
             return;
         }
+        if (null != CurDrink) return;
+        //init
+        Teacup.GetComponent<Drag>().Dragable = false;
         EnDisableChildComponent<Button>(Teas.transform, false);
         Pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 45.9934f);
         Animationmanager.instance.PlayAnim(1);
         StopAllCoroutines();
+
         StartCoroutine(Brew());
     }
 
@@ -90,7 +97,10 @@ public class TeaGamemanager : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
-                AfterTea();
+                StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+                CurDrink = Judge();
+                if(null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;
+                Teacup.GetComponent<Drag>().Dragable = true;
                 yield break; 
             } 
             yield return null;
@@ -125,24 +135,48 @@ public class TeaGamemanager : MonoBehaviour
         }
     }
 
-    private void AfterTea()
+
+
+    public void PutTeaOnTray(GameObject tea)
     {
-        Image barimg = Bar.GetComponent<Image>();
-        Image pointerimg = Pointer.GetComponent<Image>();
-        Image targetimg = Target.GetComponent<Image>();
-        
-        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+        if(null == CurDrink) return;
 
         EnDisableChildComponent<Button>(Teas.transform, true);
-        CurDrinks.Add(Judge());
+        CurDrinks.Add(CurDrink);
         CurBases.Clear();
         CurToppings.Clear();
-        if(Gamemanager.instance.CurdrinkCount == CurDrinks.Count)
+
+
+        //컵 없어짐
+        Animationmanager.instance.PlayAnim(3, "MainTeacupDisappear", true);
+        
+        //트레이 위 컵 활성화
+        GameObject teaontray = Tray.GetChild(CurDrinks.Count-1).gameObject;
+        teaontray.SetActive(true);
+        
+        //트레이 위 컵 정렬
+        HorizontalLayoutGroup Aliegn = Tray.GetComponent<HorizontalLayoutGroup>();
+        Aliegn.enabled = true;
+        DelayAction(this, 0.01f, () => Aliegn.enabled = false);
+        if (null != CurDrink.resultSprite) teaontray.GetComponent<Image>().sprite = CurDrink.resultSprite;
+        
+        //트레이 위 컵 애니매이션
+        teaontray.GetComponent<Animation>().Play();
+        CurDrink = null;
+
+        Invoke("ToMainGame", 0.2f);
+
+        //컵 리스폰 애니매이션
+        DelayAction(this, 0.3f,()=> Animationmanager.instance.PlayAnim(3, "MainTeacupAppear"));
+    }
+
+    private void ToMainGame()
+    {
+        if (null != Gamemanager.instance && Gamemanager.instance.CurdrinkCount == CurDrinks.Count)
         {
-            Gamemanager.instance.Judge(CurDrinks);  
+            Gamemanager.instance.Judge(CurDrinks);
             Scenemanager.instance.Changescene("MainGame");
         }
-
     }
 
 
