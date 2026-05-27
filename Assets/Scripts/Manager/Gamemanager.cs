@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static Func;
+using static UnityEditor.VersionControl.Asset;
 
 [System.Serializable]
 public class EventDataa
@@ -47,14 +48,6 @@ public class Gamemanager : MonoBehaviour
     }
     private void Init()
     {
-        if(0 == Resourcemanager.instance.ApplyedProduct.Count)
-        {
-            for (int i = 0; i < (int)CATEGORY.END; i++)
-            {
-                Resourcemanager.instance.ApplyedProduct.Add((CATEGORY)i, Resourcemanager.instance.Starters[i]);
-            }
-        }
-
         Animationmanager.instance.animations[0] = DialogueAnimation;
         Customer = UImanager.instance.UIs[1].GetComponent<Image>();
         if ( State.NORMAL == Curstate) StartDay();

@@ -81,7 +81,7 @@ public class TeaGamemanager : MonoBehaviour
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
         Image targetimg = Target.GetComponent<Image>();
-        StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
+        Coroutine fadein = StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
 
         RectTransform pointerrect = Pointer.GetComponent<RectTransform>();
 
@@ -97,6 +97,7 @@ public class TeaGamemanager : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
+                StopCoroutine(fadein);
                 StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
                 CurDrink = Judge();
                 if(null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;

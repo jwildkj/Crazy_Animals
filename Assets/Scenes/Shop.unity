@@ -645,6 +645,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProductPrefab: {fileID: 588607762895855166, guid: 2ea968f7b6d3a034a8e498b847c345fa, type: 3}
+  CurCategory: 0
+  ApplyedProduct:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Starters:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 3a77c366d48cff443892c6ddd79deab8, type: 2}
+  - {fileID: 11400000, guid: 3b9d4198f4b36ba4b9484576f1dd4b2c, type: 2}
+  - {fileID: 11400000, guid: e987e9a833f7b8e408bad2008befa525, type: 2}
+  - {fileID: 11400000, guid: 2df9f0433eb1f9b46b7358a9ced93dce, type: 2}
   MoneyText: {fileID: 471905140}
   Categorypar: {fileID: 389166680}
 --- !u!1 &389166679

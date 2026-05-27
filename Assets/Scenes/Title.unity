@@ -292,6 +292,18 @@ MonoBehaviour:
   FailedDrinks:
   - {fileID: 11400000, guid: 44ef3690f7cb5fc42b42cabd15d434b3, type: 2}
   - {fileID: 11400000, guid: 408ca01627c92c742bbd15e483ed9fbf, type: 2}
+  ApplyedProduct:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Starters:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 3a77c366d48cff443892c6ddd79deab8, type: 2}
+  - {fileID: 11400000, guid: 3b9d4198f4b36ba4b9484576f1dd4b2c, type: 2}
+  - {fileID: 11400000, guid: e987e9a833f7b8e408bad2008befa525, type: 2}
+  - {fileID: 11400000, guid: 2df9f0433eb1f9b46b7358a9ced93dce, type: 2}
   AllProducts: []
   CategoryOrderedProducts:
   - products: []
@@ -299,12 +311,6 @@ MonoBehaviour:
   - products: []
   - products: []
   - products: []
-  Starters:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &23983907
 Transform:
   m_ObjectHideFlags: 0
@@ -3101,6 +3107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ea55a8ec3093249b3e7b748e4e011b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  canvas: {fileID: 0}
 --- !u!1 &978703892
 GameObject:
   m_ObjectHideFlags: 0
