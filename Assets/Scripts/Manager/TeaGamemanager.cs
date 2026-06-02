@@ -13,6 +13,7 @@ public class TeaGamemanager : MonoBehaviour
     [Header("Internal")]
     [SerializeField] private TextMeshProUGUI Noti;
     [SerializeField] private GameObject Teacup;
+    [SerializeField] private Drag Teacattle;
     [SerializeField] private Transform Tray;
     [SerializeField] private GameObject Bar;
     [SerializeField] private GameObject Pointer;
@@ -76,7 +77,7 @@ public class TeaGamemanager : MonoBehaviour
 
     IEnumerator Brew()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1);
 
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
@@ -102,6 +103,7 @@ public class TeaGamemanager : MonoBehaviour
                 CurDrink = Judge();
                 if(null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;
                 Teacup.GetComponent<Drag>().Dragable = true;
+                Teacattle.Dragable = true;
                 yield break; 
             } 
             yield return null;

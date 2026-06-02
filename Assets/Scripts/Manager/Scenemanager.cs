@@ -58,7 +58,8 @@ public class Scenemanager : MonoBehaviour
     }
     void SceneChanged(Scene scene, LoadSceneMode loadSceneMode)
     {
-
+        if (scene.name == "InitialLogo")
+            Invoke("LogoAnimation", 3);
         if (scene.name == "MainGame") 
             Delegate.OnMainGameLoaded?.Invoke();
         if (scene.name == "Prologue")
@@ -67,6 +68,11 @@ public class Scenemanager : MonoBehaviour
             Delegate.OnShopLoaded?.Invoke();
         if (scene.name == "Title")
             Delegate.OnTitleLoaded?.Invoke();
+    }
+
+    void LogoAnimation()
+    {
+        FadeOutAndChangeScene("Title");
     }
 
 

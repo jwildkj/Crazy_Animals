@@ -72,7 +72,7 @@ public static class Func
     public static IEnumerator Fade(FADE _fade, float _time, params Image[] _imgs)
     {
         if (_imgs.Length < 0) yield break;
-        yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
+        if(null != Animationmanager.instance) yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
         bool isDone = false;
         Startfading?.Invoke();
 
