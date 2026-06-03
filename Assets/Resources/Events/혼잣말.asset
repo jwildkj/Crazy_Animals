@@ -17,15 +17,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  Dialogues:
-  - state: 0
-    Dialogues:
-    - name: "\uC8FC\uC778\uACF5"
-      text: "\uB09C \uBB34\uC5B8\uAC00\uB97C \uB9D0\uD558\uB294\uC911\uC774\uB2E4"
-    - name: "\uC8FC\uC778\uACF5"
-      text: "\uC544\uC544\uC544\uC559 \uBB50\uB77C\uD558\uC9C0 \uAE4C\uB9C8\uADC0\uBCF4\uACE0\uC2F6\uB2E4"
-  - state: 1
-    Dialogues: []
-  - state: 2
-    Dialogues: []
+  introCSV: DialogueExample
+  resultCSV: 
   OrderedDrinks: []

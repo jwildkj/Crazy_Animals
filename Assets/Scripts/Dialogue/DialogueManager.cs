@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,11 @@ public class DialogueManager : MonoBehaviour
     public Dialogue[] dialogues;
 
     [SerializeField] private DialogueUI dialogueUI;
-    [SerializeField] private DialogueParser dialogueParser;
+    [SerializeField] private DialogueParser dialogueParser;       
 
     public bool isDialogue = false;
     public bool isNext = false;
-    public bool isFinish = false;
+    public event Action OnDialogueFinished;
 
     void Update()
     {
@@ -86,15 +87,15 @@ public class DialogueManager : MonoBehaviour
                 }
                 else
                 {
-                    dialogueUI.EndDialogue();
+                    EndDialogue();
                 }
             }
         }       
     }
 
-    public void StartDialogue(string csvFileName)
+    public void StartDialogue(string csvFileName, int startLine = 0)
     {
-        Debug.Log($"START DIALOGUE : {csvFileName}");
+        Debug.Log($"START DIALOGUE : {csvFileName}, startLine={startLine}");
 
         if (dialogueParser == null)
         {
@@ -110,9 +111,27 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        isDialogue = true;
-        isFinish = false;
+        dialogueUI.SetLine(startLine);
+        dialogueUI.SetContent(0);
 
-        dialogueUI.PrintDialogue(dialogues);
+        isDialogue = true;
+
+        dialogueUI.PrintDialogue(dialogues, startLine);
+    }
+
+    public void EndDialogue()
+    {
+        Debug.Log("EndDialogue Called");
+
+        dialogues = null;
+
+        isDialogue = false;
+        isNext = false;
+
+        dialogueUI.EndDialogue();
+
+        Debug.Log("Invoke Start");
+        OnDialogueFinished?.Invoke();
+        Debug.Log("Invoke End");
     }
 }

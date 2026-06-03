@@ -54,6 +54,8 @@ public class TeaGamemanager : MonoBehaviour
 
     public void TeagameStart()
     {
+        Debug.Log("TeaGameStart()");
+
         if (CurBases.Count < 1){
             Notificate("At least 1 base is required"); 
             return;
@@ -69,6 +71,8 @@ public class TeaGamemanager : MonoBehaviour
 
     IEnumerator Brew()
     {
+        Debug.Log("Brew()");
+
         yield return new WaitForSeconds(2f);
 
         Image barimg = Bar.GetComponent<Image>();
@@ -105,11 +109,16 @@ public class TeaGamemanager : MonoBehaviour
     }
     private RecipeData Judge()
     {
+        Debug.Log("Judge()");
+
+        Debug.Log(GenerateKey(CurBases, CurToppings));
+        Debug.Log(Resourcemanager.instance);
+        Debug.Log(Resourcemanager.instance.recipeLookUp);
+
         RecipeData outrecipe;
         if(!Resourcemanager.instance.recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
             return Resourcemanager.instance.FailedDrinks[0];
         }
-
 
         float PointerPos = Pointer.GetComponent<RectTransform>().sizeDelta.x;
         float TargetPos = Target.GetComponent<RectTransform>().anchoredPosition.x;
@@ -127,6 +136,8 @@ public class TeaGamemanager : MonoBehaviour
 
     private void AfterTea()
     {
+        Debug.Log("AfterTea Start");
+
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
         Image targetimg = Target.GetComponent<Image>();
@@ -139,7 +150,9 @@ public class TeaGamemanager : MonoBehaviour
         CurToppings.Clear();
         if(Gamemanager.instance.CurdrinkCount == CurDrinks.Count)
         {
-            Gamemanager.instance.Judge(CurDrinks);  
+            Debug.Log("AfterTea If문 안쪽입니다.");
+            Gamemanager.instance.ReturningFromTeaGame = true;
+            Gamemanager.instance.StartCoroutine(Gamemanager.instance.Judge(CurDrinks));
             Scenemanager.instance.Changescene("MainGame");
         }
 

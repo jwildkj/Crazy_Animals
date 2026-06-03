@@ -17,23 +17,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: c97f81e5824e9f441b6585ca55069c74, type: 2}
   - {fileID: 0}
-  Dialogues:
-  - state: 0
-    Dialogues:
-    - name: "\uC2EC\uC6B0"
-      text: "\uC8FC\uC778\uC7A5 \uC5EC\uAE30 \uB179\uCC28 \uB450\uC794\uAE4D\uAE4C"
-    - name: "\uC2EC\uC6B0"
-      text: TeaGame
-  - state: 1
-    Dialogues:
-    - name: "\uC2EC\uC6B0"
-      text: "\uB9C8\uC2EF\uB530\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\u314F\uC545!"
-  - state: 2
-    Dialogues:
-    - name: "\uC2EC\uC6B0"
-      text: "\uCEAC\uD558\uC544\uC544\uC544\uC544\uC545 \uC798\uBABB\uB0B4\uC654\uB2E4\uB2E4\uC544\uC544\uC544\u314F\u3131\u3131"
-    - name: "\uC2EC\uC6B0"
-      text: "\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531"
+  introCSV: DialogueExample
+  resultCSV: SkipTest
   OrderedDrinks:
   - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
   - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
