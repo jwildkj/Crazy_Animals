@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Func;
+using static UnityEditor.VersionControl.Asset;
 
 [System.Serializable]
 public class EventDataa
@@ -38,7 +39,7 @@ public class Gamemanager : MonoBehaviour
     //[SerializeField] private TextMeshProUGUI Name;
     //[SerializeField] private TextMeshProUGUI Dialogue;
 
-    //private bool isResultDialogue; //enumÀ¸·Î È®Àå °¡´É
+    //private bool isResultDialogue; //enumï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private DialogueType currentDialogueType;
     public enum DialogueType
     {
@@ -68,22 +69,14 @@ public class Gamemanager : MonoBehaviour
     private void Init()
     {
         Debug.Log("INIT");
-
-        if (0 == Resourcemanager.instance.ApplyedProduct.Count)
-        {
-            for (int i = 0; i < (int)CATEGORY.END; i++)
-            {
-                Resourcemanager.instance.ApplyedProduct.Add((CATEGORY)i, Resourcemanager.instance.Starters[i]);
-            }
-        }
-
+        
         Customer = UImanager.instance.UIs[1].GetComponent<Image>();
         dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager == null)
         {
             Debug.Log("GameManager DialogueManager is NULL");
         }
-        dialogueManager.OnDialogueFinished -= HandleDialogueFinished; //Áßº¹µÇÁö ¾Ê°Ô ÇÑ ¹ø »©°í ´õÇÏ±â
+        dialogueManager.OnDialogueFinished -= HandleDialogueFinished; //ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
         dialogueManager.OnDialogueFinished += HandleDialogueFinished;
         //Name = UImanager.instance.UIs[2].GetComponent<TextMeshProUGUI>();
         //Dialogue = UImanager.instance.UIs[3].GetComponent<TextMeshProUGUI>();
@@ -171,7 +164,7 @@ public class Gamemanager : MonoBehaviour
 
         if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
         {
-            Debug.Log("GameManager Judge ¼º°ø");
+            Debug.Log("GameManager Judge ï¿½ï¿½ï¿½ï¿½");
 
             dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
             //Curstate = State.HAPPY;
@@ -182,7 +175,7 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            Debug.Log("GameManager Judge ½ÇÆÐ");
+            Debug.Log("GameManager Judge ï¿½ï¿½ï¿½ï¿½");
 
             dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
             //Curstate = State.ANGRY;
@@ -204,6 +197,7 @@ public class Gamemanager : MonoBehaviour
                 break;
         }
     }
+    
     private void OnIntroFinished()
     {
         string resultCSV = Days[Day].Events[Curevent].resultCSV;

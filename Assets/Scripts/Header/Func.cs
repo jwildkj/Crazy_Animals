@@ -9,6 +9,23 @@ using UnityEngine.UI;
 
 public static class Func
 {
+    /// <summary>
+    /// 람다식을 받아 몇초 뒤에 실행합니다.
+    /// 사용법: DelayAction(this, 0.01f, () => Aliegn.enabled = false);
+    /// </summary>
+    /// <param name="_requestedobj">요청하는 클래스</param>
+    /// <param name="delay">시간</param>
+    /// <param name="action">람다식</param>
+    public static void DelayAction(MonoBehaviour _requestedobj, float delay, Action action)
+    {
+        _requestedobj.StartCoroutine(ExecuteAfterDelay(delay, action));
+    }
+
+    private static IEnumerator ExecuteAfterDelay(float delay, Action action)
+    {
+        yield return new WaitForSeconds(delay);
+        action?.Invoke(); // 몇 초 뒤에 넘겨받은 람다식 실행!
+    }
 
     /// <summary>
     /// 화면을 페이드인 페이드 아웃합니다. 가려주는 패널 넣어야함
@@ -23,25 +40,22 @@ public static class Func
     {
         if(FADE.IN == _fade)
         {
+            Endfading = null;
             _fadepannel.enabled = true;
             Color pannelcol = _fadepannel.color;
             if (_fadepannel.color.a == 1) { _fadepannel.color = new Color(pannelcol.r, pannelcol.g, pannelcol.b, 0); }
             _requestedobj.StartCoroutine(Fade(_fade, _time, _fadepannel));
             Endfading += _afteraction;
-            Endfading += () => {
-                Endfading = null;
-            };
         }
         else
         {
-            _fadepannel.enabled = true;
+            Endfading = null;
             Color pannelcol = _fadepannel.color;
             if (_fadepannel.color.a == 0) { _fadepannel.color = new Color(pannelcol.r, pannelcol.g, pannelcol.b, 1); }
             _requestedobj.StartCoroutine(Fade(_fade, _time, _fadepannel));
             Endfading += _afteraction;
             Endfading += () => {
                 _fadepannel.enabled = false;
-                Endfading = null;
             };
         }
 
@@ -58,7 +72,7 @@ public static class Func
     public static IEnumerator Fade(FADE _fade, float _time, params Image[] _imgs)
     {
         if (_imgs.Length < 0) yield break;
-        yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
+        if(null != Animationmanager.instance) yield return new WaitUntil(() => Animationmanager.instance.isanimplaying() == false);
         bool isDone = false;
         Startfading?.Invoke();
 

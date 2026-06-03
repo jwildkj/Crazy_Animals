@@ -5,9 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Customer", menuName = "ScriptableObj/Customer")]
 public class CustomerData : ScriptableObject
 {
-    [SerializeField] private int CustomerID;
-    [SerializeField] private string CustomerName;
-    [SerializeField] private Sprite[] CustomerSprite;
+    public int CustomerID;
+    public Sprite Subnail;
+    public string CustomerName;
+    public string CustomerSummary;
+    public string FavoriteTea;
+    [TextArea]
+    public string CustomerDesc;
+    [TextArea]
+    public string CustomerHistory;
+    public Sprite[] CustomerSprite;
 
     //public Sprite GetSprite(State state)
     //{

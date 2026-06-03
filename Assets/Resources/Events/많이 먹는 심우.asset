@@ -20,5 +20,5 @@ MonoBehaviour:
   introCSV: DialogueExample
   resultCSV: SkipTest
   OrderedDrinks:
-  - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
-  - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
