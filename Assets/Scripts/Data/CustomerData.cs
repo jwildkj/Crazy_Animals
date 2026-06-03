@@ -16,8 +16,13 @@ public class CustomerData : ScriptableObject
     public string CustomerHistory;
     public Sprite[] CustomerSprite;
 
-    public Sprite GetSprite(State state)
+    //public Sprite GetSprite(State state)
+    //{
+    //    return CustomerSprite[(int)state];
+    //}
+    
+    public Sprite GetSprite(int _index)
     {
-        return CustomerSprite[(int)state];
+        return CustomerSprite[_index];
     }
 }

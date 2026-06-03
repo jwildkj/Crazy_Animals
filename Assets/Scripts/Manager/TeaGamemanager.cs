@@ -32,7 +32,7 @@ public class TeaGamemanager : MonoBehaviour
     public void AddBase(int _base)
     {
         if (CurBases.Count > 2){
-            Notificate("º£ÀÌ½º´Â ÃÖ´ë 3°³±îÁö ³ÖÀ» ¼ö ÀÖ½À´Ï´Ù!");
+            Notificate("ÂºÂ£Ã€ÃŒÂ½ÂºÂ´Ã‚ ÃƒÃ–Â´Ã« 3Â°Â³Â±Ã®ÃÃ¶ Â³Ã–Ã€Â» Â¼Ã¶ Ã€Ã–Â½Ã€Â´ÃÂ´Ã™!");
             return;
         }
         CurBases.Add((BASE)_base);
@@ -42,7 +42,7 @@ public class TeaGamemanager : MonoBehaviour
     public void AddTopping(int _topping)
     {
         if (CurToppings.Count > 1){
-            Notificate("ÅäÇÎÀº ÃÖ´ë 2°³±îÁö ³ÖÀ» ¼ö ÀÖ½À´Ï´Ù!");
+            Notificate("Ã…Ã¤Ã‡ÃÃ€Âº ÃƒÃ–Â´Ã« 2Â°Â³Â±Ã®ÃÃ¶ Â³Ã–Ã€Â» Â¼Ã¶ Ã€Ã–Â½Ã€Â´ÃÂ´Ã™!");
             return;
         } 
 
@@ -58,8 +58,10 @@ public class TeaGamemanager : MonoBehaviour
 
     public void TeagameStart()
     {
+        Debug.Log("TeaGameStart()");
+
         if (CurBases.Count < 1){
-            Notificate("ÃÖ¼Ò 1°³ÀÇ º£ÀÌ½º°¡ ÇÊ¿äÇÕ´Ï´Ù!"); 
+            Notificate("ÃƒÃ–Â¼Ã’ 1Â°Â³Ã€Ã‡ ÂºÂ£Ã€ÃŒÂ½ÂºÂ°Â¡ Ã‡ÃŠÂ¿Ã¤Ã‡Ã•Â´ÃÂ´Ã™!"); 
             return;
         }
         if (null != CurDrink) return;
@@ -77,7 +79,9 @@ public class TeaGamemanager : MonoBehaviour
 
     IEnumerator Brew()
     {
-        yield return new WaitForSeconds(1);
+        Debug.Log("Brew()");
+
+        yield return new WaitForSeconds(1f);
 
         Image barimg = Bar.GetComponent<Image>();
         Image pointerimg = Pointer.GetComponent<Image>();
@@ -121,11 +125,16 @@ public class TeaGamemanager : MonoBehaviour
     }
     private RecipeData Judge()
     {
+        Debug.Log("Judge()");
+
+        Debug.Log(GenerateKey(CurBases, CurToppings));
+        Debug.Log(Resourcemanager.instance);
+        Debug.Log(Resourcemanager.instance.recipeLookUp);
+
         RecipeData outrecipe;
         if(!Resourcemanager.instance.recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
             return Resourcemanager.instance.FailedDrinks[0];
         }
-
 
         float PointerPos = Pointer.GetComponent<RectTransform>().sizeDelta.x;
         float TargetPos = Target.GetComponent<RectTransform>().anchoredPosition.x;
@@ -145,6 +154,15 @@ public class TeaGamemanager : MonoBehaviour
 
     public void PutTeaOnTray(GameObject tea)
     {
+        
+        Debug.Log("AfterTea Start");
+
+        Image barimg = Bar.GetComponent<Image>();
+        Image pointerimg = Pointer.GetComponent<Image>();
+        Image targetimg = Target.GetComponent<Image>();
+        
+        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+        
         if(null == CurDrink) return;
 
         EnDisableChildComponent<Button>(Teas.transform, true);
@@ -153,26 +171,26 @@ public class TeaGamemanager : MonoBehaviour
         CurToppings.Clear();
 
 
-        //ÄÅ ¾ø¾îÁü
+        //Ã„Ã… Â¾Ã¸Â¾Ã®ÃÃ¼
         Animationmanager.instance.PlayAnim(3, "MainTeacupDisappear", true);
         
-        //Æ®·¹ÀÌ À§ ÄÅ È°¼ºÈ­
+        //Ã†Â®Â·Â¹Ã€ÃŒ Ã€Â§ Ã„Ã… ÃˆÂ°Â¼ÂºÃˆÂ­
         GameObject teaontray = Tray.GetChild(CurDrinks.Count-1).gameObject;
         teaontray.SetActive(true);
         
-        //Æ®·¹ÀÌ À§ ÄÅ Á¤·Ä
+        //Ã†Â®Â·Â¹Ã€ÃŒ Ã€Â§ Ã„Ã… ÃÂ¤Â·Ã„
         HorizontalLayoutGroup Aliegn = Tray.GetComponent<HorizontalLayoutGroup>();
         Aliegn.enabled = true;
         DelayAction(this, 0.01f, () => Aliegn.enabled = false);
         if (null != CurDrink.resultSprite) teaontray.GetComponent<Image>().sprite = CurDrink.resultSprite;
         
-        //Æ®·¹ÀÌ À§ ÄÅ ¾Ö´Ï¸ÅÀÌ¼Ç
+        //Ã†Â®Â·Â¹Ã€ÃŒ Ã€Â§ Ã„Ã… Â¾Ã–Â´ÃÂ¸Ã…Ã€ÃŒÂ¼Ã‡
         teaontray.GetComponent<Animation>().Play();
         CurDrink = null;
 
         Invoke("ToMainGame", 0.2f);
 
-        //ÄÅ ¸®½ºÆù ¾Ö´Ï¸ÅÀÌ¼Ç
+        //Ã„Ã… Â¸Â®Â½ÂºÃ†Ã¹ Â¾Ã–Â´ÃÂ¸Ã…Ã€ÃŒÂ¼Ã‡
         DelayAction(this, 0.3f,()=> Animationmanager.instance.PlayAnim(3, "MainTeacupAppear"));
     }
 
@@ -180,7 +198,9 @@ public class TeaGamemanager : MonoBehaviour
     {
         if (null != Gamemanager.instance && Gamemanager.instance.CurdrinkCount == CurDrinks.Count)
         {
-            Gamemanager.instance.Judge(CurDrinks);
+            Debug.Log("AfterTea IfÂ¹Â® Â¾ÃˆÃ‚ÃŠÃ€Ã”Â´ÃÂ´Ã™.");
+            Gamemanager.instance.ReturningFromTeaGame = true;
+            Gamemanager.instance.StartCoroutine(Gamemanager.instance.Judge(CurDrinks));
             Scenemanager.instance.Changescene("MainGame");
         }
     }
