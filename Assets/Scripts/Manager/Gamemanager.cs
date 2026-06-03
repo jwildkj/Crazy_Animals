@@ -72,13 +72,6 @@ public class Gamemanager : MonoBehaviour
 
         Debug.Log("INIT");
 
-        if (0 == Resourcemanager.instance.ApplyedProduct.Count)
-        {
-            for (int i = 0; i < (int)CATEGORY.END; i++)
-            {
-                Resourcemanager.instance.ApplyedProduct.Add((CATEGORY)i, Resourcemanager.instance.Starters[i]);
-            }
-        }
         Animationmanager.instance.animations[0] = DialogueAnimation;
         Customer = UImanager.instance.UIs[1].GetComponent<Image>();
         dialogueManager = FindObjectOfType<DialogueManager>();
@@ -104,8 +97,6 @@ public class Gamemanager : MonoBehaviour
     {
         Debug.Log("START DAY");
 
-        Image fadeoutpannel = UImanager.instance.UIs[0].GetComponent<Image>();
-        BlackInOut(FADE.OUT, 0.5f, fadeoutpannel, this);
         Invoke("StartDialogue", 2);
     }
     private void StartDialogue()
@@ -218,18 +209,6 @@ public class Gamemanager : MonoBehaviour
                 OnResultFinished();
                 break;
         }
-
-        if ("TeaGame" == text)
-        {
-            Scenemanager.instance.Changescene("TeaGame");
-            Animationmanager.instance.PlayAnim(0, "DialogueDown", true);
-        }
-        else
-        {
-            Dialogue.text = text;
-        }
-
-
     }
     private void OnIntroFinished()
     {
