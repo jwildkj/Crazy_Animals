@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Func;
+using static UnityEditor.VersionControl.Asset;
 
 [System.Serializable]
 public class EventDataa
@@ -37,8 +38,9 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private Image Customer;
     //[SerializeField] private TextMeshProUGUI Name;
     //[SerializeField] private TextMeshProUGUI Dialogue;
+    [SerializeField] private Animation DialogueAnimation;
 
-    //private bool isResultDialogue; //enum¿∏∑Œ »Æ¿Â ∞°¥…
+    //private bool isResultDialogue; //enumÏúºÎ°ú ÌôïÏû• Í∞ÄÎä•
     private DialogueType currentDialogueType;
     public enum DialogueType
     {
@@ -67,6 +69,7 @@ public class Gamemanager : MonoBehaviour
     }
     private void Init()
     {
+
         Debug.Log("INIT");
 
         if (0 == Resourcemanager.instance.ApplyedProduct.Count)
@@ -76,14 +79,14 @@ public class Gamemanager : MonoBehaviour
                 Resourcemanager.instance.ApplyedProduct.Add((CATEGORY)i, Resourcemanager.instance.Starters[i]);
             }
         }
-
+        Animationmanager.instance.animations[0] = DialogueAnimation;
         Customer = UImanager.instance.UIs[1].GetComponent<Image>();
         dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager == null)
         {
             Debug.Log("GameManager DialogueManager is NULL");
         }
-        dialogueManager.OnDialogueFinished -= HandleDialogueFinished; //¡ﬂ∫πµ«¡ˆ æ ∞‘ «— π¯ ª©∞Ì ¥ı«œ±‚
+        dialogueManager.OnDialogueFinished -= HandleDialogueFinished; //Ï§ëÎ≥µÎêòÏßÄ ÏïäÍ≤å Ìïú Î≤à ÎπºÍ≥† ÎçîÌïòÍ∏∞
         dialogueManager.OnDialogueFinished += HandleDialogueFinished;
         //Name = UImanager.instance.UIs[2].GetComponent<TextMeshProUGUI>();
         //Dialogue = UImanager.instance.UIs[3].GetComponent<TextMeshProUGUI>();
@@ -95,7 +98,6 @@ public class Gamemanager : MonoBehaviour
         StartDay();
         //if ( State.NORMAL == Curstate) StartDay();
         //else StartDialogue();
-
     }
 
     private void StartDay()
@@ -160,6 +162,9 @@ public class Gamemanager : MonoBehaviour
 
     public IEnumerator Judge(List<RecipeData> recipeData)
     {
+        //if (null == Customer) return;
+        //if (null == Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE)){
+        //    Customer.enabled = false;
         Debug.Log("GameManager Judge");
         Debug.Log($"{SceneManager.GetActiveScene().name}");
 
@@ -171,7 +176,7 @@ public class Gamemanager : MonoBehaviour
 
         if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
         {
-            Debug.Log("GameManager Judge º∫∞¯");
+            Debug.Log("GameManager Judge ÏÑ±Í≥µ");
 
             dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
             //Curstate = State.HAPPY;
@@ -182,7 +187,7 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            Debug.Log("GameManager Judge Ω«∆–");
+            Debug.Log("GameManager Judge Ïã§Ìå®");
 
             dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
             //Curstate = State.ANGRY;
@@ -192,6 +197,16 @@ public class Gamemanager : MonoBehaviour
     private void HandleDialogueFinished()
     {
         Debug.Log($"HandleDialogueFinished / type = {currentDialogueType}");
+
+        //if (Curstate == State.NORMAL && 0 == Curdialogue)
+        //{
+        //    Animationmanager.instance.PlayAnim(1, "CustomerUp");
+        //    Animationmanager.instance.PlayAnim(0, "DialogueUp");
+        //}
+        //else
+        //{
+        //    Animationmanager.instance.PlayAnim(1, "CustomerInstUp", true);
+        //    Animationmanager.instance.PlayAnim(0, "DialogueInstUp", true);
 
         switch (currentDialogueType)
         {
@@ -203,6 +218,18 @@ public class Gamemanager : MonoBehaviour
                 OnResultFinished();
                 break;
         }
+
+        if ("TeaGame" == text)
+        {
+            Scenemanager.instance.Changescene("TeaGame");
+            Animationmanager.instance.PlayAnim(0, "DialogueDown", true);
+        }
+        else
+        {
+            Dialogue.text = text;
+        }
+
+
     }
     private void OnIntroFinished()
     {
@@ -244,6 +271,12 @@ public class Gamemanager : MonoBehaviour
             Invoke("StartDialogue", 1);
         }
     }
+    public void CleanUp()
+    {
+        Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
+        Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
+    }
+
     private bool IsDayFinished()
     {
         return Curevent >= Days[Day].Events.Length;

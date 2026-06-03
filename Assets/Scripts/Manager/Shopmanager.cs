@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Shopmanager : MonoBehaviour
 {
     [SerializeField] private GameObject ProductPrefab;
+    [SerializeField] private CATEGORY CurCategory;
     [Space(80)]
     [Header("Internal")]
     [SerializeField] private TextMeshProUGUI MoneyText;
@@ -15,10 +16,9 @@ public class Shopmanager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         MoneyRefresh();
         CategoryRefresh(CATEGORY.INGREIDENT);
-        if(null == Delegate.OnItemBuy) Delegate.OnItemBuy += ReorderSoldedItem;
+        if (null == Delegate.OnItemBuy) Delegate.OnItemBuy += ReorderSoldedItem;
     }
 
     // Update is called once per frame
@@ -29,6 +29,8 @@ public class Shopmanager : MonoBehaviour
 
     public void CategoryRefresh(int _categroy)
     {
+        CurCategory = (CATEGORY)_categroy;
+
         for (int i = 0; i < Categorypar.childCount; i++)
             Destroy(Categorypar.GetChild(i).gameObject);
 
@@ -49,12 +51,15 @@ public class Shopmanager : MonoBehaviour
             price.text = item.Price.ToString();
             ReorderSoldedItem();
         }
+
+
     }
     public void CategoryRefresh(CATEGORY _categroy)
     {
+        CurCategory = _categroy;
+
         for (int i = 0; i < Categorypar.childCount; i++)
             Destroy(Categorypar.GetChild(i));
-
 
         foreach (var item in Resourcemanager.instance.CategoryOrderedProducts[(int)_categroy].products)
         {
@@ -73,31 +78,50 @@ public class Shopmanager : MonoBehaviour
             ReorderSoldedItem();
             
         }
+
     }
 
     private void ReorderSoldedItem(string _name = "")
     {
-        if (_name != "" && null != Gamemanager.instance) //bought
+        if (_name != "" && null != Gamemanager.instance) 
         {
-            if (Gamemanager.instance.Money < Resourcemanager.instance.PriceDic[_name]) return;
-            Resourcemanager.instance.OwnedProduct[_name] = true;
-            Gamemanager.instance.Money -= Resourcemanager.instance.PriceDic[_name];
-            MoneyRefresh();
+            if(false == Resourcemanager.instance.NametoOwned[_name]) //buy
+            {
+                if (Gamemanager.instance.Money < Resourcemanager.instance.NametoPrice[_name]) return;
+                Resourcemanager.instance.NametoOwned[_name] = true;
+                Gamemanager.instance.Money -= Resourcemanager.instance.NametoPrice[_name];
+                MoneyRefresh();
+            }
+            else //apply
+            {
+                if(CurCategory != CATEGORY.INGREIDENT) Resourcemanager.instance.ApplyedProduct[(int)CurCategory] = Resourcemanager.instance.NametoProducts[_name];
+            }
         }
 
         if (null == Categorypar) Categorypar = UImanager.instance.UIs[2].transform;
+
         for (int i = 0; i < Categorypar.childCount; i++)
         {
             GameObject product = Categorypar.GetChild(i).gameObject;
             Button Buybutton = product.transform.GetChild(3).GetComponent<Button>();
             TextMeshProUGUI price = product.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            if (Resourcemanager.instance.OwnedProduct[product.name] == true)
+            if (Resourcemanager.instance.NametoOwned[product.name] == true)
             {
-                Buybutton.interactable = false;
-                price.text = "Ç°Àý";
-                //product.transform.SetAsLastSibling();
+                if (CurCategory != CATEGORY.INGREIDENT && Resourcemanager.instance.ApplyedProduct[(int)CurCategory].name == product.name)
+                {
+                    price.text = "ÀåÂøÁß";
+                    Buybutton.interactable = false;
+                }
+                else
+                {
+                    price.text = "ÀåÂø";
+                    Buybutton.interactable = true;
+                }
+
             }
+
+
         }
     }
 

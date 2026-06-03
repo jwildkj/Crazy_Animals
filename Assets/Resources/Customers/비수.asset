@@ -13,8 +13,18 @@ MonoBehaviour:
   m_Name: "\uBE44\uC218"
   m_EditorClassIdentifier: 
   CustomerID: 3
+  Subnail: {fileID: 21300000, guid: 497232d775e09404ab032fc9e70a27aa, type: 3}
   CustomerName: "\uBE44\uC218"
+  CustomerSummary: "\uC778\uAC04\uC758 \uC9D1\uC5D0 \uC5B9\uD600\uC0AC\uB294 \uB454\uAC11\uC950"
+  FavoriteTea: 
+  CustomerDesc: "\uC911\uD559\uAD50 \uC18C\uB140\uC758 \uC9D1\uC5D0 \uC5B9\uD600\uC0AC\uB294
+    \uB454\uAC11\uC950. \uBAA8\uB450\uAC00 \uC7A0\uB4E0 \uBC24\uC5D0 \uC8FC\uC778\uC758
+    \uBAA8\uC2B5\uC73C\uB85C \uB454\uAC11\uD558\uC5EC \uC5F0\uC625 \uCE74\uD398\uC5D0
+    \uBC29\uBB38\uD558\uAC8C \uB41C\uB2E4. \uC790\uC2E0\uC758 \uBCF8\uBAA8\uC2B5\uC744
+    \uC88B\uC544\uD558\uC9C0 \uC54A\uAE30 \uB54C\uBB38\uC5D0 \uC0C1\uC2DC \uBCC0\uC2E0\uC0C1\uD0DC\uC774\uB2E4.
+    \uBCF8\uBAA8\uC2B5\uC77C \uB54C\uC5D0\uB294 \uC131\uACA9\uC774 \uB354\uB7EC\uC6CC\uC9C4\uB2E4. "
+  CustomerHistory: 
   CustomerSprite:
-  - {fileID: 21300000, guid: 09b86966048b55e4fa9495a8817d1cff, type: 3}
-  - {fileID: 21300000, guid: 09b86966048b55e4fa9495a8817d1cff, type: 3}
-  - {fileID: 21300000, guid: 09b86966048b55e4fa9495a8817d1cff, type: 3}
+  - {fileID: 21300000, guid: 8f793bba3eaf5524da85b6ea23f5aded, type: 3}
+  - {fileID: 21300000, guid: 8f793bba3eaf5524da85b6ea23f5aded, type: 3}
+  - {fileID: 21300000, guid: 8f793bba3eaf5524da85b6ea23f5aded, type: 3}
