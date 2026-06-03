@@ -22,9 +22,9 @@ public class DialogueUI : MonoBehaviour
     public int LineCount => lineCount;
     public int ContentCount => contentCount;
 
-    public bool ignoreInputFrame = false;
-    public bool isContentTyping = false;
-    public bool skipContentTyping = false;
+    [HideInInspector] public bool ignoreInputFrame = false;
+    [HideInInspector] public bool isContentTyping = false;
+    [HideInInspector] public bool skipContentTyping = false;
 
     private void Update()
     {
@@ -55,7 +55,7 @@ public class DialogueUI : MonoBehaviour
         dialogueText.text = "";
     }
 
-    public void PrintDialogue(Dialogue[] _dialogues)
+    public void PrintDialogue(Dialogue[] _dialogues, int startLine = 0)
     {
         dialogueManager.dialogues = _dialogues;
 
@@ -64,7 +64,7 @@ public class DialogueUI : MonoBehaviour
         nameText.text = "";
         dialogueText.text = "";
 
-        lineCount = 0;
+        lineCount = startLine;
         contentCount = 0;
 
         DialogueWriter();
@@ -94,7 +94,23 @@ public class DialogueUI : MonoBehaviour
         replaceText = replaceText.Replace("#", ","); //# ¡æ ,
         replaceText = replaceText.Replace("@", "\n"); //@ ¡æ \n
 
+        string expressionRaw = dialogueManager.dialogues[lineCount].expression[contentCount];
+        
+        if (int.TryParse(expressionRaw, out int expressionIndex))
+        {
+            PortraitManager.instance.SetExpression(expressionIndex);
+        }
+
         StartCoroutine(ContentTyping(replaceText));
+    }
+
+    public void EndDialogue()
+    {
+        lineCount = 0;
+        contentCount = 0;
+
+        dialoguePanel.SetActive(false);
+        namePanel.SetActive(false);
     }
 
     private IEnumerator ContentTyping(string content)
@@ -127,20 +143,5 @@ public class DialogueUI : MonoBehaviour
         skipContentTyping = false;
 
         dialogueManager.isNext = true;
-    }
-
-    public void EndDialogue()
-    {
-        dialogueManager.dialogues = null;
-
-        dialogueManager.isDialogue = false;
-        dialogueManager.isNext = false;
-        dialogueManager.isFinish = true;
-
-        lineCount = 0;
-        contentCount = 0;
-
-        dialoguePanel.SetActive(false);
-        namePanel.SetActive(false);
     }
 }

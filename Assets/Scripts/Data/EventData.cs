@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class DialogueLinee
-{
-    public State state;
-    public DialogueLine[] Dialogues;
-}
+//[System.Serializable]
+//public class DialogueLinee
+//{
+//    public State state;
+//    public DialogueLine[] Dialogues;
+//}
 
-[System.Serializable]
-public class DialogueLine
-{
-    public string name;
-    [TextArea]
-    public string text;
-}
+//[System.Serializable]
+//public class DialogueLine
+//{
+//    public string name;
+//    [TextArea]
+//    public string text;
+//}
+
 [CreateAssetMenu(fileName = "New Event", menuName = "ScriptableObj/Event")]
 public class EventData:ScriptableObject
 {
@@ -23,21 +24,29 @@ public class EventData:ScriptableObject
 
     public CustomerData[] Customers;
 
-    public DialogueLinee[] Dialogues = new DialogueLinee[(int)State.END];
+    //public DialogueLinee[] Dialogues = new DialogueLinee[(int)State.END];
+    [Header("Dialogue CSV")]
+    public string introCSV;
+    public string resultCSV;
 
     public List<RecipeData> OrderedDrinks;
 
-    private void OnEnable()
-    {
-        for (int i = 0; i < (int)State.END; i++)
-        {
-            if (Dialogues[i] == null)
-            {
-                Dialogues[i] = new DialogueLinee();
-            }
-            Dialogues[i].state = (State)i;
-        }
-    }
+    //private void OnEnable()
+    //{
+        //for (int i = 0; i < (int)State.END; i++)
+        //{
+        //    if (Dialogues[i] == null)
+        //    {
+        //        Dialogues[i] = new DialogueLinee();
+        //    }
+        //    Dialogues[i].state = (State)i;
+        //}
+
+        //DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
+        //dialogueManager.StartDialogue($"Dialogues/{dialogueCSV}");
+        //dialogueManager.StartDialogue(dialogueCSV);
+    //}
+
     public string GetEventName()
     {
         return EventName;
@@ -48,19 +57,19 @@ public class EventData:ScriptableObject
         return Customers[(int)pos];
     }
 
-    public string GetName(State state, int idx)
-    {
-        return Dialogues[(int)state].Dialogues[idx].name;
-    }
+    //public string GetName(State state, int idx)
+    //{
+    //    return Dialogues[(int)state].Dialogues[idx].name;
+    //}
 
-    public string GetDialogue(State state, int idx)
-    {
-        return Dialogues[(int)state].Dialogues[idx].text;
-    }
+    //public string GetDialogue(State state, int idx)
+    //{
+    //    return Dialogues[(int)state].Dialogues[idx].text;
+    //}
 
-    public int GetDialogueLength(State state)
-    {
-        return Dialogues[(int)state].Dialogues.Length;
-    }
+    //public int GetDialogueLength(State state)
+    //{
+    //    return Dialogues[(int)state].Dialogues.Length;
+    //}
 
 }
