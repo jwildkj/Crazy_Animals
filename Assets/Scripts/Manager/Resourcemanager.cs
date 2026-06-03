@@ -32,6 +32,9 @@ public class Resourcemanager : MonoBehaviour
     public Dictionary<string, int> NametoPrice = new Dictionary<string, int>(); //이름 -> 가격
     public Category[] CategoryOrderedProducts = new Category[(int)CATEGORY.END]; //카테고리별 정렬된 상품
 
+    [Header("Sounds")]
+    public List<AudioClip> BGM;
+    public List<AudioClip> SFX;
 
     private void Awake()
     {
@@ -70,7 +73,10 @@ public class Resourcemanager : MonoBehaviour
         }
         Starters.CopyTo(ApplyedProduct, 0);
 
-
+        AudioClip[] bgms = Resources.LoadAll<AudioClip>("Sounds/BGM");
+        foreach (var item in bgms) BGM.Add(item);
+        AudioClip[] vfxs = Resources.LoadAll<AudioClip>("Sounds/VFX");
+        foreach (var item in vfxs) SFX.Add(item);
     }
 
     string GenerateKey(List<BASE> bases, List<TOPPING> toppings)

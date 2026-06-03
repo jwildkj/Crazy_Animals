@@ -5,9 +5,9 @@ using UnityEngine;
 public class Audiomanager : MonoBehaviour
 {
     public static Audiomanager instance;
-    [SerializeField] private List< AudioClip> BGM;
-    [SerializeField] private List< AudioClip> VFX;
-    private AudioSource AudioSource;
+    public bool Debug;
+    private AudioSource BGMsource;
+    private AudioSource SFXsource;
     // Start is called before the first frame update
 
     private void Awake()
@@ -24,14 +24,42 @@ public class Audiomanager : MonoBehaviour
     }
     private void Start()
     {
-        AudioSource = GetComponent<AudioSource>();
-        AudioClip[] bgms = Resources.LoadAll<AudioClip>("Sounds/BGM");
-        foreach (var item in bgms) BGM.Add(item);
-        AudioClip[] vfxs = Resources.LoadAll<AudioClip>("Sounds/VFX");
-        foreach (var item in bgms) VFX.Add(item);
+        BGMsource = transform.GetChild(0).GetComponent<AudioSource>();
+        SFXsource = transform.GetChild(1).GetComponent<AudioSource>();        
+        Delegate.OnTitleLoaded += ()=> {
+            BGMsource.clip = Resourcemanager.instance.BGM[1];
+            BGMsource.Play();
+        };
+        if (Debug) TitleBGM();
     }
-    public void PlayAudio()
+    public void PlayBGMString(string _idx)
     {
-        AudioSource.Play();
+        int result = 0;
+        int.TryParse(_idx, out result);
+        BGMsource.clip = Resourcemanager.instance.BGM[result];
+        BGMsource.Play();
+    }
+    public void PlayBGM(int _idx)
+    {
+        BGMsource.clip = Resourcemanager.instance.BGM[_idx];
+        BGMsource.Play();
+    }
+    public void PlaySFXString(string _idx)
+    {
+        int result = 0;
+        int.TryParse(_idx, out result);
+        SFXsource.clip = Resourcemanager.instance.SFX[result];
+        SFXsource.Play();
+    }
+    public void PlaySFX(int _idx)
+    {
+        SFXsource.clip = Resourcemanager.instance.BGM[_idx];
+        SFXsource.Play();
+    }
+
+    private void TitleBGM()
+    {
+        BGMsource.clip = Resourcemanager.instance.BGM[1];
+        BGMsource.Play();
     }
 }
