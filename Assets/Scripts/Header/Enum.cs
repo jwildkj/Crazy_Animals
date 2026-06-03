@@ -22,14 +22,14 @@ public enum POS
 
     END
 }
-public enum State
-{
-    NORMAL,
-    HAPPY,
-    ANGRY,
+//public enum State
+//{
+//    NORMAL,
+//    HAPPY,
+//    ANGRY,
 
-    END
-}
+//    END
+//}
 
 public enum BASE
 {
