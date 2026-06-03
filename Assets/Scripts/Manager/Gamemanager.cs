@@ -149,5 +149,10 @@ public class Gamemanager : MonoBehaviour
             Curstate = State.ANGRY;
         }
     }
+    public void CleanUp()
+    {
+        Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
+        Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
+    }
 
 }

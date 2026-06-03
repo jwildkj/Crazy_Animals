@@ -21,7 +21,7 @@ MonoBehaviour:
   - state: 0
     Dialogues:
     - name: "\uC2EC\uC6B0"
-      text: "\uC8FC\uC778\uC7A5 \uC5EC\uAE30 \uB179\uCC28 \uB450\uC794\uAE4D\uAE4C"
+      text: "\uC8FC\uC778\uC7A5 \uC5EC\uAE30 \uC9C0\uC778\uD55C \uB179\uCC28 \uB450\uC794\uAE4D\uAE4C"
     - name: "\uC2EC\uC6B0"
       text: TeaGame
   - state: 1
@@ -35,5 +35,5 @@ MonoBehaviour:
     - name: "\uC2EC\uC6B0"
       text: "\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531\uB531"
   OrderedDrinks:
-  - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
-  - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}

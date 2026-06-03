@@ -66,7 +66,7 @@ public class TeaGamemanager : MonoBehaviour
         //init
         Teacup.GetComponent<Drag>().Dragable = false;
         EnDisableChildComponent<Button>(Teas.transform, false);
-        Pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 45.9934f);
+        Pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 25.236f);
         Animationmanager.instance.PlayAnim(1);
         StopAllCoroutines();
 
@@ -93,8 +93,8 @@ public class TeaGamemanager : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 pointerrect.sizeDelta += new Vector2(PointerSpeed, 0) * Time.deltaTime;
-                if (pointerrect.sizeDelta.x > 600)
-                    pointerrect.sizeDelta = new Vector2(600, 45.9934f);
+                if (pointerrect.sizeDelta.x > 500)
+                    pointerrect.sizeDelta = new Vector2(500, 25.236f);
 
                 yield return null;
             }
