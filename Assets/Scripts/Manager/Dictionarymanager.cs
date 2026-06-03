@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 public enum Pages
 {
     TITLE,
@@ -15,7 +14,8 @@ public enum Pages
 }
 public class Dictionarymanager : MonoBehaviour
 {
-    private static Dictionarymanager instance;
+    public static Dictionarymanager instance;
+    [SerializeField] public bool DicEnabled;
     [SerializeField] private Pages CurPage;
     [SerializeField] private int RecipePageIdx;
     [SerializeField] private GameObject[] PagesObj;
@@ -213,6 +213,9 @@ public class Dictionarymanager : MonoBehaviour
         else ArrowRight.gameObject.SetActive(true);
     }
 
-
+    public void SetEnabled(bool _enabled)
+    {
+        DicEnabled = _enabled;
+    }
 
 }

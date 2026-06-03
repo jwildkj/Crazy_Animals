@@ -88,24 +88,27 @@ public class TeaGamemanager : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetMouseButton(0))
+            if(false == Dictionarymanager.instance.DicEnabled)
             {
-                pointerrect.sizeDelta += new Vector2(PointerSpeed, 0) * Time.deltaTime;
-                if (pointerrect.sizeDelta.x > 600)
-                    pointerrect.sizeDelta = new Vector2(600, 45.9934f);
+                if (Input.GetMouseButton(0))
+                {
+                    pointerrect.sizeDelta += new Vector2(PointerSpeed, 0) * Time.deltaTime;
+                    if (pointerrect.sizeDelta.x > 600)
+                        pointerrect.sizeDelta = new Vector2(600, 45.9934f);
 
-                yield return null;
+                    yield return null;
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    StopCoroutine(fadein);
+                    StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
+                    CurDrink = Judge();
+                    if(null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;
+                    Teacup.GetComponent<Drag>().Dragable = true;
+                    Teacattle.Dragable = true;
+                    yield break; 
+                } 
             }
-            if (Input.GetMouseButtonUp(0))
-            {
-                StopCoroutine(fadein);
-                StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
-                CurDrink = Judge();
-                if(null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;
-                Teacup.GetComponent<Drag>().Dragable = true;
-                Teacattle.Dragable = true;
-                yield break; 
-            } 
             yield return null;
         }
     }
