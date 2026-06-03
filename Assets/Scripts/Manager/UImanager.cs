@@ -10,9 +10,4 @@ public class UImanager : MonoBehaviour
     {
         instance = this;
     }
-
-    public void NextDialogue()
-    {
-        Delegate.OnNextDialogueRequeated?.Invoke();
-    }
 }

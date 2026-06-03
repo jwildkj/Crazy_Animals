@@ -10,6 +10,7 @@ using static Func;
 public class Scenemanager : MonoBehaviour
 {
     public static Scenemanager instance;
+    [SerializeField] private Image fadepannel;
 
     private void Awake()
     {
@@ -35,8 +36,16 @@ public class Scenemanager : MonoBehaviour
     }
     public void FadeOutAndChangeScene(string _sceneidx)
     {
-        Image FadePannel = UImanager.instance.UIs[0].GetComponent<Image>();
-        BlackInOut(FADE.IN, 0.5f, FadePannel, this, () => Changescene(_sceneidx));
+        BlackInOut(FADE.IN, 0.5f, fadepannel, this, () => 
+        { 
+            Fadein();
+            Changescene(_sceneidx); 
+        });
+    }
+
+    public void Fadein()
+    {
+        BlackInOut(FADE.OUT, 0.5f, fadepannel, this, () => { fadepannel.enabled = false; } );
     }
 
     public void Exit()
@@ -49,10 +58,21 @@ public class Scenemanager : MonoBehaviour
     }
     void SceneChanged(Scene scene, LoadSceneMode loadSceneMode)
     {
+        if (scene.name == "InitialLogo")
+            Invoke("LogoAnimation", 3);
         if (scene.name == "MainGame") 
             Delegate.OnMainGameLoaded?.Invoke();
         if (scene.name == "Prologue")
             Delegate.OnPrologueLoaded?.Invoke();
+        if (scene.name == "Shop")
+            Delegate.OnShopLoaded?.Invoke();
+        if (scene.name == "Title")
+            Delegate.OnTitleLoaded?.Invoke();
+    }
+
+    void LogoAnimation()
+    {
+        FadeOutAndChangeScene("Title");
     }
 
 
