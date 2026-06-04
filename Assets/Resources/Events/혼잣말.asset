@@ -17,6 +17,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  introCSV: DialogueExample
+  introCSV: "1-1_\uB3C5\uBC31"
   resultCSV: 
   OrderedDrinks: []

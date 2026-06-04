@@ -13,14 +13,13 @@ public class DialogueParser : MonoBehaviour
 
         string[] data = csvData.text.Split(new char[] { '\n' }); //'\n' 단위로 쪼개기
 
-        for (int i = 1; i < data.Length - 1;)
+        for (int i = 1; i < data.Length;) //- 1;)
         {
             string[] col = data[i].Split(new char[] { ',' }); //',' 단위로 쪼개기
 
             Dialogue dialogue = new Dialogue();
 
             dialogue.name = col[1];
-
             //List 생성
             List<string> contentList = new List<string>();
             //List<int> expressionList = new List<int>();
@@ -36,7 +35,7 @@ public class DialogueParser : MonoBehaviour
                 expressionList.Add(col.Length > 3 ? col[3] : "");
                 skipList.Add(col.Length > 4 ? col[4] : "");
 
-                if (++i < data.Length - 1)
+                if (++i < data.Length) //- 1)
                 {
                     col = data[i].Split(new char[] { ',' });
                 }

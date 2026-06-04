@@ -17,7 +17,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: c97f81e5824e9f441b6585ca55069c74, type: 2}
   - {fileID: 0}
-  introCSV: DialogueExample
-  resultCSV: SkipTest
+  introCSV: "2-1_\uC2EC\uC6B0_\uB4F1\uC7A5"
+  resultCSV: "2-2_\uC2EC\uC6B0_\uBC18\uC751_jy"
   OrderedDrinks:
-  - {fileID: 11400000, guid: f9c477eab62edce4ea8dc710d85ee3d9, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
+  - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
