@@ -79,11 +79,16 @@ public class DialogueUI : MonoBehaviour
         {
             namePanel.SetActive(true);
             nameText.text = dialogueManager.dialogues[lineCount].name;
+
+            int expressionIndex = dialogueManager.dialogues[lineCount].expression[contentCount];
+            PortraitManager.instance.SetExpression(expressionIndex);
         }
         else
         {
             namePanel.SetActive(false);
             nameText.text = dialogueManager.dialogues[lineCount].name;
+
+            PortraitManager.instance.HidePortrait();
         }
 
         dialoguePanel.SetActive(true);
@@ -92,14 +97,7 @@ public class DialogueUI : MonoBehaviour
         string replaceText = dialogueManager.dialogues[lineCount].content[contentCount];
 
         replaceText = replaceText.Replace("#", ","); //# ¡æ ,
-        replaceText = replaceText.Replace("@", "\n"); //@ ¡æ \n
-
-        string expressionRaw = dialogueManager.dialogues[lineCount].expression[contentCount];
-        
-        if (int.TryParse(expressionRaw, out int expressionIndex))
-        {
-            PortraitManager.instance.SetExpression(expressionIndex);
-        }
+        replaceText = replaceText.Replace("@", "\n"); //@ ¡æ \n      
 
         StartCoroutine(ContentTyping(replaceText));
     }
@@ -111,6 +109,8 @@ public class DialogueUI : MonoBehaviour
 
         dialoguePanel.SetActive(false);
         namePanel.SetActive(false);
+
+        PortraitManager.instance.HidePortrait();
     }
 
     private IEnumerator ContentTyping(string content)

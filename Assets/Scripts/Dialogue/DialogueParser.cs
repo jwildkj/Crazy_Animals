@@ -22,18 +22,18 @@ public class DialogueParser : MonoBehaviour
             dialogue.name = col[1];
             //List »ý¼º
             List<string> contentList = new List<string>();
-            //List<int> expressionList = new List<int>();
-            //List<int> skipList = new List<int>();
-            List<string> expressionList = new List<string>();
-            List<string> skipList = new List<string>();
+            List<int> expressionList = new List<int>();
+            List<int> skipList = new List<int>();
+            //List<string> expressionList = new List<string>();
+            //List<string> skipList = new List<string>();
 
             do
             {
                 contentList.Add(col.Length > 2 ? col[2] : "");
-                //expressionList.Add(col.Length > 3 ? int.Parse(col[3]) : 0);
-                //skipList.Add(col.Length > 4 ? int.Parse(col[4]) : 0);
-                expressionList.Add(col.Length > 3 ? col[3] : "");
-                skipList.Add(col.Length > 4 ? col[4] : "");
+                expressionList.Add(col.Length > 3 && int.TryParse(col[3].Trim(), out int expression) ? expression : 0);
+                skipList.Add(col.Length > 4 && int.TryParse(col[4].Trim(), out int skip) ? skip : 0);
+                //expressionList.Add(col.Length > 3 ? col[3] : "");
+                //skipList.Add(col.Length > 4 ? col[4] : "");
 
                 if (++i < data.Length) //- 1)
                 {

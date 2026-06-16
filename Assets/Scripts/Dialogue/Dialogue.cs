@@ -12,10 +12,12 @@ public class Dialogue
     public string[] content;
 
     [Tooltip("초상화")]
-    public string[] expression;
+    public int[] expression;
+    //public string[] expression;
 
     [Tooltip("스킵라인")]
-    public string[] skip;
+    public int[] skip;
+    //public string[] skip;
 }
 
 [System.Serializable]

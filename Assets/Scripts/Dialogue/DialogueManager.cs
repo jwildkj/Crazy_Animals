@@ -54,17 +54,16 @@ public class DialogueManager : MonoBehaviour
 
             Dialogue currentDialogue = dialogues[line];
 
-            //skip
-            if (!string.IsNullOrEmpty(currentDialogue.skip[content]))
-            {
-                if (int.TryParse(currentDialogue.skip[content], out int skipLine))
-                {
-                    dialogueUI.SetLine(skipLine - 1);
-                    dialogueUI.SetContent(0);
+            int skipLine = currentDialogue.skip[content];
 
-                    dialogueUI.DialogueWriter();
-                    return;
-                }                
+            //skip
+            if (skipLine > 0)
+            {
+                dialogueUI.SetLine(skipLine - 1);
+                dialogueUI.SetContent(0);
+
+                dialogueUI.DialogueWriter();
+                return;                      
             }
 
             //Next Content

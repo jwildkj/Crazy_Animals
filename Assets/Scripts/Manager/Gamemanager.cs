@@ -35,10 +35,10 @@ public class Gamemanager : MonoBehaviour
     public int CurdrinkCount = 0;
 
     [Space(20)]
-    [SerializeField] private Image Customer;
+    //[SerializeField] private Image Customer;
     //[SerializeField] private TextMeshProUGUI Name;
     //[SerializeField] private TextMeshProUGUI Dialogue;
-    [SerializeField] private Animation DialogueAnimation;
+    //[SerializeField] private Animation DialogueAnimation;
 
     //private bool isResultDialogue; //enum으로 확장 가능
     private DialogueType currentDialogueType;
@@ -72,8 +72,8 @@ public class Gamemanager : MonoBehaviour
 
         Debug.Log("INIT");
 
-        Animationmanager.instance.animations[0] = DialogueAnimation;
-        Customer = UImanager.instance.UIs[1].GetComponent<Image>();
+        //Animationmanager.instance.animations[0] = DialogueAnimation;
+        //Customer = UImanager.instance.UIs[1].GetComponent<Image>();
         dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager == null)
         {
@@ -105,6 +105,9 @@ public class Gamemanager : MonoBehaviour
         //Curdialogue = 0;
         CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
         //UpdateDialogue();
+
+        PortraitManager.instance.SetCustomer(
+        Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
 
         //isResultDialogue = false;
         currentDialogueType = DialogueType.INTRO;
@@ -165,6 +168,8 @@ public class Gamemanager : MonoBehaviour
         currentDialogueType = DialogueType.RESULT;
         Debug.Log("DialogueType => RESULT");
 
+        PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
+
         if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
         {
             Debug.Log("GameManager Judge 성공");
@@ -212,6 +217,8 @@ public class Gamemanager : MonoBehaviour
     }
     private void OnIntroFinished()
     {
+        Debug.Log("OnIntroFinished 실행");
+        
         string resultCSV = Days[Day].Events[Curevent].resultCSV;
 
         if (string.IsNullOrWhiteSpace(resultCSV))
@@ -250,10 +257,10 @@ public class Gamemanager : MonoBehaviour
             Invoke("StartDialogue", 1);
         }
     }
-    public void CleanUp()
+    public void CleanUp() //Animation 안 써서 지금 안 씀.
     {
-        Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
-        Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
+        //Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
+        //Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
     }
 
     private bool IsDayFinished()

@@ -23,6 +23,11 @@ public class CustomerData : ScriptableObject
     
     public Sprite GetSprite(int _index)
     {
+        if (_index < 0 || _index >= CustomerSprite.Length)
+        {
+            return null;
+        }
+
         return CustomerSprite[_index];
     }
 }

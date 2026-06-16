@@ -40,6 +40,11 @@ public class Animationmanager : MonoBehaviour
     {
         for (int i = 0; i < animations.Count; i++)
         {
+            if (animations[i] == null)
+            {
+                continue;
+            }
+
             if (animations[i].isPlaying)
             {
                 return true;

@@ -2265,14 +2265,13 @@ GameObject:
   - component: {fileID: 421755763}
   - component: {fileID: 421755765}
   - component: {fileID: 421755764}
-  - component: {fileID: 421755766}
   m_Layer: 5
   m_Name: Customer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &421755763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2306,14 +2305,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4b509ce1e7e8d77458c77f206d73f9ed, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2331,24 +2330,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421755762}
   m_CullTransparentMesh: 1
---- !u!111 &421755766
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421755762}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: ee82bdb505dc6a04a8c4576ef959a3dd, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: ee82bdb505dc6a04a8c4576ef959a3dd, type: 2}
-  - {fileID: 7400000, guid: 45b75ed0b66dc504d8d7a8d6e2c80168, type: 2}
-  - {fileID: 7400000, guid: bb2115611839f8b4686ce140efe05c11, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1 &432244034
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,7 +2392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animations:
   - {fileID: 1529065089}
-  - {fileID: 421755766}
+  - {fileID: 0}
 --- !u!4 &458612947
 Transform:
   m_ObjectHideFlags: 0
@@ -7765,6 +7746,7 @@ GameObject:
   - component: {fileID: 1799169929}
   - component: {fileID: 1799169928}
   - component: {fileID: 1799169927}
+  - component: {fileID: 1799169931}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -7836,6 +7818,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799169931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799169926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4df46faef46a2834fbfebaad66fe94ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portraitImage: {fileID: 421755764}
+  currentCustomer: {fileID: 0}
 --- !u!1 &1876817137
 GameObject:
   m_ObjectHideFlags: 0
@@ -8881,8 +8877,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 30619005514c928478db203307685324, type: 2}
   Curevent: 0
   CurdrinkCount: 0
-  Customer: {fileID: 421755764}
-  DialogueAnimation: {fileID: 1529065089}
   ReturningFromTeaGame: 0
 --- !u!4 &2115372727
 Transform:
