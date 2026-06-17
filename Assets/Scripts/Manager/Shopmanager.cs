@@ -45,7 +45,8 @@ public class Shopmanager : MonoBehaviour
             TextMeshProUGUI price = product.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
 
             product.name = item.name;
-            Subnail.sprite = item.Subnail;
+            if (null == item.Subnail) Subnail.enabled = false;
+            else Subnail.sprite = item.Subnail;
             name.text = item.name;
             desc.text = item.ProductDesc;
             price.text = item.Price.ToString();
@@ -71,7 +72,8 @@ public class Shopmanager : MonoBehaviour
             TextMeshProUGUI price = product.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
 
             product.name = item.name;
-            Subnail.sprite = item.Subnail;
+            if(null == item.Subnail) Subnail.enabled = false;
+            else Subnail.sprite = item.Subnail;
             name.text = item.name;
             desc.text = item.ProductDesc;
             price.text = item.Price.ToString();

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b41f2f9183ea484f8c5c12ec313eec7, type: 3}
-  m_Name: "\uB9CE\uC774 \uBA39\uB294 \uC2EC\uC6B0"
+  m_Name: "\uBE44\uC218 \uBC29\uBB38"
   m_EditorClassIdentifier: 
   EventName: 
   Customers:
   - {fileID: 0}
-  - {fileID: 11400000, guid: c97f81e5824e9f441b6585ca55069c74, type: 2}
+  - {fileID: 11400000, guid: bed40b6408803c74d8d6d8dcb97eb900, type: 2}
   - {fileID: 0}
   introCSV: "3-1_\uBE44\uC218_\uB4F1\uC7A5"
   resultCSV: "3-2_\uBE44\uC218_\uBC18\uC751"
   OrderedDrinks:
-  - {fileID: 11400000, guid: b75fae5bcf2b5d441a4dabbc1fbbef21, type: 2}
+  - {fileID: 11400000, guid: cc52981966474314eba5d28b6f30c645, type: 2}

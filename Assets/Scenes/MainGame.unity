@@ -8899,10 +8899,10 @@ MonoBehaviour:
   - Events:
     - {fileID: 11400000, guid: 3e393a7976f64294a87330fe8446600d, type: 2}
     - {fileID: 11400000, guid: 97e9682c9eace6a40b00607f213ae975, type: 2}
-  - Events:
     - {fileID: 11400000, guid: 9f4e2d9b654faa44e90e36c38fc6622c, type: 2}
-  - Events:
     - {fileID: 11400000, guid: 30619005514c928478db203307685324, type: 2}
+  - Events: []
+  - Events: []
   Curevent: 0
   CurdrinkCount: 0
   ReturningFromTeaGame: 0

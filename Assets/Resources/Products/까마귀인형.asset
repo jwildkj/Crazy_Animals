@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: "\uAE4C\uB9C8\uADC0\uC778\uD615"
   m_EditorClassIdentifier: 
   Category: 3
-  Subnail: {fileID: 0}
-  ProductName: 
-  ProductDesc: 
-  Price: 100000
+  Subnail: {fileID: 21300000, guid: dd041b37545c3334db17648dd51a4228, type: 3}
+  ProductName: "\uAE4C\uB9C8\uADC0\uC778\uD615"
+  ProductDesc: "\uD3C9\uBC94\uD558\uACE0 \uB3D9\uADF8\uB780 \uAE4C\uB9C8\uADC0\uC778\uD615.\n\uB9E4\uC6B0
+    \uADC0\uC5FD\uB2E4!"
+  Price: 9999
