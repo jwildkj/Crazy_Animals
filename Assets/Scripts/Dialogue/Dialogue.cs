@@ -11,15 +11,17 @@ public class Dialogue
     [Tooltip("대사 내용")]
     public string[] content;
 
-    [Tooltip("초상화")]
+    [Tooltip("표정")]
     public int[] expression;
-    //public string[] expression;
 
-    [Tooltip("스킵라인")]
+    [Tooltip("선택지")]
+    public int[] select;
+
+    [Tooltip("스킵 라인")]
     public int[] skip;
-    //public string[] skip;
 }
 
+/*
 [System.Serializable]
 public class DialogueEvent
 {
@@ -28,3 +30,5 @@ public class DialogueEvent
     public Vector2 line;
     public Dialogue[] dialogues;
 }
+
+*/
