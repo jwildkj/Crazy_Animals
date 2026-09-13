@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drinkName: "\uC7A1\uD0D5"
   price: 0
-  requiredBases: 0e000000
-  requiredToppings: 02000000
+  requiredBases: 0f000000
+  requiredToppings: 
   resultSprite: {fileID: 0}

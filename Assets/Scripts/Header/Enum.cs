@@ -47,6 +47,7 @@ public enum BASE
     녹차,
     계피,
     쑥,
+    국화,
 
     END
 
