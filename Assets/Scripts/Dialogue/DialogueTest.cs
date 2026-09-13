@@ -25,4 +25,9 @@ public class DialogueTest : MonoBehaviour
     {
         FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/SkipTest");
     }
+
+    public void SelectTest()
+    {
+        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/dialoguecsvTest", "Dialogues/selectcsvTest");
+    }
 }

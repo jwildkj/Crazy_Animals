@@ -174,7 +174,8 @@ public class Gamemanager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 성공");
 
-            dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
+            ////일단주석
+            //dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
             //Curstate = State.HAPPY;
             foreach (var item in recipeData)
             {
@@ -185,7 +186,8 @@ public class Gamemanager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 실패");
 
-            dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
+            ////일단주석
+            //dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
             //Curstate = State.ANGRY;
         }
     }
