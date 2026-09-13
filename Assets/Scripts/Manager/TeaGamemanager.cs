@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static Func;
@@ -9,16 +10,32 @@ public class TeaGamemanager : MonoBehaviour
 {
     [Header("Property")]
     [SerializeField] private float PointerSpeed;
+
+    private bool isbrewing;
+    private bool brewfin;
+    public void BrewbuttonDown() { isbrewing = true; }
+    public void BrewbuttonUp() { isbrewing = false; brewfin = true; }
+
+    //---------------------Cacheing
+    private TextMeshProUGUI Noti;
+    private Transform LeafUIs;
+    private Transform Leafs;
+    private Image Toppings;
+    private Transform Theometer;
+    private GameObject Bar;
+    private GameObject Pointer; 
+    private GameObject Target;
+    private RectTransform pointerrect;
+    private float barheight;
+    private float pointer;
+    private float targetheight;
+    private float targetpos;
+    private Image[] LeafUImages = new Image[3];
+    private Image[] LeafImages = new Image[3];
+    //-------------------------------
+
     [Space(100)]
     [Header("Internal")]
-    [SerializeField] private TextMeshProUGUI Noti;
-    [SerializeField] private GameObject Teacup;
-    [SerializeField] private Drag Teacattle;
-    [SerializeField] private Transform Tray;
-    [SerializeField] private GameObject Bar;
-    [SerializeField] private GameObject Pointer;
-    [SerializeField] private GameObject Target;
-    [SerializeField] private GameObject Teas;
     [SerializeField] private RecipeData CurDrink;
     [SerializeField] private List<BASE> CurBases;
     [SerializeField] private List<TOPPING> CurToppings;
@@ -26,52 +43,81 @@ public class TeaGamemanager : MonoBehaviour
 
     private void Start()
     {
+        Noti = UImanager.instance.UIs[0].GetComponent<TextMeshProUGUI>();
+        LeafUIs = UImanager.instance.UIs[1].transform;
+        Theometer = UImanager.instance.UIs[2].transform;
+        Bar = UImanager.instance.UIs[3];
+        Pointer = UImanager.instance.UIs[4];
+        Target = UImanager.instance.UIs[5];
+        Leafs = UImanager.instance.UIs[6].transform;
+        Toppings = UImanager.instance.UIs[7].GetComponent<Image>();
+        pointerrect = Pointer.GetComponent<RectTransform>();
 
+        barheight     = Bar.GetComponent<RectTransform>().rect.height;
+        pointer       = Pointer.GetComponent<RectTransform>().localScale.y;
+        targetheight  = Target.GetComponent<RectTransform>().rect.height;
+        targetpos     = Target.GetComponent<RectTransform>().anchoredPosition.y;
 
+        LeafUImages[0] = LeafUIs.GetChild(0).GetComponent<Image>();
+        LeafUImages[1] = LeafUIs.GetChild(1).GetComponent<Image>();
+        LeafUImages[2] = LeafUIs.GetChild(2).GetComponent<Image>();
+
+        LeafImages[0] = Leafs.GetChild(0).GetComponent<Image>();
+        LeafImages[1] = Leafs.GetChild(1).GetComponent<Image>();
+        LeafImages[2] = Leafs.GetChild(2).GetComponent<Image>();
     }
     public void AddBase(int _base)
     {
         if (CurBases.Count > 2){
-            Notificate("º£ÀÌ½º´Â ÃÖ´ë 3°³±îÁö ³ÖÀ» ¼ö ÀÖ½À´Ï´Ù!");
+            Notificate("베이스는 3개 이하여야 합니다");
             return;
         }
         CurBases.Add((BASE)_base);
-        Animationmanager.instance.PlayAnim(0);
+        if(CurBases.Count - 1 == 0) LeafImages[0].sprite = Resourcemanager.instance.GetSprite("TeaSpritesBottom", _base);
+        else if (CurBases.Count - 1 == 1) LeafImages[1].sprite = Resourcemanager.instance.GetSprite("TeaSpritesMiddle", _base);
+        else if (CurBases.Count - 1 == 2) LeafImages[2].sprite = Resourcemanager.instance.GetSprite("TeaSpritesTop", _base);
+
+        Animationmanager.instance.PlayAnim(CurBases.Count-1, "TeaLeafAppear", true);
+        RefreshleafUI();
     }
 
     public void AddTopping(int _topping)
     {
-        if (CurToppings.Count > 1){
-            Notificate("ÅäÇÎÀº ÃÖ´ë 2°³±îÁö ³ÖÀ» ¼ö ÀÖ½À´Ï´Ù!");
+        if (CurToppings.Count > 0){
+            Notificate("토핑은 1개 이하여야 합니다");
             return;
-        } 
+        }
 
+        if(CurBases.Count == 0)
+        {
+            Notificate("베이스를 먼저 넣어주세요");
+            return;
+        }
+        Toppings.sprite = Resourcemanager.instance.GetSprite("ToppingSprite", _topping);
+        Animationmanager.instance.PlayAnim(6, "TeaLeafAppear", true);
         CurToppings.Add((TOPPING)_topping);
-        Animationmanager.instance.PlayAnim(0);
     }
     private void Notificate(string _txt)
     {
-        Noti.color = Color.white;
+        Noti.color = Color.black;
         Noti.text = _txt;
-        Animationmanager.instance.PlayAnim(2, "", true);
+        Animationmanager.instance.PlayAnim(4, "", true);
     }
 
     public void TeagameStart()
     {
-        Debug.Log("TeaGameStart()");
-
         if (CurBases.Count < 1){
-            Notificate("ÃÖ¼Ò 1°³ÀÇ º£ÀÌ½º°¡ ÇÊ¿äÇÕ´Ï´Ù!"); 
+            Notificate("재료를 더 넣어주세요"); 
             return;
         }
         if (null != CurDrink) return;
         //init
-        Teacup.GetComponent<Drag>().Dragable = false;
-        EnDisableChildComponent<Button>(Teas.transform, false);
-        Pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 25.236f);
-        Animationmanager.instance.PlayAnim(1);
-        StopAllCoroutines();
 
+        Animationmanager.instance.PlayAnim(3, "ToBrew");
+        LeafUIs.gameObject.SetActive(false);
+        StopAllCoroutines();
+        Theometer.gameObject.SetActive(true);
+        Animationmanager.instance.PlayAnim(5, "TheometerAppear");
         StartCoroutine(Brew());
     }
 
@@ -79,37 +125,27 @@ public class TeaGamemanager : MonoBehaviour
 
     IEnumerator Brew()
     {
-        Debug.Log("Brew()");
+        pointerrect.localScale = new Vector2(1, 0);
 
         yield return new WaitForSeconds(1f);
 
-        Image barimg = Bar.GetComponent<Image>();
-        Image pointerimg = Pointer.GetComponent<Image>();
-        Image targetimg = Target.GetComponent<Image>();
-        Coroutine fadein = StartCoroutine(Fade(FADE.IN, 0.2f, barimg, pointerimg, targetimg));
-
-        RectTransform pointerrect = Pointer.GetComponent<RectTransform>();
 
         while (true)
         {
             if (null != Dictionarymanager.instance && true == Dictionarymanager.instance.DicEnabled)
                 continue;
-            if (Input.GetMouseButton(0))
+
+            if (Input.GetMouseButton(0) && isbrewing)
             {
-                pointerrect.sizeDelta += new Vector2(PointerSpeed, 0) * Time.deltaTime;
-                if (pointerrect.sizeDelta.x > 500)
-                    pointerrect.sizeDelta = new Vector2(500, 25.236f);
+                pointerrect.localScale += new Vector3(0, PointerSpeed, 1) * Time.deltaTime;
+                if (pointerrect.localScale.y > 1)
+                    pointerrect.localScale = new Vector2(1, 1);
 
                 yield return null;
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && brewfin)
             {
-                StopCoroutine(fadein);
-                StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
                 CurDrink = Judge();
-                if (null != CurDrink.resultSprite) Teacup.GetComponent<Image>().sprite = CurDrink.resultSprite;
-                Teacup.GetComponent<Drag>().Dragable = true;
-                Teacattle.Dragable = true;
                 yield break;
             }
 
@@ -125,24 +161,15 @@ public class TeaGamemanager : MonoBehaviour
     }
     private RecipeData Judge()
     {
-        Debug.Log("Judge()");
-
-        Debug.Log(GenerateKey(CurBases, CurToppings));
-        Debug.Log(Resourcemanager.instance);
-        Debug.Log(Resourcemanager.instance.recipeLookUp);
-
         RecipeData outrecipe;
         if(!Resourcemanager.instance.recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
             return Resourcemanager.instance.FailedDrinks[0];
         }
 
-        float PointerPos = Pointer.GetComponent<RectTransform>().sizeDelta.x;
-        float TargetPos = Target.GetComponent<RectTransform>().anchoredPosition.x;
-        float TargetLength = Target.GetComponent<RectTransform>().sizeDelta.x;
+        Vector2 TargetRange = new Vector2(targetpos - targetheight / 2, targetpos + targetheight / 2);
+        TargetRange /= barheight;
 
-        Vector2 TargetRange = new Vector2(TargetPos - TargetLength/2, TargetPos + TargetLength/2);
-
-        if (PointerPos >= TargetRange.x && PointerPos <= TargetRange.y){
+        if (pointer >= TargetRange.x && pointer <= TargetRange.y){
             return outrecipe;
         }
         else{
@@ -163,35 +190,10 @@ public class TeaGamemanager : MonoBehaviour
         
         StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
         
-        if(null == CurDrink) return;
-
-        EnDisableChildComponent<Button>(Teas.transform, true);
-        CurDrinks.Add(CurDrink);
-        CurBases.Clear();
-        CurToppings.Clear();
 
 
-        //ÄÅ ¾ø¾îÁü
-        Animationmanager.instance.PlayAnim(3, "MainTeacupDisappear", true);
-        
-        //Æ®·¹ÀÌ À§ ÄÅ È°¼ºÈ­
-        GameObject teaontray = Tray.GetChild(CurDrinks.Count-1).gameObject;
-        teaontray.SetActive(true);
-        
-        //Æ®·¹ÀÌ À§ ÄÅ Á¤·Ä
-        HorizontalLayoutGroup Aliegn = Tray.GetComponent<HorizontalLayoutGroup>();
-        Aliegn.enabled = true;
-        DelayAction(this, 0.01f, () => Aliegn.enabled = false);
-        if (null != CurDrink.resultSprite) teaontray.GetComponent<Image>().sprite = CurDrink.resultSprite;
-        
-        //Æ®·¹ÀÌ À§ ÄÅ ¾Ö´Ï¸ÅÀÌ¼Ç
-        teaontray.GetComponent<Animation>().Play();
-        CurDrink = null;
 
-        Invoke("ToMainGame", 0.2f);
 
-        //ÄÅ ¸®½ºÆù ¾Ö´Ï¸ÅÀÌ¼Ç
-        DelayAction(this, 0.3f,()=> Animationmanager.instance.PlayAnim(3, "MainTeacupAppear"));
     }
 
     private void ToMainGame()
@@ -204,6 +206,32 @@ public class TeaGamemanager : MonoBehaviour
             Scenemanager.instance.Changescene("MainGame");
         }
     }
+    private void RefreshleafUI()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            if (i < CurBases.Count) LeafUImages[i].sprite = Resourcemanager.instance.GetSprite("LeafUI", 1);
+            else LeafUImages[i].sprite = Resourcemanager.instance.GetSprite("LeafUI", 0);
+        }
+    }
+
+    public void Trash()
+    {
+        for (int i = 0; i < CurBases.Count; i++) Animationmanager.instance.PlayAnim(i, "TeaLeafDisappear", true);
+        if(CurToppings.Count > 0) Animationmanager.instance.PlayAnim(6, "TeaLeafDisappear", true);
+        CurBases.Clear();
+        CurToppings.Clear();
+        CurDrink = null;
+
+        StopAllCoroutines();
+        Animationmanager.instance.PlayAnim(3, "Toingred");
+        LeafUIs.gameObject.SetActive(true);
+        Theometer.gameObject.SetActive(false);
+        Animationmanager.instance.PlayAnim(5, "TheometerDisappear");
+        RefreshleafUI();
+    }
+
+
 
 
 }

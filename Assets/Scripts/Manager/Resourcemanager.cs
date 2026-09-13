@@ -6,6 +6,12 @@ public class Category
 {
     [SerializeField] public List<ProductData> products = new List<ProductData>();
 }
+[System.Serializable]
+public class SpriteGroup
+{
+    [SerializeField] public string GroupName;
+    [SerializeField] public List<Sprite> sprites = new List<Sprite>();
+}
 
 public class Resourcemanager : MonoBehaviour
 {
@@ -33,8 +39,14 @@ public class Resourcemanager : MonoBehaviour
     public Category[] CategoryOrderedProducts = new Category[(int)CATEGORY.END]; //카테고리별 정렬된 상품
 
     [Header("Sounds")]
+    [Space(20)]
     public List<AudioClip> BGM;
     public List<AudioClip> SFX;
+
+    [Header("Sprites")]
+    [Space(20)]
+    public SpriteGroup[] sprites;
+    private Dictionary<string, int> GroupIdx = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -77,6 +89,11 @@ public class Resourcemanager : MonoBehaviour
         foreach (var item in bgms) BGM.Add(item);
         AudioClip[] vfxs = Resources.LoadAll<AudioClip>("Sounds/VFX");
         foreach (var item in vfxs) SFX.Add(item);
+
+        for (int i = 0;i < sprites.Length;i++) {
+            GroupIdx.Add(sprites[i].GroupName, i);
+        }
+
     }
 
     string GenerateKey(List<BASE> bases, List<TOPPING> toppings)
@@ -86,5 +103,8 @@ public class Resourcemanager : MonoBehaviour
         return $"B:{string.Join(",", bases)}|T:{string.Join(",", toppings)}";
     }
 
-
+    public Sprite GetSprite(string _groupname, int _idx)
+    {
+        return sprites[GroupIdx[_groupname]].sprites[_idx];
+    }
 }
