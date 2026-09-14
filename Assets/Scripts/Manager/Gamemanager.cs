@@ -112,7 +112,7 @@ public class Gamemanager : MonoBehaviour
         //isResultDialogue = false;
         currentDialogueType = DialogueType.INTRO;
 
-        dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}");
+        dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
     }
 
     //private void UpdateDialogue()

@@ -2,21 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[System.Serializable]
-//public class DialogueLinee
-//{
-//    public State state;
-//    public DialogueLine[] Dialogues;
-//}
-
-//[System.Serializable]
-//public class DialogueLine
-//{
-//    public string name;
-//    [TextArea]
-//    public string text;
-//}
-
 [CreateAssetMenu(fileName = "New Event", menuName = "ScriptableObj/Event")]
 public class EventData:ScriptableObject
 {
@@ -24,11 +9,17 @@ public class EventData:ScriptableObject
 
     public CustomerData[] Customers;
 
-    //public DialogueLinee[] Dialogues = new DialogueLinee[(int)State.END];
     [Header("Dialogue CSV")]
+    [SerializeField] private string[] introList;
+    [SerializeField] private string[] selectList;
+    [SerializeField] private string[] resultList;
+
     public string introCSV;
+    public string selectCSV;
     public string resultCSV;
 
+    //이거 한 번에 두 잔 이상 주문 들어가는 것 때문에 배열이었던 걸로 기억하는데
+    //그... 주문 요소 자체를 배열화해서 랜덤으로 돌리고 싶거든? 저 위에 intro select result랑 주문 들어가는 음료랑 인덱스 맞춰서
     public List<RecipeData> OrderedDrinks;
 
     //private void OnEnable()
@@ -57,19 +48,21 @@ public class EventData:ScriptableObject
         return Customers[(int)pos];
     }
 
-    //public string GetName(State state, int idx)
-    //{
-    //    return Dialogues[(int)state].Dialogues[idx].name;
-    //}
+    public void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
+    {
+        //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
 
-    //public string GetDialogue(State state, int idx)
-    //{
-    //    return Dialogues[(int)state].Dialogues[idx].text;
-    //}
+        if (!(introList.Length == selectList.Length && introList.Length == resultList.Length))
+        {
+            Debug.LogWarning("introList, selectList, resultList의 길이가 다릅니다.");
+            return;
+        }
 
-    //public int GetDialogueLength(State state)
-    //{
-    //    return Dialogues[(int)state].Dialogues.Length;
-    //}
+        int i = Random.Range(0, introList.Length);
+
+        introCSV = introList[i];
+        selectCSV = selectList[i];
+        resultCSV = resultList[i];
+    }
 
 }
