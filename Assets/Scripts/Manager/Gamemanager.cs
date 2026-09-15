@@ -1,13 +1,9 @@
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using static Func;
-using static UnityEditor.VersionControl.Asset;
 
 [System.Serializable]
 public class EventDataa
@@ -29,18 +25,10 @@ public class Gamemanager : MonoBehaviour
 
     [Space(100)]
     [Header("Internal")]
-    //[SerializeField] private State Curstate = 0;
     [SerializeField] private int Curevent = 0;
-    //[SerializeField] private int Curdialogue = 0;
     public int CurdrinkCount = 0;
+    public List<RecipeData> CurDrinks;
 
-    [Space(20)]
-    //[SerializeField] private Image Customer;
-    //[SerializeField] private TextMeshProUGUI Name;
-    //[SerializeField] private TextMeshProUGUI Dialogue;
-    //[SerializeField] private Animation DialogueAnimation;
-
-    //private bool isResultDialogue; //enum으로 확장 가능
     private DialogueType currentDialogueType;
     public enum DialogueType
     {
@@ -91,30 +79,13 @@ public class Gamemanager : MonoBehaviour
         //if ( State.NORMAL == Curstate) StartDay();
         //else StartDialogue();
     }
-
-    private void StartDay()
+    private void StartDialogue(string dialogueCSV, string selectCSV = null, int startLine = 0)
     {
-        Debug.Log("START DAY");
-
-        Invoke("StartDialogue", 2);
-    }
-    private void StartDialogue()
-    {
-        Debug.Log("INTRO START");
-        //Curdialogue = 0;
-        CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
-        //UpdateDialogue();
-
-        //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
-
-        //isResultDialogue = false;
-        currentDialogueType = DialogueType.INTRO;
-
         SetCSV();
-        dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
+        dialogueManager.StartDialogue(dialogueCSV, selectCSV, startLine);
     }
 
-    public void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
+    private void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
     {
         EventData eventdata = Days[Day].Events[Curevent];
         //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
@@ -132,45 +103,30 @@ public class Gamemanager : MonoBehaviour
         eventdata.resultCSV = eventdata.resultList[i];
         Debug.Log($"introCSV = {eventdata.introCSV}\nselectCSV = {eventdata.selectCSV}\nresultCSV = {eventdata.resultCSV}");
     }
+    private void StartDay()
+    {
+        Debug.Log("START DAY");
 
-    //private void UpdateDialogue()
-    //{
-    //    if (null == Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE)){
-    //        Customer.enabled = false;
-    //    }
-    //    else{
-    //        Customer.enabled = true;
-    //        Customer.sprite = Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE).GetSprite(Curstate);
-    //    }
+        Invoke("StartIntro", 2);
+    }
+    private void StartIntro()
+    {
+        Debug.Log("INTRO START");
+        //Curdialogue = 0;
+        CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
+        CurDrinks = Days[Day].Events[Curevent].OrderedDrinks;
+        //UpdateDialogue();
 
-    //Name.text = Days[Day].Events[Curevent].GetName(Curstate, Curdialogue);
-    //string text = Days[Day].Events[Curevent].GetDialogue(Curstate, Curdialogue);
+        //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
 
-    //if ("TeaGame" == text)Scenemanager.instance.Changescene("TeaGame");
-    //else Dialogue.text = text;
+        //isResultDialogue = false;
+        currentDialogueType = DialogueType.INTRO;
 
-    //if (Curstate == State.NORMAL && 0 == Curdialogue){
-    //    Animationmanager.instance.PlayAnim(1, "CustomerUp");
-    //    Animationmanager.instance.PlayAnim(0, "DialogueUp");
-    //}
-    //else{
-    //    Animationmanager.instance.PlayAnim(1, "CustomerInstUp", true);
-    //    Animationmanager.instance.PlayAnim(0, "DialogueInstUp", true);
-    //}
-    //}
+        StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
+    }
 
-    //public void Next()
-    //{
-    //    ++Curdialogue;
-    //    if (Curdialogue>= Days[Day].Events[Curevent].GetDialogueLength(Curstate))
-    //    {
-    //        EndDialogue();
-    //    }
-    //    else
-    //    {
-    //        UpdateDialogue();
-    //    }
-    //}
+
+
 
     public IEnumerator Judge(List<RecipeData> recipeData)
     {
@@ -186,15 +142,14 @@ public class Gamemanager : MonoBehaviour
         currentDialogueType = DialogueType.RESULT;
         Debug.Log("DialogueType => RESULT");
 
-        PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
+        //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
 
         if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
         {
             Debug.Log("GameManager Judge 성공");
 
-            ////일단주석
-            //dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
-            //Curstate = State.HAPPY;
+            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}", 0);
+
             foreach (var item in recipeData)
             {
                 Money += item.price;
@@ -204,9 +159,7 @@ public class Gamemanager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 실패");
 
-            ////일단주석
-            //dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
-            //Curstate = State.ANGRY;
+            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}", 1);
         }
     }
 
@@ -274,13 +227,8 @@ public class Gamemanager : MonoBehaviour
         }
         else
         {
-            Invoke("StartDialogue", 1);
+            Invoke("StartIntro", 1);
         }
-    }
-    public void CleanUp() //Animation 안 써서 지금 안 씀.
-    {
-        //Animationmanager.instance.PlayAnim(0, "DialogueInstDown", true);
-        //Animationmanager.instance.PlayAnim(1, "CustomerDown", true);
     }
 
     private bool IsDayFinished()

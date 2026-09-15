@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -117,6 +118,7 @@ public class DialogueManager : MonoBehaviour
             EndDialogue();
         }
     }
+
 
     #region Dialogue
     public void StartDialogue(string dialogueCSV, string selectCSV = null, int startLine = 0)

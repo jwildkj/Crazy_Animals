@@ -32,6 +32,7 @@ public class TeaGamemanager : MonoBehaviour
     private float targetpos;
     private Image[] LeafUImages = new Image[3];
     private Image[] LeafImages = new Image[3];
+    private Button Servebutton;
     //-------------------------------
 
     [Space(100)]
@@ -51,6 +52,7 @@ public class TeaGamemanager : MonoBehaviour
         Target = UImanager.instance.UIs[5];
         Leafs = UImanager.instance.UIs[6].transform;
         Toppings = UImanager.instance.UIs[7].GetComponent<Image>();
+        Servebutton = UImanager.instance.UIs[8].GetComponent<Button>();
         pointerrect = Pointer.GetComponent<RectTransform>();
 
         barheight     = Bar.GetComponent<RectTransform>().rect.height;
@@ -65,6 +67,7 @@ public class TeaGamemanager : MonoBehaviour
         LeafImages[0] = Leafs.GetChild(0).GetComponent<Image>();
         LeafImages[1] = Leafs.GetChild(1).GetComponent<Image>();
         LeafImages[2] = Leafs.GetChild(2).GetComponent<Image>();
+
     }
     public void AddBase(int _base)
     {
@@ -146,6 +149,7 @@ public class TeaGamemanager : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && brewfin)
             {
                 CurDrink = Judge();
+                Servebutton.interactable = true;
                 yield break;
             }
 
@@ -179,28 +183,10 @@ public class TeaGamemanager : MonoBehaviour
 
 
 
-    public void PutTeaOnTray(GameObject tea)
+    public void ToMainGame()
     {
-        
-        Debug.Log("AfterTea Start");
-
-        Image barimg = Bar.GetComponent<Image>();
-        Image pointerimg = Pointer.GetComponent<Image>();
-        Image targetimg = Target.GetComponent<Image>();
-        
-        StartCoroutine(Fade(FADE.OUT, 0.2f, barimg, pointerimg, targetimg));
-        
-
-
-
-
-    }
-
-    private void ToMainGame()
-    {
-        if (null != Gamemanager.instance && Gamemanager.instance.CurdrinkCount == CurDrinks.Count)
+        if (null != Gamemanager.instance)
         {
-            Debug.Log("AfterTea If¹® ¾ÈÂÊÀÔ´Ï´Ù.");
             Gamemanager.instance.ReturningFromTeaGame = true;
             Gamemanager.instance.StartCoroutine(Gamemanager.instance.Judge(CurDrinks));
             Scenemanager.instance.Changescene("MainGame");
