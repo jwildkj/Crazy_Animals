@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static Func;
@@ -27,7 +26,6 @@ public class TeaGamemanager : MonoBehaviour
     private GameObject Target;
     private RectTransform pointerrect;
     private float barheight;
-    private float pointer;
     private float targetheight;
     private float targetpos;
     private Image[] LeafUImages = new Image[3];
@@ -56,7 +54,6 @@ public class TeaGamemanager : MonoBehaviour
         pointerrect = Pointer.GetComponent<RectTransform>();
 
         barheight     = Bar.GetComponent<RectTransform>().rect.height;
-        pointer       = Pointer.GetComponent<RectTransform>().localScale.y;
         targetheight  = Target.GetComponent<RectTransform>().rect.height;
         targetpos     = Target.GetComponent<RectTransform>().anchoredPosition.y;
 
@@ -149,6 +146,8 @@ public class TeaGamemanager : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && brewfin)
             {
                 CurDrink = Judge();
+                CurDrinks.Add(CurDrink);
+                CurDrink = null;            
                 Servebutton.interactable = true;
                 yield break;
             }
@@ -173,6 +172,7 @@ public class TeaGamemanager : MonoBehaviour
         Vector2 TargetRange = new Vector2(targetpos - targetheight / 2, targetpos + targetheight / 2);
         TargetRange /= barheight;
 
+        float pointer = pointerrect.localScale.y;
         if (pointer >= TargetRange.x && pointer <= TargetRange.y){
             return outrecipe;
         }
