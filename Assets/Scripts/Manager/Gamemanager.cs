@@ -11,9 +11,9 @@ public class EventDataa
     public EventData[] Events;
 }
 
-public class Gamemanager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static Gamemanager instance;
+    public static GameManager instance;
     public DialogueManager dialogueManager;
 
     public int Day = 0;
@@ -79,29 +79,33 @@ public class Gamemanager : MonoBehaviour
         //if ( State.NORMAL == Curstate) StartDay();
         //else StartDialogue();
     }
-    private void StartDialogue(string dialogueCSV, string selectCSV = null, int startLine = 0)
-    {
-        SetCSV();
-        dialogueManager.StartDialogue(dialogueCSV, selectCSV, startLine);
+    private void StartDialogue(string dialogueCSV, int startLine = 0, string selectCSV = null) //이거 왜 분리했어? SetIntro에서 걍 해도 될 것 같은디
+    {        
+        dialogueManager.StartDialogue(dialogueCSV, startLine, selectCSV);
     }
 
     private void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
     {
-        EventData eventdata = Days[Day].Events[Curevent];
+        EventData eventData = Days[Day].Events[Curevent];
         //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
 
-        if (!(eventdata.introList.Length == eventdata.selectList.Length && eventdata.introList.Length == eventdata.resultList.Length))
+        //초기화
+        eventData.introCSV = "";
+        eventData.selectCSV = "";
+        eventData.resultCSV = "";
+
+        if (!(eventData.introList.Length == eventData.selectList.Length && eventData.introList.Length == eventData.resultList.Length))
         {
             Debug.LogWarning("introList, selectList, resultList의 길이가 다릅니다.");
             return;
         }
 
-        int i = UnityEngine.Random.Range(0, eventdata.introList.Length);
+        int i = UnityEngine.Random.Range(0, eventData.introList.Length);
 
-        eventdata.introCSV = eventdata.introList[i];
-        eventdata.selectCSV = eventdata.selectList[i];
-        eventdata.resultCSV = eventdata.resultList[i];
-        Debug.Log($"introCSV = {eventdata.introCSV}\nselectCSV = {eventdata.selectCSV}\nresultCSV = {eventdata.resultCSV}");
+        eventData.introCSV = eventData.introList[i];
+        eventData.selectCSV = eventData.selectList[i];
+        eventData.resultCSV = eventData.resultList[i];
+        Debug.Log($"introCSV = {eventData.introCSV}\nselectCSV = {eventData.selectCSV}\nresultCSV = {eventData.resultCSV}");
     }
     private void StartDay()
     {
@@ -122,11 +126,9 @@ public class Gamemanager : MonoBehaviour
         //isResultDialogue = false;
         currentDialogueType = DialogueType.INTRO;
 
-        StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
+        SetCSV();
+        StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", 0, $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
     }
-
-
-
 
     public IEnumerator Judge(List<RecipeData> recipeData)
     {
@@ -148,7 +150,7 @@ public class Gamemanager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 성공");
 
-            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}", 0);
+            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
 
             foreach (var item in recipeData)
             {
@@ -159,7 +161,7 @@ public class Gamemanager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 실패");
 
-            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}", 1);
+            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
         }
     }
 

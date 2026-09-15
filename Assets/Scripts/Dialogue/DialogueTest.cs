@@ -28,6 +28,6 @@ public class DialogueTest : MonoBehaviour
 
     public void SelectTest()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/dialoguecsvTest", "Dialogues/selectcsvTest");
+        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/dialoguecsvTest", 0, "Dialogues/selectcsvTest");
     }
 }

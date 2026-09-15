@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 public enum Managertype
 {
-    Gamemanager,
+    GameManager,
     Audiomanager,
     Scenemanager
 }
@@ -30,8 +30,8 @@ public class ButtonLinker : MonoBehaviour
             string targetmethod = Event.GetPersistentMethodName(index);
             switch (type[index])
             {
-                case Managertype.Gamemanager:
-                    Gamemanager targetobj = FindFirstObjectByType<Gamemanager>();
+                case Managertype.GameManager:
+                    GameManager targetobj = FindFirstObjectByType<GameManager>();
 
                     btn.onClick.AddListener(() => {
                         MethodInfo method = targetobj.GetType().GetMethod(targetmethod);

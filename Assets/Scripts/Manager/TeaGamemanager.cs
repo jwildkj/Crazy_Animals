@@ -185,10 +185,10 @@ public class TeaGamemanager : MonoBehaviour
 
     public void ToMainGame()
     {
-        if (null != Gamemanager.instance)
+        if (null != GameManager.instance)
         {
-            Gamemanager.instance.ReturningFromTeaGame = true;
-            Gamemanager.instance.StartCoroutine(Gamemanager.instance.Judge(CurDrinks));
+            GameManager.instance.ReturningFromTeaGame = true;
+            GameManager.instance.StartCoroutine(GameManager.instance.Judge(CurDrinks));
             Scenemanager.instance.Changescene("MainGame");
         }
     }

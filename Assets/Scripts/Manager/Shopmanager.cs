@@ -85,13 +85,13 @@ public class Shopmanager : MonoBehaviour
 
     private void ReorderSoldedItem(string _name = "")
     {
-        if (_name != "" && null != Gamemanager.instance) 
+        if (_name != "" && null != GameManager.instance) 
         {
             if(false == Resourcemanager.instance.NametoOwned[_name]) //buy
             {
-                if (Gamemanager.instance.Money < Resourcemanager.instance.NametoPrice[_name]) return;
+                if (GameManager.instance.Money < Resourcemanager.instance.NametoPrice[_name]) return;
                 Resourcemanager.instance.NametoOwned[_name] = true;
-                Gamemanager.instance.Money -= Resourcemanager.instance.NametoPrice[_name];
+                GameManager.instance.Money -= Resourcemanager.instance.NametoPrice[_name];
                 MoneyRefresh();
             }
             else //apply
@@ -131,6 +131,6 @@ public class Shopmanager : MonoBehaviour
     void MoneyRefresh()
     {
         if (null == MoneyText) MoneyText = UImanager.instance.UIs[1].GetComponent<TextMeshProUGUI>();
-        if (null != Gamemanager.instance) MoneyText.text = Gamemanager.instance.Money.ToString();
+        if (null != GameManager.instance) MoneyText.text = GameManager.instance.Money.ToString();
     }
 }

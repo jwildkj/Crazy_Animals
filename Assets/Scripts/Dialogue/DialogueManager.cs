@@ -121,7 +121,7 @@ public class DialogueManager : MonoBehaviour
 
 
     #region Dialogue
-    public void StartDialogue(string dialogueCSV, string selectCSV = null, int startLine = 0)
+    public void StartDialogue(string dialogueCSV, int startLine = 0, string selectCSV = null)
     {
         Debug.Log($"START DIALOGUE : {dialogueCSV}, startLine={startLine}");
 
