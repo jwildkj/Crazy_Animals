@@ -10,9 +10,9 @@ public class EventData:ScriptableObject
     public CustomerData[] Customers;
 
     [Header("Dialogue CSV")]
-    [SerializeField] private string[] introList;
-    [SerializeField] private string[] selectList;
-    [SerializeField] private string[] resultList;
+    public string[] introList;
+    public string[] selectList;
+    public string[] resultList;
 
     public string introCSV;
     public string selectCSV;
@@ -47,22 +47,4 @@ public class EventData:ScriptableObject
     {
         return Customers[(int)pos];
     }
-
-    public void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
-    {
-        //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
-
-        if (!(introList.Length == selectList.Length && introList.Length == resultList.Length))
-        {
-            Debug.LogWarning("introList, selectList, resultList의 길이가 다릅니다.");
-            return;
-        }
-
-        int i = Random.Range(0, introList.Length);
-
-        introCSV = introList[i];
-        selectCSV = selectList[i];
-        resultCSV = resultList[i];
-    }
-
 }

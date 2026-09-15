@@ -69,7 +69,6 @@ public class Gamemanager : MonoBehaviour
     }
     private void Init()
     {
-
         Debug.Log("INIT");
 
         //Animationmanager.instance.animations[0] = DialogueAnimation;
@@ -106,13 +105,32 @@ public class Gamemanager : MonoBehaviour
         CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
         //UpdateDialogue();
 
-        PortraitManager.instance.SetCustomer(
-        Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
+        //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
 
         //isResultDialogue = false;
         currentDialogueType = DialogueType.INTRO;
 
+        SetCSV();
         dialogueManager.StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
+    }
+
+    public void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
+    {
+        EventData eventdata = Days[Day].Events[Curevent];
+        //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
+
+        if (!(eventdata.introList.Length == eventdata.selectList.Length && eventdata.introList.Length == eventdata.resultList.Length))
+        {
+            Debug.LogWarning("introList, selectList, resultList의 길이가 다릅니다.");
+            return;
+        }
+
+        int i = UnityEngine.Random.Range(0, eventdata.introList.Length);
+
+        eventdata.introCSV = eventdata.introList[i];
+        eventdata.selectCSV = eventdata.selectList[i];
+        eventdata.resultCSV = eventdata.resultList[i];
+        Debug.Log($"introCSV = {eventdata.introCSV}\nselectCSV = {eventdata.selectCSV}\nresultCSV = {eventdata.resultCSV}");
     }
 
     //private void UpdateDialogue()

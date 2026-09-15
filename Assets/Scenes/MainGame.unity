@@ -1524,6 +1524,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 247780992}
   m_CullTransparentMesh: 1
+--- !u!114 &259001908 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2629683709996075373, guid: 87ca9ce4f33cd3d48b0b75dee76a1743, type: 3}
+  m_PrefabInstance: {fileID: 858927197}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8abea0bd75f153548b9917e7af587f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &268215348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,12 +2636,12 @@ GameObject:
   - component: {fileID: 512676441}
   - component: {fileID: 512676440}
   m_Layer: 5
-  m_Name: DialogueTestButton
+  m_Name: DialogueTestButton(Delete_\)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &512676439
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8417,18 +8428,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd45824a8ef2714bb8b90c59ac74b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueManager: {fileID: 0}
+  dialogueManager: {fileID: 259001908}
   Day: 0
   Time: 0
   Money: 9999999
   Days:
   - Events:
-    - {fileID: 11400000, guid: 3e393a7976f64294a87330fe8446600d, type: 2}
-    - {fileID: 11400000, guid: 97e9682c9eace6a40b00607f213ae975, type: 2}
-    - {fileID: 11400000, guid: 9f4e2d9b654faa44e90e36c38fc6622c, type: 2}
-    - {fileID: 11400000, guid: 30619005514c928478db203307685324, type: 2}
-  - Events: []
-  - Events: []
+    - {fileID: 11400000, guid: 0fd697a38753c4049b9abdcfab8d6b28, type: 2}
   Curevent: 0
   CurdrinkCount: 0
   ReturningFromTeaGame: 0
