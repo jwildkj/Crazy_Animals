@@ -19,7 +19,6 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private Text rightDialogueText;
 
     //private GameObject continueIcon;
-    //private GameObject portrait;
 
     [Header("Select UI")]
     [SerializeField] private GameObject selectButtons;
@@ -34,8 +33,12 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private Sprite buttonDefault;
     [SerializeField] private Sprite buttonHighlighted;
 
-    [Header("Dialogue State")]
+    [Header("Portrait UI")]
+    [SerializeField] private Image leftPortrait;
+    [SerializeField] private Image centerPortrait;
+    [SerializeField] private Image rightPortrait;
 
+    [Header("Dialogue State")]
     private int lineCount = 0; //대화 row 카운트
     private int contentCount = 0; //대사 카운트
 
@@ -122,6 +125,9 @@ public class DialogueUI : MonoBehaviour
         lineCount = startLine;
         contentCount = 0;
 
+        // Event 시작 시 Customer 3명을 배치
+        SetCustomers();
+
         DialogueWriter();
     }
 
@@ -150,8 +156,23 @@ public class DialogueUI : MonoBehaviour
 
         currentNameText.text = currentDialogue.name;
 
-        //int expressionIndex = currentDialogue.expression[contentCount];
-        //// PortraitManager.instance.SetExpression(expressionIndex);
+        //Expression
+        int expressionIndex = 0;
+
+        if (currentDialogue.expression != null &&
+            contentCount < currentDialogue.expression.Length)
+        {
+            expressionIndex =
+                currentDialogue.expression[contentCount];
+        }
+
+        if (!isBoss)
+        {
+            SetExpression(
+                currentDialogue.name,
+                expressionIndex
+            );
+        }
 
         //replaceText
         string replaceText = currentDialogue.content[contentCount];
@@ -338,6 +359,171 @@ public class DialogueUI : MonoBehaviour
     }
     #endregion
 
+    #region Portrait
+    private void SetCustomers()
+    {
+        EventData eventData = dialogueManager.CurrentEventData;
+
+        if (eventData == null)
+        {
+            Debug.LogError("Current EventData is NULL");
+            return;
+        }
+
+        if (eventData.Customers == null)
+        {
+            Debug.LogError("EventData.Customers is NULL");
+            return;
+        }
+
+        // 우선 모든 Portrait 초기화
+        HidePortraits();
+
+        int customerCount = Mathf.Min(eventData.Customers.Length, 3);
+
+        for (int i = 0; i < eventData.Customers.Length; i++)
+        {
+            CustomerData customer = eventData.Customers[i];
+
+            if (customer == null)
+            {
+                continue;
+            }
+
+            Image targetImage = GetPortraitImage(i);
+
+            if (targetImage == null)
+            {
+                continue;
+            }
+
+            Sprite portrait = customer.GetSprite(0);
+
+            if (portrait == null)
+            {
+                Debug.LogError(
+                    $"Default portrait not found. " +
+                    $"Customer = {customer.CustomerName}, " +
+                    $"Expression = 0"
+                );
+
+                continue;
+            }
+
+            targetImage.sprite = portrait;
+            targetImage.gameObject.SetActive(true);
+        }
+    }
+
+    private Image GetPortraitImage(int customerIndex)
+    {
+        switch (customerIndex)
+        {
+            case 0:
+                return leftPortrait;
+
+            case 1:
+                return centerPortrait;
+
+            case 2:
+                return rightPortrait;
+
+            default:
+                Debug.LogError(
+                    $"Unsupported Customer index : {customerIndex}"
+                );
+                return null;
+        }
+    }
+
+    private CustomerData FindCustomer(string customerName, out int customerIndex)
+    {
+        customerIndex = -1;
+
+        EventData eventData = dialogueManager.CurrentEventData;
+
+        if (eventData == null)
+        {
+            Debug.LogError("Current EventData is NULL");
+            return null;
+        }
+        if (eventData.Customers == null)
+        {
+            Debug.LogError("EventData.Customers is NULL");
+        }
+        
+        for (int i = 0; i < eventData.Customers.Length; i++)
+        {
+            CustomerData customer = eventData.Customers[i];
+
+            if (customer == null)
+            {
+                continue;
+            }
+
+            if (customer.CustomerName == customerName)
+            {
+                customerIndex = i;
+                return customer;
+            }
+        }
+
+        Debug.LogError($"Customer not found: {customerName}");
+
+        return null;
+    }
+
+    private void SetExpression(string customerName, int expression)
+    {
+        CustomerData customer = FindCustomer(customerName, out int customerIndex);
+
+        if (customer == null)
+        {
+            return;
+        }
+
+        Sprite portrait = customer.GetSprite(expression);
+
+        if (portrait == null)
+        {
+            Debug.LogError($"Portrait not found.\nCustomer = {customer.CustomerName}\nExpression = {expression}");
+
+            return;
+        }
+
+        Image targetImage = GetPortraitImage(customerIndex);
+
+        if (targetImage == null)
+        {
+            return;
+        }
+
+        targetImage.sprite = portrait;
+    }
+
+
+    private void HidePortraits()
+    {
+        if (leftPortrait != null)
+        {
+            leftPortrait.gameObject.SetActive(false);
+            leftPortrait.sprite = null;
+        }
+
+        if (centerPortrait != null)
+        {
+            centerPortrait.gameObject.SetActive(false);
+            centerPortrait.sprite = null;
+        }
+
+        if (rightPortrait != null)
+        {
+            rightPortrait.gameObject.SetActive(false);
+            rightPortrait.sprite = null;
+        }
+    }
+
+    #endregion
     private IEnumerator ContentTyping(Text currentText, string content)
     {
         isContentTyping = true;
