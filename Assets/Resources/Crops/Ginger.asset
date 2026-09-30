@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0a37822b99b6cb4fa0beaf43105b611, type: 3}
+  m_Name: Ginger
+  m_EditorClassIdentifier: 
+  Name: "\uC0DD\uAC15"
+  MaxGrowthIdx: 3
+  GrowthSprites:
+  - {fileID: 21300000, guid: b21231d663f630c48a5373cc67502838, type: 3}
+  - {fileID: 21300000, guid: 28d14289428779348981a77e628d51f0, type: 3}
+  - {fileID: 21300000, guid: 845199b242707b7499eb76f6f77c6493, type: 3}
+  - {fileID: 21300000, guid: 663bd3f06a56daf42b874d6eeaa36d91, type: 3}
