@@ -18,16 +18,16 @@ public class DialogueTest : MonoBehaviour
 
     public void DialogueExample()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/DialogueExample");
+        //FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/DialogueExample");
     }
 
     public void SkipTest()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/SkipTest");
+        //FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/SkipTest");
     }
 
     public void SelectTest()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/dialoguecsvTest", 0, "Dialogues/selectcsvTest");
+        //FindObjectOfType<DialogueManager>().StartDialogue("Dialogues/dialoguecsvTest", 0, "Dialogues/selectcsvTest");
     }
 }

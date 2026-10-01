@@ -15,6 +15,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueParser dialogueParser;
     [SerializeField] private SelectParser selectParser;
 
+    [Header("Current Event")]
+    private EventData currentEventData;
+    public EventData CurrentEventData => currentEventData;
+
     [Header("Dialogue State")]
     private string currentSelectCSV;
 
@@ -121,16 +125,22 @@ public class DialogueManager : MonoBehaviour
 
 
     #region Dialogue
-    public void StartDialogue(string dialogueCSV, int startLine = 0, string selectCSV = null)
+    public void StartDialogue(EventData eventData, string dialogueCSV, int startLine = 0, string selectCSV = null)
     {
         Debug.Log($"START DIALOGUE : {dialogueCSV}, startLine={startLine}");
 
+        if (eventData == null)
+        {
+            Debug.LogError("EventData is NULL");
+            return;
+        }
         if (dialogueParser == null)
         {
             Debug.LogError("DialogueParser is NULL");
             return;
         }
 
+        currentEventData = eventData;
         dialogues = dialogueParser.Parse(dialogueCSV);
 
         if (dialogues == null || dialogues.Length == 0)
@@ -142,6 +152,10 @@ public class DialogueManager : MonoBehaviour
         if (!string.IsNullOrEmpty(selectCSV))
         {
             currentSelectCSV = selectCSV;
+        }
+        else
+        {
+            currentSelectCSV = null;
         }
 
         // 선택지 상태 초기화
