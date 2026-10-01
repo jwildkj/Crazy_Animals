@@ -15,8 +15,8 @@ MonoBehaviour:
   EventName: TestEvent
   Customers:
   - {fileID: 0}
-  - {fileID: 11400000, guid: e5194efb168a5dd408eb2ec26e7ec347, type: 2}
   - {fileID: 0}
+  - {fileID: 11400000, guid: e5194efb168a5dd408eb2ec26e7ec347, type: 2}
   introList:
   - Test_IntroDialogue_01
   selectList:

@@ -80,8 +80,10 @@ public class GameManager : MonoBehaviour
         //else StartDialogue();
     }
     private void StartDialogue(string dialogueCSV, int startLine = 0, string selectCSV = null) //이거 왜 분리했어? SetIntro에서 걍 해도 될 것 같은디
-    {        
-        dialogueManager.StartDialogue(dialogueCSV, startLine, selectCSV);
+    {
+        EventData currentEvent = Days[Day].Events[Curevent];
+
+        dialogueManager.StartDialogue(currentEvent, dialogueCSV, startLine, selectCSV);
     }
 
     private void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정

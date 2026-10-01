@@ -373,34 +373,6 @@ MonoBehaviour:
     sprites:
     - {fileID: 21300000, guid: d558dfe89a5c1ea4387d7da2ea888735, type: 3}
     - {fileID: 21300000, guid: 3819fe0578bfa17409c16686e291cf35, type: 3}
-  - GroupName: Bokbunja
-    sprites:
-    - {fileID: 21300000, guid: 9aa20d534d061214385405320df48a1d, type: 3}
-    - {fileID: 21300000, guid: 506027c4a5236a74a8bf6755ba3cedef, type: 3}
-    - {fileID: 21300000, guid: 8959078857a5fa349821459751bf707d, type: 3}
-    - {fileID: 21300000, guid: bebf892c487e7f74fb3eca765479f3f3, type: 3}
-  - GroupName: Bokbunja
-    sprites:
-    - {fileID: 21300000, guid: b21231d663f630c48a5373cc67502838, type: 3}
-    - {fileID: 21300000, guid: 28d14289428779348981a77e628d51f0, type: 3}
-    - {fileID: 21300000, guid: 845199b242707b7499eb76f6f77c6493, type: 3}
-    - {fileID: 21300000, guid: 663bd3f06a56daf42b874d6eeaa36d91, type: 3}
-  - GroupName: Greentea
-    sprites:
-    - {fileID: 21300000, guid: 48441d5d8a6e90244bcac1c5b24aa94d, type: 3}
-    - {fileID: 21300000, guid: 91cd2c1ca2d05f449bfdb487efec815c, type: 3}
-    - {fileID: 21300000, guid: 5b37452851000ad4085348879a1b354e, type: 3}
-  - GroupName: Gukhwa
-    sprites:
-    - {fileID: 21300000, guid: 9b528bb4f3c29774ab36df90fda14cb5, type: 3}
-    - {fileID: 21300000, guid: 381165245cf32f5419e66fd2d4f3f959, type: 3}
-    - {fileID: 21300000, guid: 5650f2416824bc947a0ce35fd5f92a55, type: 3}
-    - {fileID: 21300000, guid: e3b55a29a988d9b4da5fbccfd60548e3, type: 3}
-  - GroupName: Suuk
-    sprites:
-    - {fileID: 21300000, guid: ee576243f24e9fa4398882d266233818, type: 3}
-    - {fileID: 21300000, guid: f8d7d7f8f2541754385ea9addfdca626, type: 3}
-    - {fileID: 21300000, guid: 22eadc7932942cb48ab1f0ccfc5755d4, type: 3}
 --- !u!4 &23983907
 Transform:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ MonoBehaviour:
     \uC11C\uC2E0\uC744 \uC804\uB2EC\uD558\uAE30 \uC704\uD574 \uCC3B\uC9D1\uC744 \uBC29\uBB38\uD55C\uB2E4."
   CustomerHistory: 
   CustomerSprite:
-  - {fileID: 21300000, guid: 8153f7dd3304a6443a59eec6fe1b938c, type: 3}
-  - {fileID: 21300000, guid: 8153f7dd3304a6443a59eec6fe1b938c, type: 3}
-  - {fileID: 21300000, guid: 8153f7dd3304a6443a59eec6fe1b938c, type: 3}
+  - {fileID: 21300000, guid: 99049afc22244784e8a58c8de43bd64f, type: 3}
+  - {fileID: 21300000, guid: 5a5c8f78fc2d9f147b0c48f1f5e3f2eb, type: 3}
+  - {fileID: 21300000, guid: b7b245f946ad9a34f8aedb7f45685df2, type: 3}
+  - {fileID: 21300000, guid: b57a67d7be7bc244e9f96a62b247641d, type: 3}
