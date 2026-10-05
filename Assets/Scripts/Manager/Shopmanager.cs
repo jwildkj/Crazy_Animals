@@ -89,9 +89,9 @@ public class Shopmanager : MonoBehaviour
         {
             if(false == Resourcemanager.instance.NametoOwned[_name]) //buy
             {
-                if (GameManager.instance.Money < Resourcemanager.instance.NametoPrice[_name]) return;
+                if (DataManager.instance.Money < Resourcemanager.instance.NametoPrice[_name]) return;
                 Resourcemanager.instance.NametoOwned[_name] = true;
-                GameManager.instance.Money -= Resourcemanager.instance.NametoPrice[_name];
+                DataManager.instance.Money -= Resourcemanager.instance.NametoPrice[_name];
                 MoneyRefresh();
             }
             else //apply
@@ -131,6 +131,6 @@ public class Shopmanager : MonoBehaviour
     void MoneyRefresh()
     {
         if (null == MoneyText) MoneyText = UImanager.instance.UIs[1].GetComponent<TextMeshProUGUI>();
-        if (null != GameManager.instance) MoneyText.text = GameManager.instance.Money.ToString();
+        if (null != GameManager.instance) MoneyText.text = DataManager.instance.Money.ToString();
     }
 }

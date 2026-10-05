@@ -16,10 +16,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public DialogueManager dialogueManager;
 
-    public int Day = 0;
-    public int Time = 0;
-    public int Money = 0;
-
     [Space(20)]
     public EventDataa[] Days;
 
@@ -81,14 +77,14 @@ public class GameManager : MonoBehaviour
     }
     private void StartDialogue(string dialogueCSV, int startLine = 0, string selectCSV = null) //이거 왜 분리했어? SetIntro에서 걍 해도 될 것 같은디
     {
-        EventData currentEvent = Days[Day].Events[Curevent];
+        EventData currentEvent = Days[DataManager.instance.Day].Events[Curevent];
 
         dialogueManager.StartDialogue(currentEvent, dialogueCSV, startLine, selectCSV);
     }
 
     private void SetCSV() //csv 배열 중 어느 대화를 진행할 지 랜덤으로 지정
     {
-        EventData eventData = Days[Day].Events[Curevent];
+        EventData eventData = Days[DataManager.instance.Day].Events[Curevent];
         //추후 일차에 따라 대화 내용(주문하는 차) 조건이 들어가야 하면 수정
 
         //초기화
@@ -119,8 +115,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("INTRO START");
         //Curdialogue = 0;
-        CurdrinkCount = Days[Day].Events[Curevent].OrderedDrinks.Count;
-        CurDrinks = Days[Day].Events[Curevent].OrderedDrinks;
+        CurdrinkCount = Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks.Count;
+        CurDrinks = Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks;
         //UpdateDialogue();
 
         //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
@@ -129,7 +125,7 @@ public class GameManager : MonoBehaviour
         currentDialogueType = DialogueType.INTRO;
 
         SetCSV();
-        StartDialogue($"Dialogues/{Days[Day].Events[Curevent].introCSV}", 0, $"Dialogues/{Days[Day].Events[Curevent].selectCSV}");
+        StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].introCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].selectCSV}");
     }
 
     public IEnumerator Judge(List<RecipeData> recipeData)
@@ -148,22 +144,22 @@ public class GameManager : MonoBehaviour
 
         //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
 
-        if (ScrambledEquals<RecipeData>(Days[Day].Events[Curevent].OrderedDrinks, recipeData))
+        if (ScrambledEquals<RecipeData>(Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks, recipeData))
         {
             Debug.Log("GameManager Judge 성공");
 
-            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 0);
+            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 0);
 
             foreach (var item in recipeData)
             {
-                Money += item.price;
+                DataManager.instance.Money += item.price;
             }
         }
         else
         {
             Debug.Log("GameManager Judge 실패");
 
-            StartDialogue($"Dialogues/{Days[Day].Events[Curevent].resultCSV}", 1);
+            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 1);
         }
     }
 
@@ -196,7 +192,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("OnIntroFinished 실행");
         
-        string resultCSV = Days[Day].Events[Curevent].resultCSV;
+        string resultCSV = Days[DataManager.instance.Day].Events[Curevent].resultCSV;
 
         if (string.IsNullOrWhiteSpace(resultCSV))
         {
@@ -237,12 +233,12 @@ public class GameManager : MonoBehaviour
 
     private bool IsDayFinished()
     {
-        return Curevent >= Days[Day].Events.Length;
+        return Curevent >= Days[DataManager.instance.Day].Events.Length;
     }
 
     private void DayEnd()
     {
-        ++Day;
+        ++DataManager.instance.Day;
         Curevent = 0;
         Scenemanager.instance.FadeOutAndChangeScene("Shop");
     }

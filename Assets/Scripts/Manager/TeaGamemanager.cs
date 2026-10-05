@@ -132,8 +132,6 @@ public class TeaGamemanager : MonoBehaviour
 
         while (true)
         {
-            if (null != Dictionarymanager.instance && true == Dictionarymanager.instance.DicEnabled)
-                continue;
 
             if (Input.GetMouseButton(0) && isbrewing)
             {

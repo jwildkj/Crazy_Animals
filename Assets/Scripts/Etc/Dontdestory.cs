@@ -30,7 +30,7 @@ public class Dontdestory : MonoBehaviour
         if(canvas && null == canvas.worldCamera)canvas.worldCamera = Camera.main;
         if (scene.name == "Shop" || scene.name == "Prologue" || scene.name == "Title")
             DisableUI();
-        if (scene.name == "MainGame")
+        if (scene.name == "Farm")
             EnableUI();
     }
     void EnableUI()

@@ -14,7 +14,7 @@ public enum Pages
 }
 public class Dictionarymanager : MonoBehaviour
 {
-    public static Dictionarymanager instance;
+    private static bool HasInstance = false;
     [SerializeField] public bool DicEnabled;
     [SerializeField] private Pages CurPage;
     [SerializeField] private int RecipePageIdx;
@@ -34,14 +34,14 @@ public class Dictionarymanager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (HasInstance)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            HasInstance = true;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
