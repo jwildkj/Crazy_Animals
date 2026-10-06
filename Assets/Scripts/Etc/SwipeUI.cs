@@ -50,12 +50,6 @@ public class SwipeUI : MonoBehaviour
 		scrollBar.value = scrollPageValues[index];
 	}
 
-	private void Update()
-	{
-		UpdateInput();
-
-		
-	}
 
 	private void UpdateInput()
 	{

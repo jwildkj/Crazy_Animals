@@ -45,6 +45,7 @@ public class FarmManager : MonoBehaviour
                 CropsImg[idx].sprite = PlantedCropData[idx].GrowthSprites[0];
                 CropsBtn[idx].interactable = false;
                 CropGrowthIndex[idx] = 0;
+                ++DataManager.instance.Base[Convert.ToInt32( CropsBtn[idx].gameObject.name)];
             });
         }
 

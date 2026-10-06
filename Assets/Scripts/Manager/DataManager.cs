@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class DataManager : MonoBehaviour
 {
+    const int INITALBASE = 3;
+    const int INITALTOPPING = 3;
+    
     public static DataManager instance;
     [Header("General")]
     public int Day = 0;
@@ -12,6 +14,10 @@ public class DataManager : MonoBehaviour
     [Space(20)]
     [Header("Farm")]
     public int[] CropGrowthIndex = new int[0];
+    [Space(20)]
+    [Header("Ingredients")]
+    public int[] Base = new int[(int)BASE.END];
+    public int[] Topping = new int[(int)TOPPING.END];
 
     private void Awake()
     {
@@ -23,6 +29,20 @@ public class DataManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+
+    }
+
+    private void OnValidate()
+    {
+        for (int i = 0; i < Base.Length; i++)
+        {
+            Base[i] = INITALBASE;
+        }
+        for (int i = 0; i < Topping.Length; i++)
+        {
+            Topping[i] = INITALTOPPING;
         }
     }
 }
