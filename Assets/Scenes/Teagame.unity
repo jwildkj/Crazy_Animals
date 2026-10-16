@@ -2280,8 +2280,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB179\uCC28"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5fe7a322f8bcfe641a073b35a374bc19, type: 2}
-  m_sharedMaterial: {fileID: -4664662653422744486, guid: 5fe7a322f8bcfe641a073b35a374bc19, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3d4cc743e1ceffe42a5bab8905343263, type: 2}
+  m_sharedMaterial: {fileID: 2066733173479118552, guid: 3d4cc743e1ceffe42a5bab8905343263, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
