@@ -28,10 +28,9 @@ MonoBehaviour:
     \uB3D9\uBC31\uCC28\uC774\uB2E4."
   CustomerHistory: 
   CustomerSprite:
-  - {fileID: 21300000, guid: 216795917b932794c86559ce13270880, type: 3}
-  - {fileID: 21300000, guid: 216795917b932794c86559ce13270880, type: 3}
-  - {fileID: 21300000, guid: 216795917b932794c86559ce13270880, type: 3}
-  - {fileID: 21300000, guid: 216795917b932794c86559ce13270880, type: 3}
+  - {fileID: 21300000, guid: 3c07daf29c9ade64faa9203ad3735fd1, type: 3}
+  - {fileID: 21300000, guid: 5f0959dbc3026b04dba0747074dc62bc, type: 3}
+  - {fileID: 21300000, guid: 3e99b158c5819e746a752f37c7f4cf58, type: 3}
   portraitSetting:
-    positionY: 0
-    size: {x: 100, y: 100}
+    positionY: 123
+    size: {x: 678, y: 834}

@@ -24,10 +24,10 @@ MonoBehaviour:
     \uC624\uD508\uD558\uAC8C \uB418\uBA70 \uACE0\uBBFC\uC744 \uD574\uACB0\uD55C\uB2E4."
   CustomerHistory: 
   CustomerSprite:
-  - {fileID: 21300000, guid: 0c31fea963b5a3c469e5c26692ed331c, type: 3}
-  - {fileID: 21300000, guid: 0c31fea963b5a3c469e5c26692ed331c, type: 3}
-  - {fileID: 21300000, guid: 0c31fea963b5a3c469e5c26692ed331c, type: 3}
-  - {fileID: 21300000, guid: 0c31fea963b5a3c469e5c26692ed331c, type: 3}
+  - {fileID: 21300000, guid: 62e6f5ff356fb9b4ba881f8eefb5be35, type: 3}
+  - {fileID: 21300000, guid: 79e6d905e6a5e9f4182b9828117670ea, type: 3}
+  - {fileID: 21300000, guid: 463466a6f0d8e4741b62a4b4d7262268, type: 3}
+  - {fileID: 21300000, guid: f17194b78fba15341ad7a2f9ce972473, type: 3}
   portraitSetting:
-    positionY: 0
-    size: {x: 100, y: 100}
+    positionY: 5
+    size: {x: 948, y: 956}
