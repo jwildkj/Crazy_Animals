@@ -36,11 +36,13 @@ public class Audiomanager : MonoBehaviour
     {
         int result = 0;
         int.TryParse(_idx, out result);
+        if(BGMsource.clip.name == Resourcemanager.instance.BGM[result].name) return;
         BGMsource.clip = Resourcemanager.instance.BGM[result];
         BGMsource.Play();
     }
     public void PlayBGM(int _idx)
     {
+        if (BGMsource.clip.name == Resourcemanager.instance.BGM[_idx].name) return;
         BGMsource.clip = Resourcemanager.instance.BGM[_idx];
         BGMsource.Play();
     }
