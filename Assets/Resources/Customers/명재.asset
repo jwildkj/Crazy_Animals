@@ -25,6 +25,7 @@ MonoBehaviour:
     \uBC29\uBB38\uD558\uAC8C \uB418\uC5C8\uB2E4. "
   CustomerHistory: 
   CustomerSprite:
-  - {fileID: 21300000, guid: 54bfdc75db2ff8b4f9123b9dacf264e1, type: 3}
-  - {fileID: 21300000, guid: 54bfdc75db2ff8b4f9123b9dacf264e1, type: 3}
-  - {fileID: 21300000, guid: 54bfdc75db2ff8b4f9123b9dacf264e1, type: 3}
+  - {fileID: 21300000, guid: 15b264982c577a1498bc0a73f4b98fd9, type: 3}
+  portraitSetting:
+    positionY: 0
+    size: {x: 590, y: 1080}
