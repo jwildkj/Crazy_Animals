@@ -240,6 +240,6 @@ public class GameManager : MonoBehaviour
     {
         ++DataManager.instance.Day;
         Curevent = 0;
-        Scenemanager.instance.FadeOutAndChangeScene("Shop");
+        Scenemanager.instance.FadeOutAndChangeScene("Farm");
     }
 }
