@@ -10,11 +10,15 @@ public class DialogueUI : MonoBehaviour
 
     [Header("Dialogue Bubble")]
     [SerializeField] private GameObject downBubble;
+    [SerializeField] private GameObject centerBubble;
     [SerializeField] private GameObject rightBubble;
 
     [SerializeField] private Text downNameText;
     [SerializeField] private Text downDialogueText;
 
+    [SerializeField] private Text centerNameText;
+    [SerializeField] private Text centerDialogueText;    
+ 
     [SerializeField] private Text rightNameText;
     [SerializeField] private Text rightDialogueText;
 
@@ -102,12 +106,14 @@ public class DialogueUI : MonoBehaviour
     public void ClearNameText()
     {
         downNameText.text = "";
+        centerNameText.text = "";
         rightNameText.text = "";
     }
 
     public void ClearDialogueText()
     {
         downDialogueText.text = "";
+        centerDialogueText.text = "";
         rightDialogueText.text = "";
     }
     #endregion
@@ -115,6 +121,7 @@ public class DialogueUI : MonoBehaviour
     public void HideBubbles()
     {
         downBubble.SetActive(false);
+        centerBubble.SetActive(false);
         rightBubble.SetActive(false);
     }
 
@@ -141,21 +148,60 @@ public class DialogueUI : MonoBehaviour
         //bool isNamed = !string.IsNullOrEmpty(dialogueManager.dialogues[lineCount].name);
         bool isBoss = currentDialogue.name == "사장";
 
-        downBubble.SetActive(isBoss);
-        rightBubble.SetActive(!isBoss);
+        //downBubble.SetActive(isBoss);
+        //centerBubble.SetActive(!isBoss);
+        //rightBubble.SetActive(!isBoss);
+        HideBubbles();
 
         Text currentNameText;
         Text currentDialogueText;
 
         if (isBoss)
         {
+            downBubble.SetActive(true);
             currentNameText = downNameText;
             currentDialogueText = downDialogueText;
         }
         else
         {
-            currentNameText = rightNameText;
-            currentDialogueText = rightDialogueText;
+            //currentNameText = rightNameText;
+            //currentDialogueText = rightDialogueText;
+
+            // 대화하는 Customer의 자리 확인
+            CustomerData customer = FindCustomer(currentDialogue.name, out int customerIndex);
+
+            if (customer == null)
+            {
+                return;
+            }
+
+            // Customer 자리별 대화창 선택
+            switch (customerIndex)
+            {
+                case 0: // Left →일단 없으니까 Center로
+                    centerBubble.SetActive(true);
+                    currentNameText = centerNameText;
+                    currentDialogueText = centerDialogueText;
+                    break;
+
+                case 1: // Center
+                    centerBubble.SetActive(true);
+                    currentNameText = centerNameText;
+                    currentDialogueText = centerDialogueText;
+                    break;
+
+                case 2: // Right
+                    rightBubble.SetActive(true);
+                    currentNameText = rightNameText;
+                    currentDialogueText = rightDialogueText;
+                    break;
+
+                default:
+                    rightBubble.SetActive(true);
+                    currentNameText = rightNameText;
+                    currentDialogueText = rightDialogueText;
+                    return;
+            }
         }
 
         currentNameText.text = currentDialogue.name;

@@ -515,9 +515,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 211
       objectReference: {fileID: 0}
+    - target: {fileID: 1650268740359447631, guid: 87ca9ce4f33cd3d48b0b75dee76a1743, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2629683708859397272, guid: 87ca9ce4f33cd3d48b0b75dee76a1743, type: 3}
       propertyPath: m_Name
       value: DialogueCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629683708859397272, guid: 87ca9ce4f33cd3d48b0b75dee76a1743, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2629683708859397276, guid: 87ca9ce4f33cd3d48b0b75dee76a1743, type: 3}
       propertyPath: m_Pivot.x
@@ -1517,6 +1525,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 23a3e69eb55eba14d8d43e3360065021, type: 2}
     - {fileID: 11400000, guid: 875c9d577474ebe438af7af88f1fa4b3, type: 2}
     - {fileID: 11400000, guid: 3a6847d67fabe6246a196ac5a69aee93, type: 2}
+  - Events:
+    - {fileID: 11400000, guid: 143cf99db2ea1b94ebb79f70033784ee, type: 2}
+    - {fileID: 11400000, guid: 0646f44cdb91dc14daa69200423551ff, type: 2}
+    - {fileID: 11400000, guid: c6b13f18f7d50f948a3cbf01709d82c6, type: 2}
+  - Events:
+    - {fileID: 11400000, guid: 7b9d907fd4b46a147a12544440c1e7fc, type: 2}
+    - {fileID: 11400000, guid: f82da4a60cb3f19498df15085ddfccfa, type: 2}
+    - {fileID: 11400000, guid: 53dc400859c321244a89e12b57e5a4da, type: 2}
   Curevent: 0
   CurdrinkCount: 0
   CurDrinks: []

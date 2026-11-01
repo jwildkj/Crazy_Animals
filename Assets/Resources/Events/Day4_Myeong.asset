@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b41f2f9183ea484f8c5c12ec313eec7, type: 3}
+  m_Name: Day4_Myeong
+  m_EditorClassIdentifier: 
+  EventName: 
+  Customers:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: b35462bd51377044891e19c991dc4f46, type: 2}
+  - {fileID: 11400000, guid: 915c48fd86e64d74c8a0bd25eb533d28, type: 2}
+  introList:
+  - Day4_Myeong_Intro
+  selectList:
+  - 
+  resultList:
+  - Day4_Myeong_Result
+  introCSV: 
+  selectCSV: 
+  resultCSV: 
+  OrderedDrinks:
+  - {fileID: 11400000, guid: a5602d2d90d1f6242adb15adec888149, type: 2}
+  - {fileID: 11400000, guid: a052fb8fc0591424b81859a81cbfd307, type: 2}

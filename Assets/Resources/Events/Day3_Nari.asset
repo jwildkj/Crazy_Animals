@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b41f2f9183ea484f8c5c12ec313eec7, type: 3}
+  m_Name: Day3_Nari
+  m_EditorClassIdentifier: 
+  EventName: 
+  Customers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 73269fbb9c638fa4d968ebc635f2c535, type: 2}
+  introList:
+  - Day3_Nari_Intro
+  selectList:
+  - 
+  resultList:
+  - Day3_Nari_Result
+  introCSV: 
+  selectCSV: 
+  resultCSV: 
+  OrderedDrinks:
+  - {fileID: 11400000, guid: cc0cec481b9338e4a924cda0c45d9714, type: 2}
