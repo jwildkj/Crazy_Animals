@@ -5,9 +5,8 @@ using UnityEngine.UI;
 public class FarmManager : MonoBehaviour
 {
     [SerializeField]private SwipeUI SwipeUI;
-    private Transform CropsPar;
-    private Image[] CropsImg;
-    private Button[] CropsBtn;
+    [SerializeField] private Image[] CropsImg;
+    [SerializeField] private Button[] CropsBtn;
     private Animator LArrAnim;
     private Animator RArrAnim;
     [Header("Data")]
@@ -28,25 +27,31 @@ public class FarmManager : MonoBehaviour
 
     private void Start()
     {
-        CropsPar = UImanager.instance.UIs[0].GetComponent<Transform>();
         LArrAnim = UImanager.instance.UIs[1].GetComponent<Animator>();
         RArrAnim = UImanager.instance.UIs[2].GetComponent<Animator>();
-        Array.Resize(ref CropsBtn, CropsPar.childCount);
-        Array.Resize(ref CropsImg, CropsPar.childCount);
-        for (int i = 0; i < CropsPar.childCount; i++)
+
+        Transform[] CropsPars = new Transform[2] {
+            UImanager.instance.UIs[0].GetComponent<Transform>(),
+            UImanager.instance.UIs[5].GetComponent<Transform>()
+        };
+        Array.Resize(ref CropsBtn, PlantedCropData.Length);
+        Array.Resize(ref CropsImg, PlantedCropData.Length);
+        int realidx = 0;
+        for (int i = 0; i < CropsPars.Length; i++)
         {
-            CropsImg[i] = CropsPar.GetChild(i).GetComponent<Image>();
-            CropsBtn[i] = CropsPar.GetChild(i).GetComponent<Button>();
-        }
-        for (int i = 0; i < CropsBtn.Length; i++)
-        {
-            int idx = i;
-            CropsBtn[i].onClick.AddListener(()=>{
-                CropsImg[idx].sprite = PlantedCropData[idx].GrowthSprites[0];
-                CropsBtn[idx].interactable = false;
-                CropGrowthIndex[idx] = 0;
-                ++DataManager.instance.Base[Convert.ToInt32( CropsBtn[idx].gameObject.name)];
-            });
+            for (int j = 0; j < CropsPars[i].childCount; j++)
+            {
+                CropsImg[realidx] = CropsPars[i].GetChild(j).GetComponent<Image>();
+                CropsBtn[realidx] = CropsPars[i].GetChild(j).GetComponent<Button>();
+                int idx = realidx;
+                CropsBtn[realidx].onClick.AddListener(()=>{
+                    CropsImg[idx].sprite = PlantedCropData[idx].GrowthSprites[0];
+                    CropsBtn[idx].interactable = false;
+                    CropGrowthIndex[idx] = 0;
+                    ++DataManager.instance.Base[Convert.ToInt32( CropsBtn[idx].gameObject.name)];
+                });    
+                realidx++;  
+            }
         }
 
         if(PlantedCropData.Length != CropGrowthIndex.Length){
@@ -80,13 +85,20 @@ public class FarmManager : MonoBehaviour
     public void ScrollLeft()
     {
         SwipeUI.ToLeft();
+        ArrowCheck();
     }
     public void ScrollRight()
     {
         SwipeUI.ToRight();
+        ArrowCheck();
 
     }
-
+    private void ArrowCheck()
+    {
+        if (SwipeUI.currentPage == 0) { UImanager.instance.UIs[1].SetActive(false); }
+        else if (SwipeUI.currentPage == SwipeUI.maxPage - 1) { UImanager.instance.UIs[2].SetActive(false); }
+        else { UImanager.instance.UIs[1].SetActive(true); UImanager.instance.UIs[2].SetActive(true); }
+    }
     public void ArrAnimEnter(string _dir)
     {
         if (_dir == "L")

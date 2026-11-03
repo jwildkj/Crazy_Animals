@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,11 +26,11 @@ public class TeaGamemanager : MonoBehaviour
     private Transform Theometer;
     private GameObject Bar;
     private GameObject Pointer; 
-    private GameObject Target;
+    private RectTransform Target;
     private RectTransform pointerrect;
     private float barheight;
     private float targetheight;
-    private float targetpos;
+    private float targetpos; //182 ~ 575
     private Image[] LeafUImages = new Image[3];
     private Image[] LeafImages = new Image[3];
     private Button[] BaseButtons = new Button[(int)BASE.END];
@@ -48,6 +47,7 @@ public class TeaGamemanager : MonoBehaviour
     [SerializeField] private List<BASE> CurBases;
     [SerializeField] private List<TOPPING> CurToppings;
     [SerializeField] private List<RecipeData> CurDrinks;
+    private bool Brewed = false;
 
     private void Start()
     {
@@ -56,7 +56,7 @@ public class TeaGamemanager : MonoBehaviour
         Theometer = UImanager.instance.UIs[2].transform;
         Bar = UImanager.instance.UIs[3];
         Pointer = UImanager.instance.UIs[4];
-        Target = UImanager.instance.UIs[5];
+        Target = UImanager.instance.UIs[5].GetComponent<RectTransform>();
         Leafs = UImanager.instance.UIs[6].transform;
         Toppings = UImanager.instance.UIs[7].GetComponent<Image>();
         Servebutton = UImanager.instance.UIs[8].GetComponent<Button>();
@@ -65,8 +65,6 @@ public class TeaGamemanager : MonoBehaviour
         pointerrect = Pointer.GetComponent<RectTransform>();
 
         barheight     = Bar.GetComponent<RectTransform>().rect.height;
-        targetheight  = Target.GetComponent<RectTransform>().rect.height;
-        targetpos     = Target.GetComponent<RectTransform>().anchoredPosition.y;
 
         LeafUImages[0] = LeafUIs.GetChild(0).GetComponent<Image>();
         LeafUImages[1] = LeafUIs.GetChild(1).GetComponent<Image>();
@@ -149,6 +147,11 @@ public class TeaGamemanager : MonoBehaviour
         if (null != CurDrink) return;
         //init
 
+        targetpos = UnityEngine.Random.Range(575 , 575); //182 ~ 575
+        targetheight = 175;
+        Target.sizeDelta = new Vector2(60.64f, targetheight);
+        Target.anchoredPosition = new Vector2(-0.63f, targetpos);
+
         Animationmanager.instance.PlayAnim(3, "ToBrew");
         LeafUIs.gameObject.SetActive(false);
         StopAllCoroutines();
@@ -172,8 +175,8 @@ public class TeaGamemanager : MonoBehaviour
             if (Input.GetMouseButton(0) && isbrewing)
             {
                 pointerrect.localScale += new Vector3(0, PointerSpeed, 1) * Time.deltaTime;
-                if (pointerrect.localScale.y > 1)
-                    pointerrect.localScale = new Vector2(1, 1);
+                if (pointerrect.localScale.y > 0.99f)
+                    pointerrect.localScale = new Vector2(1, 0.99f);
 
                 yield return null;
             }
@@ -181,6 +184,7 @@ public class TeaGamemanager : MonoBehaviour
             {
                 CurDrink = Judge();
                 CurDrinks.Add(CurDrink);
+                Brewed = true;
                 CurDrink = null;            
                 Servebutton.interactable = true;
                 yield break;
@@ -219,11 +223,21 @@ public class TeaGamemanager : MonoBehaviour
 
     public void ToMainGame()
     {
+        if(CurDrinks.Count < GameManager.instance.CurdrinkCount)
+        {
+            StartCoroutine(NextTea());
+            return;
+        }
         if (null != GameManager.instance)
         {
             GameManager.instance.ReturningFromTeaGame = true;
-            GameManager.instance.StartCoroutine(GameManager.instance.Judge(CurDrinks));
-            Scenemanager.instance.Changescene("MainGame");
+            Animationmanager.instance.PlayAnim(7, "TeaSubmit");
+
+            DelayAction(GameManager.instance, 0.23f, () => {
+                Scenemanager.instance.Changescene("MainGame");
+                GameManager.instance.StartCoroutine(GameManager.instance.Judge(CurDrinks));
+            });
+
         }
     }
     private void RefreshleafUI()
@@ -256,6 +270,11 @@ public class TeaGamemanager : MonoBehaviour
         CurBases.Clear();
         CurToppings.Clear();
         CurDrink = null;
+        if (Brewed)
+        {
+            CurDrinks[CurDrinks.Count - 1] = null;
+            Brewed = false;
+        }
 
         StopAllCoroutines();
         Animationmanager.instance.PlayAnim(3, "Toingred");
@@ -264,7 +283,23 @@ public class TeaGamemanager : MonoBehaviour
         Animationmanager.instance.PlayAnim(5, "TheometerDisappear");
         RefreshleafUI();
     }
+    IEnumerator NextTea()
+    {
+        int prevbasecount = CurBases.Count;
+        CurBases.Clear();
+        CurToppings.Clear();
+        CurDrink = null;
 
+        Animationmanager.instance.PlayAnim(5, "TheometerDisappear");
+        Animationmanager.instance.PlayAnim(7, "NextTea");
+        yield return new WaitForSeconds(0.6f);
+        for (int i = 0; i < prevbasecount; i++) Animationmanager.instance.PlayAnim(i, "TeaLeafDisappear", true);
+        Animationmanager.instance.PlayAnim(3, "Toingred");
+        yield return new WaitForSeconds(0.5f);
+        LeafUIs.gameObject.SetActive(true);
+        Theometer.gameObject.SetActive(false);
+        RefreshleafUI();
+    }
 
 
 

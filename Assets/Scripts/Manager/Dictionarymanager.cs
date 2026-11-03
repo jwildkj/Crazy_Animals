@@ -18,20 +18,24 @@ public class Dictionarymanager : MonoBehaviour
     [SerializeField] public bool DicEnabled;
     [SerializeField] private Pages CurPage;
     [SerializeField] private Pages PrevPage;
-    [SerializeField] private int RecipePageIdx;
     [SerializeField] private GameObject[] PagesObj;
+    [SerializeField] private int PageIdx;
     [Header("Customer")]
-    [SerializeField] private Transform CustomerLeftPar;
-    [SerializeField] private Transform CustomerRightPar;
+    [SerializeField] private Transform[] Customerpages = new Transform[4];
+    [SerializeField] private int CustomerMaxpage;
+    [SerializeField] private Transform Customer;
     [SerializeField] private GameObject CustomerPrefab;
     [SerializeField] private GameObject CustomerInfo;
     [Header("Recipe")]
+    [SerializeField] private Transform[] Recipepages = new Transform[4];
+    [SerializeField] private int RecipeMaxpage;
     [SerializeField] private Transform Recipe;
     [SerializeField] private GameObject RecipePrefab;
-    [SerializeField] private GameObject PaddingPrefab;
 
-    [SerializeField] private GameObject ArrowLeft;
-    [SerializeField] private GameObject ArrowRight;
+    [SerializeField] private GameObject CustomerArrowLeft;
+    [SerializeField] private GameObject CustomerArrowRight;
+    [SerializeField] private GameObject RecipeArrowLeft;
+    [SerializeField] private GameObject RecipeArrowRight;
     [SerializeField] private Animation[] BookMarkAnim = new Animation[2];
 
     private void Awake()
@@ -62,14 +66,16 @@ public class Dictionarymanager : MonoBehaviour
                 BookMarkAnim[1].Play("BookMarkInit2");
                 break;
             case Pages.CUSTOMER:
+                PageIdx = 0;
                 CustomerReload();
+                UpdatePage();
                 break;
             case Pages.CUSTOMERINFO:
                 break;
             case Pages.RECIPES:
-                RecipePageIdx = 0;
+                PageIdx = 0;
                 RecipesReload();
-                UpdateRecipePage();
+                UpdatePage();
                 break;
         }
     }
@@ -79,33 +85,42 @@ public class Dictionarymanager : MonoBehaviour
         if (PrevPage == Pages.RECIPES) BookMarkAnim[1].Play("BookMarkDeHighlighted2");
         if (PrevPage == Pages.TITLE) BookMarkAnim[0].Play("BookMarkHighlighted1");
 
-        if (CustomerLeftPar.childCount > 0) return;
+        if (Customer.GetChild(0).GetChild(0).childCount > 0) return;
 
+        for (int i = 0; i < Customerpages.Length; i++) { Customerpages[i] = Customer.GetChild(i); }
         CustomerData[] customers = Resourcemanager.instance.allCustomers;
+        CustomerMaxpage = (customers.Length / 12) + 1;
 
-        for (int i = 0; i < customers.Length; i++)
+
+        for (int i = 0; i < CustomerMaxpage; i++)
         {
-            GameObject customercell = null;
-            if (i < 6){
-                customercell = Instantiate(CustomerPrefab, CustomerLeftPar);
+            for (int j = 0; j < 12; j++)
+            {
+                if ((j + 12 * i) >= customers.Length) break;
+                GameObject customercell = null;
+                if (j < 6){
+                    customercell = Instantiate(CustomerPrefab, Customerpages[i].GetChild(0));
+                }
+                else{
+                    customercell = Instantiate(CustomerPrefab, Customerpages[i].GetChild(1));
+                }
+
+                TextMeshProUGUI name = customercell.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI desc = customercell.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                Image subnail = customercell.transform.GetChild(2).GetComponent<Image>();
+
+                name.text = customers[j + 12 * i].CustomerName;
+                desc.text = customers[j + 12 * i].CustomerSummary;
+                subnail.sprite = customers[j + 12 * i].Subnail;
+                customercell.name = (j + 12 * i).ToString();
+
+                Button btn = customercell.GetComponent<Button>();
+                btn.onClick.AddListener(() => {
+                    GetCustomerInfo(Resourcemanager.instance.allCustomers[int.Parse(customercell.name) ]);
+                });
+                CustomerArrowLeft = Customer.GetChild(Customer.childCount - 2).gameObject;
+                CustomerArrowRight = Customer.GetChild(Customer.childCount - 1).gameObject;
             }
-            else{
-                customercell = Instantiate(CustomerPrefab, CustomerRightPar);
-            }
-
-            TextMeshProUGUI name = customercell.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI desc = customercell.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            Image subnail = customercell.transform.GetChild(2).GetComponent<Image>();
-
-            name.text = customers[i].CustomerName;
-            desc.text = customers[i].CustomerSummary;
-            subnail.sprite = customers[i].Subnail;
-            customercell.name = i.ToString();
-
-            Button btn = customercell.GetComponent<Button>();
-            btn.onClick.AddListener(() => {
-                GetCustomerInfo(Resourcemanager.instance.allCustomers[int.Parse(customercell.name) ]);
-            });
         }
     }
 
@@ -128,26 +143,28 @@ public class Dictionarymanager : MonoBehaviour
 
     }
 
-    Transform[] Recipepages = new Transform[5];
-    int Maxpage;
+
     private void RecipesReload()
     {
-        for (int i = 0; i < 5; i++){ Recipepages[i] = Recipe.GetChild(i); }
         if (PrevPage == Pages.CUSTOMER) BookMarkAnim[0].Play("BookMarkDeHighlighted1");
         if (PrevPage == Pages.TITLE) BookMarkAnim[1].Play("BookMarkHighlighted2");
 
         if (Recipe.GetChild(0).GetChild(0).childCount > 0) return;
 
-        RecipeData[] recipes = Resourcemanager.instance.allRecipes;
-        int pagesidx = Maxpage = recipes.Length / 6;
-        int leftover = recipes.Length % 6;
+        for (int i = 0; i < Recipepages.Length; i++){ Recipepages[i] = Recipe.GetChild(i); }
 
-        for (int i = 0; i < pagesidx; i++)
+
+        RecipeData[] recipes = Resourcemanager.instance.allRecipes;
+        RecipeMaxpage = (recipes.Length / 6) + 1;
+
+        for (int i = 0; i < RecipeMaxpage; i++)
         {
-            GameObject recipecell = null;
-            for (int j = 6 * i; j < 6 * (i+1);  j++)
+            for (int j = 0; j < 6; j++)
             {
-                if (j < (6*i) + 3)
+                if ((j + 6 * i) >= recipes.Length) break;
+                GameObject recipecell = null;
+
+                if (j < 3)
                 {
                     recipecell = Instantiate(RecipePrefab, Recipepages[i].GetChild(0));
                 }
@@ -160,44 +177,14 @@ public class Dictionarymanager : MonoBehaviour
                 TextMeshProUGUI desc = recipecell.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
                 Image subnail = recipecell.transform.GetChild(2).GetComponent<Image>();
 
-                name.text = recipes[j].drinkName;
-                desc.text = Recipetostring(recipes[j].requiredBases, recipes[j].requiredToppings);
-                subnail.sprite = recipes[j].resultSprite;
-                recipecell.name = j.ToString();
+                name.text = recipes[j + 6 * i].drinkName;
+                desc.text = Recipetostring(recipes[j + 6 * i].requiredBases, recipes[j + 6 * i].requiredToppings);
+                subnail.sprite = recipes[j + 6 * i].resultSprite;
+                recipecell.name = (j + 6 * i).ToString();
             }
         }
-        int leftovercount = 0;
-        for (int i = pagesidx * 6; i < pagesidx * 6 +leftover; i++)
-        {
-            GameObject recipecell = null;
-            if (i < 3 + pagesidx * 6)
-            {
-                recipecell = Instantiate(RecipePrefab, Recipepages[pagesidx].GetChild(0));
-            }
-            else
-            {
-                recipecell = Instantiate(RecipePrefab, Recipepages[pagesidx].GetChild(1));
-            }
-
-            TextMeshProUGUI name = recipecell.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI desc = recipecell.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-            Image subnail = recipecell.transform.GetChild(2).GetComponent<Image>();
-
-            name.text = recipes[i].drinkName;
-            desc.text = Recipetostring(recipes[i].requiredBases, recipes[i].requiredToppings);
-            subnail.sprite = recipes[i].resultSprite;
-            recipecell.name = i.ToString();
-            ++leftovercount;
-        }
-
-        if ( 2 == leftovercount) {
-            Instantiate(PaddingPrefab, Recipepages[pagesidx].GetChild(0));
-        }else if(5 == leftovercount) {
-            Instantiate(PaddingPrefab, Recipepages[pagesidx].GetChild(1));
-        }
-
-        ArrowLeft = Recipe.GetChild(Recipe.childCount - 2).gameObject;
-        ArrowRight = Recipe.GetChild(Recipe.childCount -1).gameObject;
+        RecipeArrowLeft = Recipe.GetChild(Recipe.childCount - 2).gameObject;
+        RecipeArrowRight = Recipe.GetChild(Recipe.childCount -1).gameObject;
 
 
     }
@@ -210,21 +197,37 @@ public class Dictionarymanager : MonoBehaviour
 
         return $"베이스 : {baseText}\n토핑 : {toppingText}";
     }
-    public void Next() { RecipePageIdx++; UpdateRecipePage(); }
-    public void Prev() { RecipePageIdx--; UpdateRecipePage(); }
+    public void Next() { PageIdx++; UpdatePage(); }
+    public void Prev() { PageIdx--; UpdatePage(); }
 
-    void UpdateRecipePage()
+    void UpdatePage()
     {
-        for (int i = 0; i < Recipepages.Length; i++)
-            Recipepages[i].gameObject.SetActive(false);
+        if(CurPage == Pages.CUSTOMER)
+        {
+            for (int i = 0; i < Customerpages.Length; i++)
+                Customerpages[i].gameObject.SetActive(false);
 
-        Recipepages[RecipePageIdx].gameObject.SetActive(true);  
+            Customerpages[PageIdx].gameObject.SetActive(true);
 
-        if(0 == RecipePageIdx) ArrowLeft.gameObject.SetActive(false);
-        else ArrowLeft.gameObject.SetActive(true);
+            if (0 == PageIdx)   CustomerArrowLeft.gameObject.SetActive(false);
+            else CustomerArrowLeft.gameObject.SetActive(true);
 
-        if (Maxpage <= RecipePageIdx) ArrowRight.gameObject.SetActive(false);
-        else ArrowRight.gameObject.SetActive(true);
+            if (CustomerMaxpage - 1 <= PageIdx) CustomerArrowRight.gameObject.SetActive(false);
+            else CustomerArrowRight.gameObject.SetActive(true);
+        }
+        else
+        {
+            for (int i = 0; i < Recipepages.Length; i++)
+                Recipepages[i].gameObject.SetActive(false);
+
+            Recipepages[PageIdx].gameObject.SetActive(true);  
+
+            if(0 == PageIdx) RecipeArrowLeft.gameObject.SetActive(false);
+            else RecipeArrowLeft.gameObject.SetActive(true);
+
+            if (RecipeMaxpage - 1 <= PageIdx) RecipeArrowRight.gameObject.SetActive(false);
+            else RecipeArrowRight.gameObject.SetActive(true);
+        }
     }
 
     public void SetEnabled(bool _enabled)

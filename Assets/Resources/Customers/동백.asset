@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: "\uB3D9\uBC31"
   m_EditorClassIdentifier: 
   CustomerID: 7
-  Subnail: {fileID: 21300000, guid: e58f9ae8ef779fe438aadc04495ad9dd, type: 3}
+  Subnail: {fileID: 21300000, guid: 2973f09e71153134e8799a78ee7c0fca, type: 3}
   CustomerName: "\uB3D9\uBC31"
-  CustomerSummary: "\uBC31\uC5EC\uC6B0 \uC608\uC5B8\uAC00"
+  CustomerSummary: "\uC608\uC5B8\uAC00 \uBC31\uC5EC\uC6B0"
   FavoriteTea: 
   CustomerDesc: "\uB098\uC774 \uB9CE\uC740 \uBC31\uC5EC\uC6B0. \uC911\uB144\uC758
     \uB0A8\uC131 \uBAA8\uC2B5\uC744 \uD558\uACE0 \uC788\uB2E4. \uC9C1\uC5C5\uC740

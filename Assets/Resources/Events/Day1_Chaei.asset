@@ -23,8 +23,8 @@ MonoBehaviour:
   - 
   resultList:
   - Day1_Chaei_Result
-  introCSV: 
+  introCSV: Day1_Chaei_Intro
   selectCSV: 
-  resultCSV: 
+  resultCSV: Day1_Chaei_Result
   OrderedDrinks:
   - {fileID: 11400000, guid: 3299ddbe76f86894983c2c64a3a87cbf, type: 2}

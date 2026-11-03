@@ -152,6 +152,7 @@ public class GameManager : MonoBehaviour
 
             foreach (var item in recipeData)
             {
+                if (item == null) continue;
                 DataManager.instance.Money += item.price;
             }
         }

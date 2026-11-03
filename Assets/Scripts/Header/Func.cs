@@ -157,6 +157,7 @@ public static class Func
         }
         foreach (T x in list2)
         {
+            if(x == null) continue;
             if (cnt.ContainsKey(x)) cnt[x]--; else return false;
         }
         return cnt.Values.All(c => c == 0);
