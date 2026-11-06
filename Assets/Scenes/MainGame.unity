@@ -1526,13 +1526,20 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 875c9d577474ebe438af7af88f1fa4b3, type: 2}
     - {fileID: 11400000, guid: 3a6847d67fabe6246a196ac5a69aee93, type: 2}
   - Events:
+    - {fileID: 11400000, guid: 4d1117a1502b2fa42a7ee8c00ff73cc1, type: 2}
     - {fileID: 11400000, guid: 143cf99db2ea1b94ebb79f70033784ee, type: 2}
     - {fileID: 11400000, guid: 0646f44cdb91dc14daa69200423551ff, type: 2}
     - {fileID: 11400000, guid: c6b13f18f7d50f948a3cbf01709d82c6, type: 2}
   - Events:
+    - {fileID: 11400000, guid: 924f1b71ae24b2e4a8a5aa01283f620d, type: 2}
     - {fileID: 11400000, guid: 7b9d907fd4b46a147a12544440c1e7fc, type: 2}
     - {fileID: 11400000, guid: f82da4a60cb3f19498df15085ddfccfa, type: 2}
     - {fileID: 11400000, guid: 53dc400859c321244a89e12b57e5a4da, type: 2}
+  - Events:
+    - {fileID: 11400000, guid: 72731f65c2f99314fb1f955060580bdf, type: 2}
+    - {fileID: 11400000, guid: 634e9b4bee6359e48a231453556a288c, type: 2}
+    - {fileID: 11400000, guid: 4c7308078cd388c4a85d7a1fb8640815, type: 2}
+    - {fileID: 11400000, guid: 23592d6aea7288245892c8fd3632b086, type: 2}
   Curevent: 0
   CurdrinkCount: 0
   CurDrinks: []
