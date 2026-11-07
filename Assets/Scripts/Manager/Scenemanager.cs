@@ -38,14 +38,27 @@ public class Scenemanager : MonoBehaviour
     {
         BlackInOut(FADE.IN, 0.5f, fadepannel, this, () => 
         { 
-            Fadein();
+            FadeIn(0.5f);
             Changescene(_sceneidx); 
         });
     }
 
-    public void Fadein()
+    public void FadeInOut(float _time)
     {
-        BlackInOut(FADE.OUT, 0.5f, fadepannel, this, () => { fadepannel.enabled = false; } );
+        BlackInOut(FADE.IN, _time, fadepannel, this, () =>
+        {
+            FadeIn(_time);
+        });
+    }
+
+    public void FadeIn(float _time)
+    {
+        BlackInOut(FADE.OUT, _time, fadepannel, this, () => { fadepannel.enabled = false; } );
+    }
+
+    public void FadeOut(float _time)
+    {
+        BlackInOut(FADE.IN, _time, fadepannel, this);
     }
 
     public void Exit()

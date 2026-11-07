@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -88,16 +89,21 @@ public class Dictionarymanager : MonoBehaviour
         if (Customer.GetChild(0).GetChild(0).childCount > 0) return;
 
         for (int i = 0; i < Customerpages.Length; i++) { Customerpages[i] = Customer.GetChild(i); }
-        CustomerData[] customers = Resourcemanager.instance.allCustomers;
-        CustomerMaxpage = (customers.Length / 12) + 1;
+        List<CustomerData> customers = new List<CustomerData>(12);
+        for (int i = 0; i < Resourcemanager.instance.allCustomers.Length; i++)
+        {
+            if (Resourcemanager.instance.allCustomers[i].name == "채이") continue;
+            customers.Add(  Resourcemanager.instance.allCustomers[i]);
+        }
+
+        CustomerMaxpage = (customers.Count / 12);
 
 
         for (int i = 0; i < CustomerMaxpage; i++)
         {
             for (int j = 0; j < 12; j++)
             {
-                if ((j + 12 * i) >= customers.Length) break;
-                if (customers[j + 12 * i].CustomerName == "채이") continue;
+                if ((j + 12 * i) >= customers.Count) break;
                 GameObject customercell = null;
                 if (j < 6){
                     customercell = Instantiate(CustomerPrefab, Customerpages[i].GetChild(0));
@@ -113,7 +119,7 @@ public class Dictionarymanager : MonoBehaviour
                 name.text = customers[j + 12 * i].CustomerName;
                 desc.text = customers[j + 12 * i].CustomerSummary;
                 subnail.sprite = customers[j + 12 * i].Subnail;
-                customercell.name = (j + 12 * i).ToString();
+                customercell.name = customers[j + 12 * i].CustomerID.ToString();
 
                 Button btn = customercell.GetComponent<Button>();
                 btn.onClick.AddListener(() => {

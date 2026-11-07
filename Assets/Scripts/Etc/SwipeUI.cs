@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -113,7 +115,7 @@ public class SwipeUI : MonoBehaviour
 
         currentPage--;
 
-        StartCoroutine(OnSwipeOneStep(currentPage));
+		scrollBar.value = scrollPageValues[currentPage];
 
     }
     public void ToRight()
@@ -122,7 +124,7 @@ public class SwipeUI : MonoBehaviour
 
         currentPage++;
 
-		StartCoroutine(OnSwipeOneStep(currentPage));
+		scrollBar.value = scrollPageValues[currentPage];
     }
 
     /// <summary>

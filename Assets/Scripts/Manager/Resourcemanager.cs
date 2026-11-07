@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 [System.Serializable]
 public class Category
@@ -60,6 +62,7 @@ public class Resourcemanager : MonoBehaviour
             Destroy(gameObject);
         }
         allCustomers = Resources.LoadAll<CustomerData>("Customers");
+        allCustomers = allCustomers.OrderBy(x => x.CustomerID).ToArray();
 
         allRecipes = Resources.LoadAll<RecipeData>("Recipes");
 

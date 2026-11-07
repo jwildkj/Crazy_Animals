@@ -8,6 +8,7 @@ public class CustomerData : ScriptableObject
     public int CustomerID;
     public Sprite Subnail;
     public string CustomerName;
+    [TextArea]
     public string CustomerSummary;
     public string FavoriteTea;
     [TextArea]

@@ -85,13 +85,24 @@ public class FarmManager : MonoBehaviour
 
     public void ScrollLeft()
     {
-        SwipeUI.ToLeft();
-        ArrowCheck();
+        Scenemanager.instance.FadeOut(0.2f);
+        Func.DelayAction(this, 0.2f, () =>
+        {
+            SwipeUI.ToLeft();
+            ArrowCheck();
+        });
+        Func.DelayAction(this, 0.3f, () => { Scenemanager.instance.FadeIn(0.2f); });
     }
     public void ScrollRight()
     {
-        SwipeUI.ToRight();
-        ArrowCheck();
+        Scenemanager.instance.FadeOut(0.2f);
+        Func.DelayAction(this, 0.2f, () =>
+        {
+            SwipeUI.ToRight();
+            ArrowCheck();
+        });
+        Func.DelayAction(this, 0.3f, () =>{ Scenemanager.instance.FadeIn(0.2f); });
+        
 
     }
     private void ArrowCheck()

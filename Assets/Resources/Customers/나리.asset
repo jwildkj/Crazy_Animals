@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83c862165b96494eb54dcdb31eceb2c, type: 3}
   m_Name: "\uB098\uB9AC"
   m_EditorClassIdentifier: 
-  CustomerID: 9
+  CustomerID: 8
   Subnail: {fileID: 21300000, guid: bbb9304e1d9ed6240b40ec59fcbd16d7, type: 3}
   CustomerName: "\uB098\uB9AC"
   CustomerSummary: "\uC57D\uC0AC \uC625\uD1A0\uB07C"

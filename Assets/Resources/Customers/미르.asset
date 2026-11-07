@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83c862165b96494eb54dcdb31eceb2c, type: 3}
   m_Name: "\uBBF8\uB974"
   m_EditorClassIdentifier: 
-  CustomerID: 0
+  CustomerID: 6
   Subnail: {fileID: 21300000, guid: 2f9b3a87e4d365749ad853b152df5e93, type: 3}
   CustomerName: "\uBBF8\uB974"
-  CustomerSummary: "\uC7A5\uAE30 \uC218\uB828\uC0DD \uC774\uBB34\uAE30"
+  CustomerSummary: "\uC7A5\uAE30 \uC218\uB828\uC0DD\n\uC774\uBB34\uAE30"
   FavoriteTea: 
   CustomerDesc: 
   CustomerHistory: 
