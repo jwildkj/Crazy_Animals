@@ -41,6 +41,7 @@ public class FarmManager : MonoBehaviour
         {
             for (int j = 0; j < CropsPars[i].childCount; j++)
             {
+                if (CropsPars[i].GetChild(j).gameObject.name[0] < '0' || '9' < CropsPars[i].GetChild(j).gameObject.name[0]) continue;
                 CropsImg[realidx] = CropsPars[i].GetChild(j).GetComponent<Image>();
                 CropsBtn[realidx] = CropsPars[i].GetChild(j).GetComponent<Button>();
                 int idx = realidx;

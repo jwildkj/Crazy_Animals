@@ -28,6 +28,7 @@ public class CursorEff : MonoBehaviour
                 out localPoint))
             {
                 ImgTrans.anchoredPosition = localPoint;
+                ImgTrans.rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 360)));
                 ImgAnim.Play("CursorAnim");
             }
         }

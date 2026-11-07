@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\uBA85\uC778"
   m_EditorClassIdentifier: 
   CustomerID: 5
-  Subnail: {fileID: 21300000, guid: d20e064b39a0f314fba0d823553d10a6, type: 3}
+  Subnail: {fileID: 21300000, guid: 827864ce7a5c83a40b567a946a4d3a32, type: 3}
   CustomerName: "\uBA85\uC778"
   CustomerSummary: "\uC30D\uB465\uC774 \uC2E0\uC218 \uAE30\uB9B0"
   FavoriteTea: 

@@ -4,7 +4,7 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     const int INITALBASE = 3;
-    const int INITALTOPPING = 3;
+    const int INITALTOPPING = 1;
     
     public static DataManager instance;
     [Header("General")]

@@ -127,9 +127,11 @@ public class TeaGamemanager : MonoBehaviour
         CurToppings.Add((TOPPING)_topping);
         --DataManager.instance.Topping[_topping];
         RefreshTeaRectUI();
-        
+
         Toppings.sprite = Resourcemanager.instance.GetSprite("ToppingSprite", _topping);
-        Animationmanager.instance.PlayAnim(6, "TeaLeafAppear", true);
+        if (CurBases.Count == 1) Animationmanager.instance.PlayAnim(6, "MiddleToppingAppear", true);
+        else if (CurBases.Count == 2) Animationmanager.instance.PlayAnim(6, "MiddleToppingAppear", true);
+        else if (CurBases.Count == 3) Animationmanager.instance.PlayAnim(6, "TopToppingAppear", true);
     }
     private void Notificate(string _txt)
     {
@@ -147,7 +149,7 @@ public class TeaGamemanager : MonoBehaviour
         if (null != CurDrink) return;
         //init
 
-        targetpos = UnityEngine.Random.Range(575 , 575); //182 ~ 575
+        targetpos = UnityEngine.Random.Range(182 , 575); //182 ~ 575
         targetheight = 175;
         Target.sizeDelta = new Vector2(60.64f, targetheight);
         Target.anchoredPosition = new Vector2(-0.63f, targetpos);
@@ -262,11 +264,28 @@ public class TeaGamemanager : MonoBehaviour
             }
             BaseTxt[i].text = DataManager.instance.Base[i].ToString();
         }
+        for (int i = 0; i < (int)TOPPING.END; i++)
+        {
+            if (ToppingButtons[i] == null) continue;
+
+            if (DataManager.instance.Topping[i] == 0)
+            {
+                ToppingButtons[i].interactable = false;
+                ToppingButtons[i].gameObject.GetComponent<EventTrigger>().enabled = false;
+                Tooltip.SetVisablity(false);
+            }
+            ToppingTxt[i].text = DataManager.instance.Topping[i].ToString();
+        }
     }
     public void Trash()
     {
         for (int i = 0; i < CurBases.Count; i++) Animationmanager.instance.PlayAnim(i, "TeaLeafDisappear", true);
-        if(CurToppings.Count > 0) Animationmanager.instance.PlayAnim(6, "TeaLeafDisappear", true);
+        if(CurToppings.Count > 0)
+        {
+            if (CurBases.Count == 1) Animationmanager.instance.PlayAnim(6, "MiddleToppingDisappear", true);
+            else if (CurBases.Count == 2) Animationmanager.instance.PlayAnim(6, "MiddleToppingDisappear", true);
+            else if (CurBases.Count == 3) Animationmanager.instance.PlayAnim(6, "TopToppingDisappear", true);
+        }
         CurBases.Clear();
         CurToppings.Clear();
         CurDrink = null;

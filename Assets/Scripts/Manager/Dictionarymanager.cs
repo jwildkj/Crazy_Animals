@@ -97,6 +97,7 @@ public class Dictionarymanager : MonoBehaviour
             for (int j = 0; j < 12; j++)
             {
                 if ((j + 12 * i) >= customers.Length) break;
+                if (customers[j + 12 * i].CustomerName == "√§¿Ã") continue;
                 GameObject customercell = null;
                 if (j < 6){
                     customercell = Instantiate(CustomerPrefab, Customerpages[i].GetChild(0));
