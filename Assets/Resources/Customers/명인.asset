@@ -26,6 +26,10 @@ MonoBehaviour:
   CustomerHistory: 
   CustomerSprite:
   - {fileID: 21300000, guid: e425f858766ab0242937f6e2c525c776, type: 3}
+  - {fileID: 21300000, guid: 09c0d0ea381c5074c84a82b73837a2a3, type: 3}
+  - {fileID: 21300000, guid: c467cb14d85c2104d933aeb853fc2882, type: 3}
+  - {fileID: 21300000, guid: 678eea50b099c104cae040f8d332e096, type: 3}
+  - {fileID: 21300000, guid: 8d81f97831b8e16499504dd9471aac6e, type: 3}
   portraitSetting:
     positionY: 0
     size: {x: 612, y: 1080}
