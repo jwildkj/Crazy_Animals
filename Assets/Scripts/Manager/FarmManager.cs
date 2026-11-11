@@ -78,8 +78,8 @@ public class FarmManager : MonoBehaviour
                 ++CropGrowthIndex[i];
                 CropsImg[i].sprite = PlantedCropData[i].GrowthSprites[CropGrowthIndex[i]];
 
-                if(CropGrowthIndex[i] == PlantedCropData[i].MaxGrowthIdx - 1) CropsBtn[i].interactable = true;
             }
+            if(CropGrowthIndex[i] == PlantedCropData[i].MaxGrowthIdx - 1) CropsBtn[i].interactable = true;
         }
     }
 
