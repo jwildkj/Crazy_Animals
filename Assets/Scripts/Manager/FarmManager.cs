@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ public class FarmManager : MonoBehaviour
 
     private void Start()
     {
+        UImanager.instance.UIs[6].GetComponent<TextMeshProUGUI>().text = (DataManager.instance.Day+1).ToString();
         LArrAnim = UImanager.instance.UIs[1].GetComponent<Animator>();
         RArrAnim = UImanager.instance.UIs[2].GetComponent<Animator>();
 
