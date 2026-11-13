@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ public class FarmManager : MonoBehaviour
 
     private void Start()
     {
+        UImanager.instance.UIs[6].GetComponent<TextMeshProUGUI>().text = (DataManager.instance.Day+1).ToString();
         LArrAnim = UImanager.instance.UIs[1].GetComponent<Animator>();
         RArrAnim = UImanager.instance.UIs[2].GetComponent<Animator>();
 
@@ -78,8 +80,8 @@ public class FarmManager : MonoBehaviour
                 ++CropGrowthIndex[i];
                 CropsImg[i].sprite = PlantedCropData[i].GrowthSprites[CropGrowthIndex[i]];
 
-                if(CropGrowthIndex[i] == PlantedCropData[i].MaxGrowthIdx - 1) CropsBtn[i].interactable = true;
             }
+            if(CropGrowthIndex[i] == PlantedCropData[i].MaxGrowthIdx - 1) CropsBtn[i].interactable = true;
         }
     }
 
