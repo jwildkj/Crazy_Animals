@@ -20,14 +20,14 @@ MonoBehaviour:
   introList:
   - Day1_Simwoo_Intro
   introSelectList:
-  - Day1_Simwoo_Intro
+  - Day1_Simwoo_Intro_Select
   resultList:
   - Day1_Simwoo_Result
   resultSelectList:
   - 
-  introCSV: 
-  introSelectCSV: 
-  resultCSV: 
+  introCSV: Day1_Simwoo_Intro
+  introSelectCSV: Day1_Simwoo_Intro
+  resultCSV: Day1_Simwoo_Result
   resultSelectCSV: 
   OrderedDrinks:
   - {fileID: 11400000, guid: 86f2f5b8fe8d13243b4721f1761f8bc3, type: 2}
