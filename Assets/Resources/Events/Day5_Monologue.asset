@@ -16,11 +16,14 @@ MonoBehaviour:
   Customers: []
   introList:
   - Day5_Monologue
-  selectList:
+  introSelectList:
   - 
   resultList:
   - 
+  resultSelectList:
+  - 
   introCSV: 
-  selectCSV: 
+  introSelectCSV: 
   resultCSV: 
+  resultSelectCSV: 
   OrderedDrinks: []

@@ -19,12 +19,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 07c35e443ffae1d40bf1c00943086072, type: 2}
   introList:
   - Day2_Hwaseo_Intro
-  selectList:
+  introSelectList:
   - 
   resultList:
   - Day2_Hwaseo_Result
+  resultSelectList:
+  - 
   introCSV: Day2_Hwaseo_Intro
-  selectCSV: 
+  introSelectCSV: 
   resultCSV: Day2_Hwaseo_Result
+  resultSelectCSV: 
   OrderedDrinks:
   - {fileID: 11400000, guid: 5f4fd8582fc22a5409b080cd3a14dfe2, type: 2}

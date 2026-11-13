@@ -19,12 +19,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 438ba23a87392834baf49aa8764697b3, type: 2}
   introList:
   - Day2_Hoya_Intro
-  selectList:
+  introSelectList:
   - 
   resultList:
   - Day2_Hoya_Result
+  resultSelectList:
+  - 
   introCSV: Day2_Hoya_Intro
-  selectCSV: 
+  introSelectCSV: 
   resultCSV: Day2_Hoya_Result
+  resultSelectCSV: 
   OrderedDrinks:
   - {fileID: 11400000, guid: f52729ac6d899ee479307bf9af159903, type: 2}

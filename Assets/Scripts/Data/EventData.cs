@@ -11,12 +11,14 @@ public class EventData:ScriptableObject
 
     [Header("Dialogue CSV")]
     public string[] introList;
-    public string[] selectList;
+    public string[] introSelectList;
     public string[] resultList;
+    public string[] resultSelectList;
 
     public string introCSV;
-    public string selectCSV;
+    public string introSelectCSV;
     public string resultCSV;
+    public string resultSelectCSV;
 
     //이거 한 번에 두 잔 이상 주문 들어가는 것 때문에 배열이었던 걸로 기억하는데
     //그... 주문 요소 자체를 배열화해서 랜덤으로 돌리고 싶거든? 저 위에 intro select result랑 주문 들어가는 음료랑 인덱스 맞춰서

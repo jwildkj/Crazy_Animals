@@ -19,12 +19,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd79be90c57d6d1479446005bc2cf321, type: 2}
   introList:
   - Day4_Misa_Intro
-  selectList:
+  introSelectList:
   - 
   resultList:
   - Day4_Misa_Result
+  resultSelectList:
+  - 
   introCSV: 
-  selectCSV: 
+  introSelectCSV: 
   resultCSV: 
+  resultSelectCSV: 
   OrderedDrinks:
   - {fileID: 11400000, guid: 941b6758b87146d4ca67e6d67825271b, type: 2}

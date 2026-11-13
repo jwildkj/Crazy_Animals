@@ -1537,9 +1537,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 53dc400859c321244a89e12b57e5a4da, type: 2}
   - Events:
     - {fileID: 11400000, guid: 72731f65c2f99314fb1f955060580bdf, type: 2}
-    - {fileID: 11400000, guid: 634e9b4bee6359e48a231453556a288c, type: 2}
-    - {fileID: 11400000, guid: 4c7308078cd388c4a85d7a1fb8640815, type: 2}
     - {fileID: 11400000, guid: 23592d6aea7288245892c8fd3632b086, type: 2}
+    - {fileID: 11400000, guid: 4c7308078cd388c4a85d7a1fb8640815, type: 2}
+    - {fileID: 11400000, guid: 634e9b4bee6359e48a231453556a288c, type: 2}
   Curevent: 0
   CurdrinkCount: 0
   CurDrinks: []

@@ -19,13 +19,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 915c48fd86e64d74c8a0bd25eb533d28, type: 2}
   introList:
   - Day4_Myeong_Intro
-  selectList:
+  introSelectList:
   - 
   resultList:
   - Day4_Myeong_Result
+  resultSelectList:
+  - 
   introCSV: 
-  selectCSV: 
+  introSelectCSV: 
   resultCSV: 
+  resultSelectCSV: 
   OrderedDrinks:
   - {fileID: 11400000, guid: a5602d2d90d1f6242adb15adec888149, type: 2}
   - {fileID: 11400000, guid: a052fb8fc0591424b81859a81cbfd307, type: 2}

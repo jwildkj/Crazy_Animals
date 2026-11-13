@@ -89,21 +89,29 @@ public class GameManager : MonoBehaviour
 
         //초기화
         eventData.introCSV = "";
-        eventData.selectCSV = "";
+        eventData.introSelectCSV = "";
         eventData.resultCSV = "";
+        eventData.resultSelectCSV = "";
 
-        if (!(eventData.introList.Length == eventData.selectList.Length && eventData.introList.Length == eventData.resultList.Length))
+        if (!(eventData.introList.Length == eventData.introSelectList.Length
+            && eventData.introList.Length == eventData.resultList.Length
+            && eventData.introList.Length == eventData.resultSelectList.Length))
         {
-            Debug.LogWarning("introList, selectList, resultList의 길이가 다릅니다.");
+            Debug.LogWarning("introList, introSelectList, resultList, resultSelectList의 길이가 다릅니다.");
             return;
         }
 
+        // 랜덤 선택
         int i = UnityEngine.Random.Range(0, eventData.introList.Length);
 
+        // CSV 할당
         eventData.introCSV = eventData.introList[i];
-        eventData.selectCSV = eventData.selectList[i];
+        eventData.introSelectCSV = eventData.introSelectList[i];
         eventData.resultCSV = eventData.resultList[i];
-        Debug.Log($"introCSV = {eventData.introCSV}\nselectCSV = {eventData.selectCSV}\nresultCSV = {eventData.resultCSV}");
+        eventData.resultSelectCSV = eventData.resultSelectList[i];
+
+        Debug.Log($"introCSV = {eventData.introCSV}\nintroSelectCSV = {eventData.introSelectCSV}" +
+            $"resultCSV = {eventData.resultCSV}\nresultSelectCSV = {eventData.resultSelectCSV}");
     }
     private void StartDay()
     {
@@ -125,7 +133,7 @@ public class GameManager : MonoBehaviour
         currentDialogueType = DialogueType.INTRO;
 
         SetCSV();
-        StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].introCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].selectCSV}");
+        StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].introCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].introSelectCSV}");
     }
 
     public IEnumerator Judge(List<RecipeData> recipeData)
@@ -148,7 +156,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 성공");
 
-            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 0);
+            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
 
             foreach (var item in recipeData)
             {
@@ -160,7 +168,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameManager Judge 실패");
 
-            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 1);
+            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 1, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
         }
     }
 
