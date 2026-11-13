@@ -39,7 +39,7 @@ public class DialogueManager : MonoBehaviour
     private void DialogueInputHandler()
     {
         //Space 입력 아니면 return
-        if (!Input.GetKeyDown(KeyCode.Space) || dialogueUI.ignoreInputFrame)
+        if (!Input.GetKeyDown(KeyCode.Space) && !Input.GetMouseButtonDown(0) || dialogueUI.ignoreInputFrame)
         {
             return;
         }
