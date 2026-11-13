@@ -28,7 +28,7 @@ public class PrologueManager : MonoBehaviour
             }
             pages.Add(cut);
         }
-
+        Next();
     }
 
 
