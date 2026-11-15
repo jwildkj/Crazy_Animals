@@ -6,10 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Func;
-
+public enum Difficulty
+{
+    EASY,
+    HARD
+}
 public class TeaGamemanager : MonoBehaviour
 {
     [Header("Property")]
+    [SerializeField] private Difficulty difficulty;
     [SerializeField] private float PointerSpeed;
 
     private bool isbrewing;
@@ -25,12 +30,13 @@ public class TeaGamemanager : MonoBehaviour
     private Image Toppings;
     private Transform Theometer;
     private GameObject Bar;
+    private GameObject Gaege; 
     private GameObject Pointer; 
-    private RectTransform Target;
-    private RectTransform pointerrect;
+    private RectTransform[] Target = new RectTransform[3];
+    private RectTransform GaegeRect;
     private float barheight;
     private float targetheight;
-    private float targetpos; //182 ~ 575
+    private float[] targetpos = new float[3]; //182 ~ 575
     private Image[] LeafUImages = new Image[3];
     private Image[] LeafImages = new Image[3];
     private Button[] BaseButtons = new Button[(int)BASE.END];
@@ -55,16 +61,19 @@ public class TeaGamemanager : MonoBehaviour
         LeafUIs = UImanager.instance.UIs[1].transform;
         Theometer = UImanager.instance.UIs[2].transform;
         Bar = UImanager.instance.UIs[3];
-        Pointer = UImanager.instance.UIs[4];
-        Target = UImanager.instance.UIs[5].GetComponent<RectTransform>();
+        Gaege = UImanager.instance.UIs[4];
+        Pointer = UImanager.instance.UIs[5];
         Leafs = UImanager.instance.UIs[6].transform;
         Toppings = UImanager.instance.UIs[7].GetComponent<Image>();
         Servebutton = UImanager.instance.UIs[8].GetComponent<Button>();
         TeaRect = UImanager.instance.UIs[9].transform;
         Tooltip = UImanager.instance.UIs[10].GetComponent<Tooltip>();
-        pointerrect = Pointer.GetComponent<RectTransform>();
+        GaegeRect = Gaege.GetComponent<RectTransform>();
 
         barheight     = Bar.GetComponent<RectTransform>().rect.height;
+        Target[0] = UImanager.instance.UIs[3].transform.GetChild(0).GetComponent<RectTransform>();
+        Target[1] = UImanager.instance.UIs[3].transform.GetChild(1).GetComponent<RectTransform>();
+        Target[2] = UImanager.instance.UIs[3].transform.GetChild(2).GetComponent<RectTransform>();
 
         LeafUImages[0] = LeafUIs.GetChild(0).GetComponent<Image>();
         LeafUImages[1] = LeafUIs.GetChild(1).GetComponent<Image>();
@@ -149,10 +158,29 @@ public class TeaGamemanager : MonoBehaviour
         if (null != CurDrink) return;
         //init
 
-        targetpos = UnityEngine.Random.Range(182 , 575); //182 ~ 575
-        targetheight = 175;
-        Target.sizeDelta = new Vector2(60.64f, targetheight);
-        Target.anchoredPosition = new Vector2(-0.63f, targetpos);
+        if(difficulty == Difficulty.EASY)
+        {
+            targetpos[0] = UnityEngine.Random.Range(182 , 575); //182 ~ 575
+            targetheight = 175;
+            Target[0].gameObject.SetActive(true);
+            Target[0].sizeDelta = new Vector2(60.64f, targetheight);
+            Target[0].anchoredPosition = new Vector2(-0.63f, targetpos[0]);
+            Pointer.SetActive(false);
+        }
+        else
+        {
+            Pointer.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 348);
+            targetheight = 80;
+            for (global::System.Int32 i = 0; i < CurBases.Count; i++)
+            {
+                Target[i].gameObject.SetActive(true);
+                targetpos[i] = UnityEngine.Random.Range(142, 620);
+                Target[i].anchoredPosition = new Vector2(-0.63f, targetpos[i]);
+                Target[i].sizeDelta = new Vector2(60.64f, targetheight);
+            }
+
+
+        }
 
         Animationmanager.instance.PlayAnim(3, "ToBrew");
         LeafUIs.gameObject.SetActive(false);
@@ -166,7 +194,9 @@ public class TeaGamemanager : MonoBehaviour
 
     IEnumerator Brew()
     {
-        pointerrect.localScale = new Vector2(1, 0);
+        GaegeRect.localScale = new Vector2(1, 0);
+        Vector2 pointervec = new Vector2(0, -1);
+        RectTransform pointertrans = Pointer.GetComponent<RectTransform>();
 
         yield return new WaitForSeconds(1f);
 
@@ -176,10 +206,19 @@ public class TeaGamemanager : MonoBehaviour
 
             if (Input.GetMouseButton(0) && isbrewing)
             {
-                pointerrect.localScale += new Vector3(0, PointerSpeed, 1) * Time.deltaTime;
-                if (pointerrect.localScale.y > 0.99f)
-                    pointerrect.localScale = new Vector2(1, 0.99f);
+                if(difficulty == Difficulty.EASY)
+                {
+                    GaegeRect.localScale += new Vector3(0, PointerSpeed, 1) * Time.deltaTime;
+                    if (GaegeRect.localScale.y > 0.99f)
+                        GaegeRect.localScale = new Vector2(1, 0.99f);
 
+                }
+                else
+                {
+                    pointertrans.anchoredPosition += new Vector2(0, PointerSpeed * 100 * pointervec.y) * Time.deltaTime;
+                    if (100 > pointertrans.anchoredPosition.y || pointertrans.anchoredPosition.y > 640)
+                        pointervec *= -1;
+                }
                 yield return null;
             }
             if (Input.GetMouseButtonUp(0) && brewfin)
@@ -189,7 +228,7 @@ public class TeaGamemanager : MonoBehaviour
                 Brewed = true;
                 CurDrink = null;            
                 Servebutton.interactable = true;
-                yield break;
+                yield break;                
             }
 
             yield return null;
@@ -205,20 +244,36 @@ public class TeaGamemanager : MonoBehaviour
     private RecipeData Judge()
     {
         RecipeData outrecipe;
+        bool Success = false;
         if(!Resourcemanager.instance.recipeLookUp.TryGetValue(GenerateKey(CurBases, CurToppings), out outrecipe)){
             return Resourcemanager.instance.FailedDrinks[0];
         }
 
-        Vector2 TargetRange = new Vector2(targetpos - targetheight / 2, targetpos + targetheight / 2);
-        TargetRange /= barheight;
+        if(difficulty == Difficulty.EASY)
+        {
+            Vector2 TargetRange = new Vector2(targetpos[0] - targetheight / 2, targetpos[0] + targetheight / 2);
+            TargetRange /= barheight;
 
-        float pointer = pointerrect.localScale.y;
-        if (pointer >= TargetRange.x && pointer <= TargetRange.y){
-            return outrecipe;
+            float pointer = GaegeRect.localScale.y;
+            if (pointer >= TargetRange.x && pointer <= TargetRange.y) Success = true;
         }
-        else{
-            return Resourcemanager.instance.FailedDrinks[1];
+        else
+        {
+            float pointer = Pointer.GetComponent<RectTransform>().anchoredPosition.y;
+            for (global::System.Int32 i = 0; i < CurBases.Count; i++)
+            {
+                Vector2 TargetRange = new Vector2(targetpos[i] - targetheight / 2, targetpos[i] + targetheight / 2);
+                if (pointer >= TargetRange.x && pointer <= TargetRange.y){
+                    Success = true;
+                    break;
+                }
+            }
+
         }
+
+        if (Success) return outrecipe;
+        else return Resourcemanager.instance.FailedDrinks[1];
+
     }
 
 

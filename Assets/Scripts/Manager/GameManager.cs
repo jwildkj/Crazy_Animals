@@ -4,7 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Func;
-
+[System.Serializable]
+public class OrderData
+{
+    public RecipeData RecipeData;
+    public bool Succeded;
+    public int Price;
+}
 [System.Serializable]
 public class EventDataa
 {
@@ -24,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int Curevent = 0;
     public int CurdrinkCount = 0;
     public List<RecipeData> CurDrinks;
+    public List<OrderData> OrderData = new List<OrderData>();
 
     private DialogueType currentDialogueType;
     public enum DialogueType
@@ -71,6 +78,7 @@ public class GameManager : MonoBehaviour
             ReturningFromTeaGame = false;
             return;
         }
+        OrderData.Clear();
         StartDay();
         //if ( State.NORMAL == Curstate) StartDay();
         //else StartDialogue();
@@ -125,6 +133,7 @@ public class GameManager : MonoBehaviour
         //Curdialogue = 0;
         CurdrinkCount = Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks.Count;
         CurDrinks = Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks;
+
         //UpdateDialogue();
 
         //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
@@ -150,25 +159,30 @@ public class GameManager : MonoBehaviour
         currentDialogueType = DialogueType.RESULT;
         Debug.Log("DialogueType => RESULT");
 
-        //PortraitManager.instance.SetCustomer(Days[Day].Events[Curevent].GetCustomer(POS.MIDDLE));
+        List<RecipeData> OrderedDrinks = Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks;
 
-        if (ScrambledEquals<RecipeData>(Days[DataManager.instance.Day].Events[Curevent].OrderedDrinks, recipeData))
+        foreach (var item in OrderedDrinks)
         {
-            Debug.Log("GameManager Judge 성공");
-
-            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
-
-            foreach (var item in recipeData)
+            OrderData orderData = new OrderData();
+            int idx = recipeData.IndexOf(item);
+            orderData.RecipeData = item;
+            orderData.Price = item.price;
+            if (idx != -1)
             {
-                if (item == null) continue;
-                DataManager.instance.Money += item.price;
-            }
-        }
-        else
-        {
-            Debug.Log("GameManager Judge 실패");
+                orderData.Succeded = true;
+                Debug.Log("GameManager Judge 성공");
 
-            StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 1, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
+                StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 0, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
+
+            }
+            else
+            {
+                orderData.Succeded = false;
+                Debug.Log("GameManager Judge 실패");
+
+                StartDialogue($"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultCSV}", 1, $"Dialogues/{Days[DataManager.instance.Day].Events[Curevent].resultSelectCSV}");
+            }
+            OrderData.Add(orderData);
         }
     }
 
