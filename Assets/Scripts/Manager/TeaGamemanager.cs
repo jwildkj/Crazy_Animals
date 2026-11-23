@@ -13,6 +13,7 @@ public enum Difficulty
 }
 public class TeaGamemanager : MonoBehaviour
 {
+    const int TOPPINGPRICE = 10;
     [Header("Property")]
     [SerializeField] private Difficulty difficulty;
     [SerializeField] private float PointerSpeed;
@@ -42,7 +43,6 @@ public class TeaGamemanager : MonoBehaviour
     private Button[] BaseButtons = new Button[(int)BASE.END];
     private TextMeshProUGUI[] BaseTxt = new TextMeshProUGUI[(int)BASE.END];
     private Button[] ToppingButtons = new Button[(int)TOPPING.END];
-    private TextMeshProUGUI[] ToppingTxt = new TextMeshProUGUI[(int)TOPPING.END];
     private Button Servebutton;
     private Tooltip Tooltip;
     //-------------------------------
@@ -92,7 +92,6 @@ public class TeaGamemanager : MonoBehaviour
                 if (chch.gameObject.name[0] == 'T')
                 {
                     ToppingButtons[chch.gameObject.name[1] - '0'] = chch.GetComponent<Button>();
-                    ToppingTxt[chch.gameObject.name[1] - '0'] = chch.GetChild(0).GetComponent<TextMeshProUGUI>();
                 }
                 if (chch.gameObject.name[0] < '0' || chch.gameObject.name[0] > '9') continue;
                 BaseButtons[Convert.ToInt32(chch.gameObject.name)] = chch.GetComponent<Button>();
@@ -134,7 +133,7 @@ public class TeaGamemanager : MonoBehaviour
         }
 
         CurToppings.Add((TOPPING)_topping);
-        --DataManager.instance.Topping[_topping];
+        DataManager.instance.Money -= TOPPINGPRICE;
         RefreshTeaRectUI();
 
         Toppings.sprite = Resourcemanager.instance.GetSprite("ToppingSprite", _topping);
@@ -323,13 +322,12 @@ public class TeaGamemanager : MonoBehaviour
         {
             if (ToppingButtons[i] == null) continue;
 
-            if (DataManager.instance.Topping[i] == 0)
+            if (DataManager.instance.Money < TOPPINGPRICE)
             {
                 ToppingButtons[i].interactable = false;
                 ToppingButtons[i].gameObject.GetComponent<EventTrigger>().enabled = false;
                 Tooltip.SetVisablity(false);
             }
-            ToppingTxt[i].text = DataManager.instance.Topping[i].ToString();
         }
     }
     public void Trash()
