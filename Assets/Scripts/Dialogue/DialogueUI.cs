@@ -636,6 +636,8 @@ public class DialogueUI : MonoBehaviour
         isContentTyping = false;
         skipContentTyping = false;
 
+        dialogueManager.LogManager.AddLog(dialogueManager.dialogues[lineCount].name, content);
+
         dialogueManager.isNext = true;
     }
 }

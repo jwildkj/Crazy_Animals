@@ -14,6 +14,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private DialogueUI dialogueUI;
     [SerializeField] private DialogueParser dialogueParser;
     [SerializeField] private SelectParser selectParser;
+    [SerializeField] private LogManager logManager;
+    public LogManager LogManager => logManager;
 
     [Header("Current Event")]
     private EventData currentEventData;
