@@ -54,4 +54,35 @@ public class LogManager : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 0f;
         }
     }
+
+    public void ClearLog()
+    {
+        // 로그 데이터 초기화
+        logHistory.Clear();
+
+        // UI 갱신
+        RefreshLog();
+    }
+
+    public void RefreshLog()
+    {
+        // 기존 UI 삭제
+        foreach (Transform child in contentTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 저장된 로그를 다시 UI에 생성
+        foreach (Log log in logHistory)
+        {
+            GameObject item = Instantiate(logItemPrefab, contentTransform);
+            Text[] texts = item.GetComponentsInChildren<Text>();
+
+            texts[0].text = log.name;
+            texts[1].text = log.content;
+        }
+
+        // UI 레이아웃 갱신
+        Canvas.ForceUpdateCanvases();
+    }
 }

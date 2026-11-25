@@ -183,6 +183,8 @@ public class DialogueManager : MonoBehaviour
 
         dialogueUI.EndDialogue();
 
+        logManager.ClearLog();
+
         Debug.Log("Invoke Start");
         OnDialogueFinished?.Invoke();
         Debug.Log("Invoke End");
