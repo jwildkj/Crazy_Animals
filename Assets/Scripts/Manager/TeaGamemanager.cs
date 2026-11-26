@@ -82,7 +82,18 @@ public class TeaGamemanager : MonoBehaviour
         LeafImages[0] = Leafs.GetChild(0).GetComponent<Image>();
         LeafImages[1] = Leafs.GetChild(1).GetComponent<Image>();
         LeafImages[2] = Leafs.GetChild(2).GetComponent<Image>();
+        // Day 0 234
+        // Day 1 34
+        // Day 2 4
+        // Day 3
+        if (DataManager.instance.Day < 3)
+        {
+            for (int i = DataManager.instance.Day + 1; i < 4; i++)
+            {
+                TeaRect.GetChild(i).gameObject.SetActive(false);
+            }
 
+        }
         for (int i = 0; i < TeaRect.childCount; i++)
         {
             Transform ch = TeaRect.GetChild(i);
@@ -98,6 +109,8 @@ public class TeaGamemanager : MonoBehaviour
                 BaseTxt[Convert.ToInt32(chch.gameObject.name)] = chch.GetChild(0).GetComponent<TextMeshProUGUI>();
             }
         }
+
+
         RefreshTeaRectUI();
 
     }
@@ -329,6 +342,7 @@ public class TeaGamemanager : MonoBehaviour
                 Tooltip.SetVisablity(false);
             }
         }
+
     }
     public void Trash()
     {
