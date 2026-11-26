@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LogManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class LogManager : MonoBehaviour
 
         // UI 아이템 생성 및 텍스트 적용
         GameObject item = Instantiate(logItemPrefab, contentTransform);
-        Text[] texts = item.GetComponentsInChildren<Text>();
+        TextMeshProUGUI[] texts = item.GetComponentsInChildren<TextMeshProUGUI>();
 
         // 프리팹 자식 순서에 맞게 인덱스 조정 (0: 화자, 1: 대사)
         texts[0].text = _name;
