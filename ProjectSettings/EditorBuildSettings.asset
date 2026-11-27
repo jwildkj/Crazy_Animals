@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Farm.unity
     guid: 5a845b6d4c6142145a77a1a301439c9a
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: c3b37b8e01f85c7479edb7d3941416db
   m_configObjects: {}

@@ -11,6 +11,8 @@ public class DataManager : MonoBehaviour
     public int Day = 0;
     public int Time = 0;
     public int Money = 0;
+
+    public int Teagame = 0;
     [Space(20)]
     [Header("Farm")]
     public int[] CropGrowthIndex = new int[0];

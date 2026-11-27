@@ -301,7 +301,7 @@ public class TeaGamemanager : MonoBehaviour
         {
             GameManager.instance.ReturningFromTeaGame = true;
             Animationmanager.instance.PlayAnim(7, "TeaSubmit");
-
+            ++DataManager.instance.Teagame;
             DelayAction(GameManager.instance, 0.23f, () => {
                 Scenemanager.instance.Changescene("MainGame");
                 GameManager.instance.StartCoroutine(GameManager.instance.Judge(CurDrinks));
@@ -309,6 +309,10 @@ public class TeaGamemanager : MonoBehaviour
 
         }
     }
+    public void DisableTeaButton(Vector2 _pos)
+    {
+        TeaRect.GetChild((int)_pos.y).GetChild((int)_pos.x).gameObject.SetActive(false);
+    } 
     private void RefreshleafUI()
     {
         for(int i = 0; i < 3; i++)
@@ -382,6 +386,11 @@ public class TeaGamemanager : MonoBehaviour
         for (int i = 0; i < prevbasecount; i++) Animationmanager.instance.PlayAnim(i, "TeaLeafDisappear", true);
         Animationmanager.instance.PlayAnim(3, "Toingred");
         yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i < LeafUImages.Length; i++)
+        {
+            LeafImages[i].sprite = Resourcemanager.instance.GetSprite("Empty", 0);
+        }
+        Toppings.sprite = Resourcemanager.instance.GetSprite("Empty", 0);
         LeafUIs.gameObject.SetActive(true);
         Theometer.gameObject.SetActive(false);
         RefreshleafUI();

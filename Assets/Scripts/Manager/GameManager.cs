@@ -263,6 +263,7 @@ public class GameManager : MonoBehaviour
     {
         ++DataManager.instance.Day;
         Curevent = 0;
-        Scenemanager.instance.FadeOutAndChangeScene("Farm");
+        if(DataManager.instance.Day > 4) Scenemanager.instance.FadeOutAndChangeScene("Ending");
+        else Scenemanager.instance.FadeOutAndChangeScene("Farm");
     }
 }

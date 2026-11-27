@@ -79,8 +79,14 @@ public class Scenemanager : MonoBehaviour
             Delegate.OnPrologueLoaded?.Invoke();
         if (scene.name == "Shop")
             Delegate.OnShopLoaded?.Invoke();
+        if (scene.name == "Farm")
+            Delegate.OnFarmLoaded?.Invoke();
+        if (scene.name == "Teagame")
+            Delegate.OnTeaGameLoaded?.Invoke();
         if (scene.name == "Title")
             Delegate.OnTitleLoaded?.Invoke();
+        if (scene.name == "Ending")
+            Delegate.OnEndingLoaded?.Invoke();
     }
 
     void LogoAnimation()

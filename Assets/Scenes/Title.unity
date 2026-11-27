@@ -374,6 +374,9 @@ MonoBehaviour:
     - {fileID: 21300000, guid: d558dfe89a5c1ea4387d7da2ea888735, type: 3}
     - {fileID: 21300000, guid: db600a3c9f54db940bcde74e4adc4dce, type: 3}
     - {fileID: 21300000, guid: 3819fe0578bfa17409c16686e291cf35, type: 3}
+  - GroupName: Empty
+    sprites:
+    - {fileID: 21300000, guid: c6a8ee8ec7a7ce942aa9cb41a8c57dfe, type: 3}
 --- !u!4 &23983907
 Transform:
   m_ObjectHideFlags: 0
@@ -2226,7 +2229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb094d0fad41c1949a3c164ea9581a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 02000000
+  Types:
+  - Scenemanager
   Params:
   - PParams:
     - Prologue
@@ -2784,6 +2788,7 @@ MonoBehaviour:
   Day: 0
   Time: 0
   Money: 25
+  Teagame: 0
   CropGrowthIndex: 
   Base: 030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
   Topping: 010000000100000001000000

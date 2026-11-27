@@ -1,15 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-public enum Managertype
-{
-    GameManager,
-    Audiomanager,
-    Scenemanager
-}
 [System.Serializable]
 public struct Params
 {
@@ -17,53 +12,32 @@ public struct Params
 }
 public class ButtonLinker : MonoBehaviour
 {
-    public Managertype[] type;
+    public string[] Types;
     public Params[] Params;
     public UnityEvent Event;
     // Start is called before the first frame update
     void Start()
     {
         Button btn = GetComponent<Button>();
-        for (int i = 0; i < type.Length; i++)
+        for (int i = 0; i < Types.Length; i++)
         {
             int index = i;
             string targetmethod = Event.GetPersistentMethodName(index);
-            switch (type[index])
-            {
-                case Managertype.GameManager:
-                    GameManager targetobj = FindFirstObjectByType<GameManager>();
+            Type t = Type.GetType(Types[index]);
 
-                    btn.onClick.AddListener(() => {
-                        MethodInfo method = targetobj.GetType().GetMethod(targetmethod);
-                        if (method != null)
-                        {
-                            method.Invoke(targetobj, Params[index].PParams);
-                        }
-                    });
-                    break;
-                case Managertype.Audiomanager:
-                    Audiomanager targetobj2 = FindFirstObjectByType<Audiomanager>();
+            btn.onClick.AddListener(() => {
+                UnityEngine.Object targetobj = FindFirstObjectByType(t);
+                MethodInfo method = targetobj.GetType().GetMethod(targetmethod);
+                if (method != null)
+                {
+                    bool hasParams = index < Params.Length
+                     && Params[index].PParams != null
+                     && Params[index].PParams.Length > 0;
 
-                    btn.onClick.AddListener(() => {
-                        MethodInfo method = targetobj2.GetType().GetMethod(targetmethod);
-                        if (method != null)
-                        {
-                            method.Invoke(targetobj2, Params[index].PParams);
-                        }
-                    });
-                    break;
-                case Managertype.Scenemanager:
-                    Scenemanager targetobj3 = FindFirstObjectByType<Scenemanager>();
-
-                    btn.onClick.AddListener(() => {
-                        MethodInfo method = targetobj3.GetType().GetMethod(targetmethod);
-                        if (method != null)
-                        {
-                            method.Invoke(targetobj3, Params[index].PParams);
-                        }
-                    });
-                    break;
-            }
+                    if (hasParams) method.Invoke(targetobj, Params[index].PParams);
+                    else method.Invoke(targetobj, null);
+                }
+            });
             
         }
     }

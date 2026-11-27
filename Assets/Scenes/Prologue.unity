@@ -1219,7 +1219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb094d0fad41c1949a3c164ea9581a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0100000002000000
+  Types:
+  - Audiomanager
+  - Scenemanager
   Params:
   - PParams:
     - 0
